@@ -22,6 +22,7 @@ The prior plain HTML prototype is archived in `legacy/plain-html-prototype/` and
 - OpenAPI contract in [openapi.yaml](openapi.yaml)
 - Cloudflare Pages configuration in [wrangler.toml](wrangler.toml)
 - Setup and deployment instructions in [BACKEND_SETUP.md](BACKEND_SETUP.md)
+- Technical topology and enquiry/email flow diagrams in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ## Before launch
 
