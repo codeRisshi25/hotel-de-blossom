@@ -60,7 +60,11 @@ export const listInquiries = async (env: Env, params: { status?: InquiryStatus; 
 };
 
 export const getInquiry = async (env: Env, id: string) => {
-  const query = new URLSearchParams({ select: "*", id: `eq.${id}`, limit: "1" });
+  const query = new URLSearchParams({
+    select: "id,reference_code,purpose,check_in,check_out,guests,room_type,guest_name,phone,email,message,consent_at,source,status,assigned_to,follow_up_at,internal_notes,created_at,updated_at",
+    id: `eq.${id}`,
+    limit: "1",
+  });
   const response = await fetch(endpoint(env, `/rest/v1/inquiries?${query}`), { headers: serviceHeaders(env) });
   const rows = await responseJson<unknown[]>(response);
   return rows[0] ?? null;

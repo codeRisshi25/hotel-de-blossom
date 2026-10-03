@@ -1,0 +1,584 @@
+openapi: 3.1.0
+info:
+  title: Hotel De Blossom Enquiry API
+  version: 1.0.0
+  description: >-
+    Fixed-scope enquiry API for stay, event, and group-stay requests. Public
+    guests create enquiries; authenticated staff manage the follow-up lifecycle.
+servers:
+  - url: https://hoteldeblossom.com
+    description: Production
+  - url: http://localhost:8788
+    description: Local Cloudflare Pages preview
+tags:
+  - name: Public enquiries
+  - name: Staff enquiries
+  - name: Internal notifications
+paths:
+  /api/inquiries:
+    post:
+      tags: [Public enquiries]
+      operationId: createInquiry
+      summary: Create a guest enquiry
+      description: >-
+        Creates a stay, event, or group-stay enquiry. The request is written
+        atomically with its reference number, audit event, and reception
+        notification outbox record.
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InquiryInput'
+            examples:
+              stay:
+                value:
+                  purpose: stay
+                  checkIn: '2026-11-14'
+                  checkOut: '2026-11-16'
+                  guests: 2
+                  roomType: Deluxe Double
+                  name: Guest Name
+                  phone: '+91 90000 00000'
+                  email: guest@example.com
+                  message: A quiet room if possible.
+                  consent: true
+      responses:
+        '201':
+          description: Enquiry created.
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/RequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInquiryResponse'
+        '200':
+          description: An existing enquiry was returned for a repeated idempotency key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeduplicatedInquiryResponse'
+        '202':
+          description: Honeypot submission accepted without persistence.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok]
+                properties:
+                  ok:
+                    type: boolean
+                    const: true
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '413':
+          $ref: '#/components/responses/BodyTooLarge'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /api/staff/inquiries:
+    get:
+      tags: [Staff enquiries]
+      operationId: listInquiries
+      summary: List enquiries for staff
+      security:
+        - supabaseBearer: []
+      parameters:
+        - $ref: '#/components/parameters/StatusFilter'
+        - $ref: '#/components/parameters/PageLimit'
+        - $ref: '#/components/parameters/BeforeCursor'
+      responses:
+        '200':
+          description: Enquiries ordered newest first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InquiryListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /api/staff/inquiries/{id}:
+    parameters:
+      - $ref: '#/components/parameters/InquiryId'
+    get:
+      tags: [Staff enquiries]
+      operationId: getInquiry
+      summary: Get an enquiry with notes and history
+      security:
+        - supabaseBearer: []
+      responses:
+        '200':
+          description: Enquiry detail.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InquiryDetailResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    patch:
+      tags: [Staff enquiries]
+      operationId: updateInquiry
+      summary: Update enquiry follow-up state
+      security:
+        - supabaseBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InquiryUpdate'
+            examples:
+              contact:
+                value:
+                  status: contacted
+                  followUpAt: '2026-11-05T10:00:00+05:30'
+      responses:
+        '200':
+          description: Updated enquiry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedInquiryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          $ref: '#/components/responses/BodyTooLarge'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /api/staff/inquiries/{id}/notes:
+    parameters:
+      - $ref: '#/components/parameters/InquiryId'
+    post:
+      tags: [Staff enquiries]
+      operationId: addInquiryNote
+      summary: Add an internal staff note
+      security:
+        - supabaseBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [body]
+              properties:
+                body:
+                  type: string
+                  minLength: 1
+                  maxLength: 4000
+      responses:
+        '201':
+          description: Note created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          $ref: '#/components/responses/BodyTooLarge'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /api/internal/notifications/drain:
+    post:
+      tags: [Internal notifications]
+      operationId: drainNotifications
+      summary: Deliver a bounded batch of reception notifications
+      description: >-
+        Intended for a protected scheduler. Claims up to ten outbox rows,
+        delivers them, and records success or retry state.
+      security:
+        - internalBearer: []
+      responses:
+        '200':
+          description: Batch result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrainResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+components:
+  securitySchemes:
+    supabaseBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: Supabase access token
+      description: Access token for an active staff Auth user.
+    internalBearer:
+      type: http
+      scheme: bearer
+      description: Server-only value matching INTERNAL_API_SECRET.
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: false
+      description: Recommended stable key for safe client retries. 16–160 characters.
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 160
+    InquiryId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    StatusFilter:
+      name: status
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/InquiryStatus'
+    PageLimit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return. Defaults to 25 and is capped at 50.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 25
+    BeforeCursor:
+      name: before
+      in: query
+      required: false
+      description: Cursor returned as `created_at|id` by the previous page.
+      schema:
+        type: string
+  headers:
+    RequestId:
+      description: Request correlation identifier.
+      schema:
+        type: string
+  responses:
+    InvalidRequest:
+      description: Malformed JSON or request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BodyTooLarge:
+      description: Request body exceeds the route limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Request data failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthenticated:
+      description: Missing or invalid authentication.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    StaffRequired:
+      description: Authenticated user is not active staff.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Enquiry was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ServiceUnavailable:
+      description: A required backend dependency is unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    InquiryPurpose:
+      type: string
+      enum: [stay, event, group_stay]
+    InquiryStatus:
+      type: string
+      enum: [new, contacted, provisional, confirmed, cancelled, closed]
+    InquiryInput:
+      type: object
+      additionalProperties: false
+      required: [purpose, guests, name, phone, consent]
+      properties:
+        purpose:
+          $ref: '#/components/schemas/InquiryPurpose'
+        checkIn:
+          type: string
+          format: date
+        checkOut:
+          type: string
+          format: date
+        guests:
+          type: integer
+          minimum: 1
+          maximum: 100
+        roomType:
+          type: string
+          maxLength: 120
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        phone:
+          type: string
+          minLength: 7
+          maxLength: 32
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        message:
+          type: string
+          maxLength: 4000
+        consent:
+          type: boolean
+          const: true
+        honeypot:
+          type: string
+          maxLength: 80
+    InquiryUpdate:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        status:
+          $ref: '#/components/schemas/InquiryStatus'
+        assignedTo:
+          type: [string, 'null']
+          format: uuid
+        followUpAt:
+          type: [string, 'null']
+          format: date-time
+    InquirySummary:
+      type: object
+      required: [id, reference_code, purpose, guests, guest_name, phone, status, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        reference_code:
+          type: string
+          example: HDB-2026-000001
+        purpose:
+          $ref: '#/components/schemas/InquiryPurpose'
+        check_in:
+          type: [string, 'null']
+          format: date
+        check_out:
+          type: [string, 'null']
+          format: date
+        guests:
+          type: integer
+        room_type:
+          type: [string, 'null']
+        guest_name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: [string, 'null']
+          format: email
+        message:
+          type: [string, 'null']
+        status:
+          $ref: '#/components/schemas/InquiryStatus'
+        assigned_to:
+          type: [string, 'null']
+          format: uuid
+        follow_up_at:
+          type: [string, 'null']
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    InquiryDetail:
+      allOf:
+        - $ref: '#/components/schemas/InquirySummary'
+        - type: object
+          properties:
+            consent_at:
+              type: string
+              format: date-time
+            source:
+              type: string
+            internal_notes:
+              type: [string, 'null']
+    InquiryNote:
+      type: object
+      required: [id, body, author_user_id, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        body:
+          type: string
+        author_user_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+    InquiryEvent:
+      type: object
+      required: [id, event_type, metadata, created_at]
+      properties:
+        id:
+          type: integer
+        event_type:
+          type: string
+          enum: [created, status_changed, assigned, follow_up_changed, note_added]
+        actor_user_id:
+          type: [string, 'null']
+          format: uuid
+        from_status:
+          type: [string, 'null']
+          $ref: '#/components/schemas/InquiryStatus'
+        to_status:
+          type: [string, 'null']
+          $ref: '#/components/schemas/InquiryStatus'
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+    InquiryResult:
+      type: object
+      required: [inquiryId, reference, status]
+      properties:
+        inquiryId:
+          type: string
+          format: uuid
+        reference:
+          type: string
+          example: HDB-2026-000001
+        status:
+          $ref: '#/components/schemas/InquiryStatus'
+    CreateInquiryResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/InquiryResult'
+    DeduplicatedInquiryResponse:
+      type: object
+      required: [data, deduplicated]
+      properties:
+        data:
+          $ref: '#/components/schemas/InquiryResult'
+        deduplicated:
+          type: boolean
+          const: true
+    InquiryListResponse:
+      type: object
+      required: [data, nextBefore]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InquirySummary'
+        nextBefore:
+          type: [string, 'null']
+    InquiryDetailResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: object
+          required: [inquiry, notes, events]
+          properties:
+            inquiry:
+              $ref: '#/components/schemas/InquiryDetail'
+            notes:
+              type: array
+              items:
+                $ref: '#/components/schemas/InquiryNote'
+            events:
+              type: array
+              items:
+                $ref: '#/components/schemas/InquiryEvent'
+    UpdatedInquiryResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/InquiryDetail'
+    NoteResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/InquiryNote'
+    DrainResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: object
+          required: [claimed, sent, failed]
+          properties:
+            claimed:
+              type: integer
+            sent:
+              type: integer
+            failed:
+              type: integer
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, requestId]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
