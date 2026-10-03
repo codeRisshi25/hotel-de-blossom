@@ -5,3 +5,5 @@ node_modules/
 dist/
 .wrangler/
 .astro/
+.agents/
+skills-lock.json

@@ -49,6 +49,15 @@ Use `manager` or `admin` only for staff who need those responsibilities. Keep th
 
 ## Hosting environment
 
+For the current Cloudflare Pages project, use these build settings:
+
+- Production branch: `main`
+- Build command: `exit 0`
+- Build output directory: `public`
+- Do not use `npx wrangler deploy` as a Pages deploy command. With Git integration, leave the deploy command empty and let Pages deploy the repository. For a manual upload, use `npx wrangler pages deploy public`.
+
+The repository includes `wrangler.toml` with the Pages output directory and compatibility date. The `functions/` directory must remain at the repository root for Pages Functions routing.
+
 Add the values in `.env.example` as server-side secrets in the Cloudflare Pages project:
 
 - `SUPABASE_URL`

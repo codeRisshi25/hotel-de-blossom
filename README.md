@@ -20,6 +20,7 @@ The prior plain HTML prototype is archived in `legacy/plain-html-prototype/` and
 - Supabase migration in [supabase/migrations/20261003000000_initial_enquiries.sql](supabase/migrations/20261003000000_initial_enquiries.sql)
 - Local image fallback plus configurable Supabase Storage CDN URLs
 - OpenAPI contract in [openapi.yaml](openapi.yaml)
+- Cloudflare Pages configuration in [wrangler.toml](wrangler.toml)
 - Setup and deployment instructions in [BACKEND_SETUP.md](BACKEND_SETUP.md)
 
 ## Before launch
