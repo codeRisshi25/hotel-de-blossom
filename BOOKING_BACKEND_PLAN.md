@@ -4,6 +4,12 @@ The delivery scope is a complete enquiry workflow for Hotel De Blossom: guest re
 
 The backend foundation for this scope is implemented in `functions/`, `src/server/`, and `supabase/migrations/20261003000000_initial_enquiries.sql`. Deployment setup is documented in [BACKEND_SETUP.md](BACKEND_SETUP.md).
 
+## Current development status — 2026-10-03
+
+- **Complete:** backend API, Supabase schema and security policies, notification outbox, Cloudflare deployment, encrypted runtime secrets, OpenAPI contract, tests, and typecheck.
+- **Not started:** public website UI and the authenticated staff dashboard UI.
+- **Operational follow-up:** add the notification drain scheduler and run production acceptance testing. Email currently targets `workrisshi@gmail.com` for testing; production will target `bookings@hoteldeblossom.com`.
+
 ## Delivery scope
 
 - Add a small API (`POST /api/inquiries`) that validates and stores stay/event requests.

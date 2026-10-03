@@ -2,6 +2,25 @@
 
 Hotel De Blossom’s website and fixed-scope enquiry backend. The backend foundation is implemented with Cloudflare Pages Functions and Supabase Postgres/Auth.
 
+## Project development status — 2026-10-03
+
+### Complete
+
+- Supabase production schema, RLS hardening, indexes, audit trail, idempotent enquiry creation, and notification outbox.
+- `hotel-assets` Supabase Storage bucket provisioned; current image assets are served from Cloudflare Pages.
+- Cloudflare Pages project and Pages Functions deployment.
+- Runtime secrets for Supabase, Resend testing, email routing, and internal notification authentication.
+- OpenAPI contract, backend tests, typecheck, and architecture diagrams.
+
+### Remaining product work
+
+- Build the premium public Hotel De Blossom website and connect its enquiry forms.
+- Build the protected staff dashboard UI on top of the existing staff API routes.
+- Configure the once-per-minute notification drain scheduler.
+- Complete production acceptance testing, then switch email delivery from `workrisshi@gmail.com` to `bookings@hoteldeblossom.com` and replace the Resend testing sender with a verified hotel-domain sender.
+
+The repository currently does not contain the production homepage or staff dashboard UI. The deployed root will remain empty until those frontend surfaces are implemented.
+
 ## Verify locally
 
 ```sh

@@ -17,6 +17,21 @@ V1 includes:
 
 The plain HTML prototype is **not** a visual, structural, or content reference for this project. The production implementation will move to Astro + TypeScript and take visual direction only from the live Hotel De Blossom website, the original logo, the original building hero photograph, and approved hotel photography.
 
+## Development status — 2026-10-03
+
+The foundation is ready, but the product frontend is not yet built.
+
+| Area | Status | Notes |
+|---|---|---|
+| Backend API | Complete | Cloudflare Pages Functions with validation, idempotency, staff routes, audit history, and notification outbox. |
+| Supabase database | Complete | Production migrations, RLS hardening, indexes, and `hotel-assets` bucket are applied. |
+| Deployment | Complete | Cloudflare Pages project is live and runtime secrets are configured. |
+| Public website | Not started | The premium mobile-first marketing site, hero, rooms, dining, events, gallery, and enquiry UI remain to be built. |
+| Staff dashboard | Not started | The protected dashboard UI remains to be built on top of the existing staff API. |
+| Email operations | Partially complete | Testing routes to `workrisshi@gmail.com`; scheduler and final production recipient/sender switch remain. |
+
+The current deployment contains backend functions and image assets, not the final homepage or dashboard. Do not treat the deployed root response as the finished website until the frontend phases below are complete.
+
 ## Brand and design system
 
 ### Core creative direction: Botanical Royal

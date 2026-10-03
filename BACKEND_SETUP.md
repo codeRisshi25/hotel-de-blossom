@@ -10,6 +10,14 @@ This repository now contains the fixed-scope enquiry backend for Hotel De Blosso
 
 The public site never receives the Supabase service-role key. All database access goes through the server functions.
 
+## Current implementation status — 2026-10-03
+
+The backend and database foundation is deployed and credentialed. The public website and staff dashboard are still frontend work items; the old plain HTML prototype remains archived and is not part of production.
+
+Completed: Supabase migrations and security hardening, Storage bucket provisioning, Cloudflare Pages Functions, encrypted runtime secrets, OpenAPI documentation, tests, and typecheck.
+
+Remaining before product launch: build the Astro public website, build the authenticated staff dashboard, configure the notification drain scheduler, connect the forms, and complete acceptance testing. Email currently uses the Resend testing sender and `workrisshi@gmail.com`; switch to the hotel recipient and verified hotel sender after acceptance.
+
 ## Asset storage and CDN
 
 The current image files in `public/images` are already served through the Cloudflare Pages edge cache. For a shared hotel media library, create one public Supabase Storage bucket named `hotel-assets` and upload files using the same `images/...` paths as the local fallback.
