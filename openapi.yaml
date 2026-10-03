@@ -92,6 +92,13 @@ paths:
         - $ref: '#/components/parameters/StatusFilter'
         - $ref: '#/components/parameters/PageLimit'
         - $ref: '#/components/parameters/BeforeCursor'
+        - name: archived
+          in: query
+          required: false
+          description: Return archived enquiries only; active enquiries are returned by default.
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Enquiries ordered newest first.
@@ -209,6 +216,110 @@ paths:
           $ref: '#/components/responses/ValidationError'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+
+  /api/staff/inquiries/{id}/archive:
+    post:
+      tags: [Staff enquiries]
+      operationId: archiveInquiry
+      summary: Recoverably archive or restore a closed or cancelled enquiry
+      security:
+        - supabaseBearer: []
+      parameters:
+        - $ref: '#/components/parameters/InquiryId'
+        - name: archived
+          in: query
+          required: false
+          description: Set false to restore an archived enquiry.
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Archive state updated.
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+        '422':
+          description: Only closed or cancelled enquiries can be archived.
+
+  /api/staff/summary:
+    get:
+      tags: [Staff enquiries]
+      operationId: getStaffSummary
+      summary: Get front-desk escalation counts
+      security:
+        - supabaseBearer: []
+      responses:
+        '200':
+          description: Counts for new, unassigned new, overdue, and due-today enquiries.
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+
+  /api/staff/staff:
+    get:
+      tags: [Staff enquiries]
+      operationId: listActiveStaff
+      summary: List active staff available for assignment
+      security:
+        - supabaseBearer: []
+      responses:
+        '200':
+          description: Active staff profiles ordered by display name.
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+
+  /api/staff/rates:
+    get:
+      tags: [Staff enquiries]
+      operationId: listRoomRates
+      summary: List active room base nightly rates
+      security:
+        - supabaseBearer: []
+      responses:
+        '200':
+          description: Active room rates in INR.
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/StaffRequired'
+
+  /api/staff/rates/{id}:
+    patch:
+      tags: [Staff enquiries]
+      operationId: updateRoomRate
+      summary: Update a room base nightly INR rate
+      security:
+        - supabaseBearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [baseNightlyInr]
+              properties:
+                baseNightlyInr:
+                  type: integer
+                  minimum: 0
+      responses:
+        '200':
+          description: Rate updated.
+        '403':
+          description: Manager or admin access is required.
+        '422':
+          description: Invalid price.
 
   /api/internal/notifications/drain:
     post:

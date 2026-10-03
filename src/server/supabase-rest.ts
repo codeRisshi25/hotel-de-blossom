@@ -42,13 +42,14 @@ export const getStaffProfile = async (env: Env, userId: string) => {
   return rows[0] ?? null;
 };
 
-export const listInquiries = async (env: Env, params: { status?: InquiryStatus; limit: number; before?: string }) => {
+export const listInquiries = async (env: Env, params: { status?: InquiryStatus; limit: number; before?: string; archived?: boolean }) => {
   const query = new URLSearchParams({
-    select: "id,reference_code,purpose,check_in,check_out,guests,room_type,guest_name,phone,email,message,status,assigned_to,follow_up_at,created_at,updated_at",
+    select: "id,reference_code,purpose,check_in,check_out,guests,room_type,guest_name,phone,email,message,status,assigned_to,follow_up_at,archived_at,created_at,updated_at",
     order: "created_at.desc,id.desc",
     limit: String(params.limit),
   });
   if (params.status) query.set("status", `eq.${params.status}`);
+  query.set("archived_at", params.archived ? "not.is.null" : "is.null");
   if (params.before) {
     const [beforeCreatedAt, beforeId] = params.before.split("|", 2);
     if (beforeCreatedAt && beforeId) {
@@ -61,7 +62,7 @@ export const listInquiries = async (env: Env, params: { status?: InquiryStatus; 
 
 export const getInquiry = async (env: Env, id: string) => {
   const query = new URLSearchParams({
-    select: "id,reference_code,purpose,check_in,check_out,guests,room_type,guest_name,phone,email,message,consent_at,source,status,assigned_to,follow_up_at,internal_notes,created_at,updated_at",
+    select: "id,reference_code,purpose,check_in,check_out,guests,room_type,guest_name,phone,email,message,consent_at,source,status,assigned_to,follow_up_at,internal_notes,archived_at,created_at,updated_at",
     id: `eq.${id}`,
     limit: "1",
   });
@@ -69,6 +70,12 @@ export const getInquiry = async (env: Env, id: string) => {
   const rows = await responseJson<unknown[]>(response);
   return rows[0] ?? null;
 };
+
+export const listStaff = async (env: Env) => responseJson(await fetch(endpoint(env, "/rest/v1/staff_profiles?select=user_id,display_name,role,is_active&is_active=eq.true&order=display_name.asc"), { headers: serviceHeaders(env) }));
+export const listRoomRates = async (env: Env) => responseJson(await fetch(endpoint(env, "/rest/v1/room_rates?select=id,room_type,base_nightly_inr,is_active,updated_at&is_active=eq.true&order=room_type.asc"), { headers: serviceHeaders(env) }));
+export const updateRoomRate = async (env: Env, id: string, price: number) => responseJson(await fetch(endpoint(env, `/rest/v1/room_rates?id=eq.${encodeURIComponent(id)}`), { method:"PATCH", headers: serviceHeaders(env, {"content-type":"application/json", prefer:"return=representation"}), body: JSON.stringify({base_nightly_inr:price}) }));
+export const archiveInquiry = async (env: Env, id: string, actor: string, archived: boolean) => { const rows = await rpc<unknown[]>(env, "archive_inquiry_as_staff", {p_id:id,p_actor_user_id:actor,p_archived:archived}); return rows[0] ?? null; };
+export const summary = async (env: Env) => { const day = new Date(); const tomorrow = new Date(day); tomorrow.setUTCDate(day.getUTCDate()+1); const count = async (filters: string) => { const r=await fetch(endpoint(env, `/rest/v1/inquiries?select=id&archived_at=is.null&${filters}&limit=1`),{headers:{...serviceHeaders(env),Prefer:"count=exact"}}); return Number(r.headers.get("content-range")?.split("/")[1]||0); }; const active="status=in.(new,contacted,provisional,confirmed)"; return {new:await count("status=eq.new"),unassignedNew:await count("status=eq.new&assigned_to=is.null"),overdueFollowups:await count(`${active}&follow_up_at=lt.${encodeURIComponent(day.toISOString())}&follow_up_at=not.is.null`),dueToday:await count(`${active}&follow_up_at=gte.${encodeURIComponent(day.toISOString().slice(0,10))}&follow_up_at=lt.${encodeURIComponent(tomorrow.toISOString().slice(0,10))}`)}; };
 
 export const findInquiryByIdempotencyKey = async (env: Env, idempotencyKey: string) => {
   const query = new URLSearchParams({ select: "id,reference_code,status", idempotency_key: `eq.${idempotencyKey}`, limit: "1" });

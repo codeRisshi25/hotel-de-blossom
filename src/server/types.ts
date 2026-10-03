@@ -1,6 +1,7 @@
 export type InquiryPurpose = "stay" | "event" | "group_stay";
 export type InquiryStatus = "new" | "contacted" | "provisional" | "confirmed" | "cancelled" | "closed";
 export type StaffRole = "receptionist" | "manager" | "admin";
+export type RoomRate = { id: string; room_type: string; base_nightly_inr: number; is_active: boolean; updated_at: string };
 
 export type InquiryPayload = {
   purpose: InquiryPurpose;

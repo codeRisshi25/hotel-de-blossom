@@ -17,13 +17,14 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
   const requestedLimit = Number(url.searchParams.get("limit") || 25);
   const limit = Number.isInteger(requestedLimit) ? Math.max(1, Math.min(requestedLimit, 50)) : 25;
   const before = url.searchParams.get("before") || undefined;
+  const archived = url.searchParams.get("archived") === "true";
   if (before) {
     const [createdAt, inquiryId] = before.split("|", 2);
     if (!createdAt || !inquiryId || Number.isNaN(Date.parse(createdAt))) return errorResponse(400, "INVALID_CURSOR", "The pagination cursor is invalid.", id);
   }
 
   try {
-    const rows = await listInquiries(env, { status, limit, before }) as Array<{ id: string; created_at: string }>;
+    const rows = await listInquiries(env, { status, limit, before, archived }) as Array<{ id: string; created_at: string }>;
     const last = rows[rows.length - 1];
     return json({ data: rows, nextBefore: rows.length === limit && last ? `${last.created_at}|${last.id}` : null }, 200, { "x-request-id": id });
   } catch (error) {
