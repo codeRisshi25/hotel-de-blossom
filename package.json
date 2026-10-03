@@ -1,0 +1,14 @@
+{
+  "name": "hotel-de-blossom",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261003.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.2"
+  }
+}
