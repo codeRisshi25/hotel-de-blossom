@@ -60,6 +60,10 @@ html.lenis, html.lenis body { height: auto; }
   color: transparent;
 }
 
+/* Home hero only: Bodoni Moda headline, Jost labels */
+.hero-serif { font-family: "Bodoni Moda", "Didot", Georgia, serif; font-weight: 400; font-optical-sizing: auto; letter-spacing: -.018em; }
+.hero-sans { font-family: "Jost", "Futura", system-ui, sans-serif; }
+
 /* Gold hairline with centred diamond */
 .ornament { display: flex; align-items: center; gap: 14px; color: var(--gold); }
 .ornament::before, .ornament::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .55; }
