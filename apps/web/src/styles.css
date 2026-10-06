@@ -3,7 +3,7 @@
 @theme {
   --font-display: "Cormorant Garamond", Georgia, serif;
   --font-royal: "Cinzel", "Cormorant Garamond", serif;
-  --font-body: "Manrope", system-ui, sans-serif;
+  --font-body: "Manrope Variable", "Manrope", system-ui, sans-serif;
   --font-mono: "DM Mono", ui-monospace, monospace;
   --color-forest: #163831;
   --color-night: #0d2823;
@@ -60,10 +60,6 @@ html.lenis, html.lenis body { height: auto; }
   color: transparent;
 }
 
-/* Home hero only: Bodoni Moda headline, Jost labels */
-.hero-serif { font-family: "Bodoni Moda", "Didot", Georgia, serif; font-weight: 400; font-optical-sizing: auto; letter-spacing: -.018em; }
-.hero-sans { font-family: "Jost", "Futura", system-ui, sans-serif; }
-
 /* Gold hairline with centred diamond */
 .ornament { display: flex; align-items: center; gap: 14px; color: var(--gold); }
 .ornament::before, .ornament::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .55; }
@@ -114,6 +110,10 @@ html.lenis, html.lenis body { height: auto; }
     radial-gradient(circle at 50% 0%, rgba(184, 135, 46, .18), transparent 55%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M32 6c4 8 4 14 0 20-4-6-4-12 0-20zm0 52c-4-8-4-14 0-20 4 6 4 12 0 20zM6 32c8-4 14-4 20 0-6 4-12 4-20 0zm52 0c-8 4-14 4-20 0 6-4 12-4 20 0z' fill='none' stroke='%23b8872e' stroke-opacity='.13' stroke-width='1'/%3E%3C/svg%3E");
 }
+
+/* Gold text on cream needs a deeper tone to read (4.8:1). Dark panels keep the bright gold. */
+.text-gold { color: #8a6414; }
+.royal-pattern .text-gold, .bg-night .text-gold, .bg-ink .text-gold, .bg-forest .text-gold, footer .text-gold { color: var(--gold); }
 
 .arch { border-radius: 999px 999px 18px 18px; }
 

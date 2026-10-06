@@ -5,7 +5,7 @@ import { BookingError, checkBooking, newRequestKey, sendBookingRequest, type Boo
 import { hotel, whatsappLink } from "../content/site";
 import { roomOptions, type BookingPrefill } from "./BookingContext";
 import { gsap, prefersReducedMotion } from "../lib/motion";
-import { addDays, localIsoDate, nightsBetween } from "../lib/dates";
+import { addDays, nightsBetween, useToday } from "../lib/dates";
 
 const purposes: Array<{ id: InquiryPurpose; label: string }> = [
   { id: "stay", label: "Stay" },
@@ -13,7 +13,6 @@ const purposes: Array<{ id: InquiryPurpose; label: string }> = [
   { id: "event", label: "Event" },
 ];
 
-const today = () => localIsoDate();
 
 const emptyForm = (prefill: BookingPrefill): Form => ({
   purpose: prefill.purpose ?? "stay",
@@ -34,7 +33,7 @@ function Field({ label, children, hint }: { label: string; children: ReactNode; 
     <label className="grid gap-1.5">
       <span className="eyebrow text-[10px] text-forest/70">{label}</span>
       {children}
-      {hint && <span className="text-xs text-charcoal/55">{hint}</span>}
+      {hint && <span className="text-xs text-charcoal/65">{hint}</span>}
     </label>
   );
 }
@@ -44,7 +43,11 @@ const inputClass =
 
 type Done = { reference: string; name: string; purpose: InquiryPurpose; checkIn: string; checkOut: string };
 
-export function BookingForm({ prefill = {}, onDone, compact }: { prefill?: BookingPrefill; onDone?: () => void; compact?: boolean }) {
+// Stable default: a fresh `{}` each render would retrigger the reset effect below forever.
+const NO_PREFILL: BookingPrefill = {};
+
+export function BookingForm({ prefill = NO_PREFILL, onDone, compact }: { prefill?: BookingPrefill; onDone?: () => void; compact?: boolean }) {
+  const today = useToday();
   const [form, setForm] = useState<Form>(() => emptyForm(prefill));
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -158,7 +161,7 @@ export function BookingForm({ prefill = {}, onDone, compact }: { prefill?: Booki
             <input
               className="min-h-13 w-full rounded-xl border-2 border-forest/20 bg-white px-4 text-[15px] text-charcoal outline-none transition placeholder:text-charcoal/35 focus:border-gold focus:ring-4 focus:ring-gold/15 hover:border-forest/30"
               type="date"
-              min={today()}
+              min={today || undefined}
               value={form.checkIn}
               onChange={(event) => {
                 const checkIn = event.target.value;
@@ -179,7 +182,7 @@ export function BookingForm({ prefill = {}, onDone, compact }: { prefill?: Booki
             <input
               className="min-h-13 w-full rounded-xl border-2 border-forest/20 bg-white px-4 text-[15px] text-charcoal outline-none transition placeholder:text-charcoal/35 focus:border-gold focus:ring-4 focus:ring-gold/15 hover:border-forest/30"
               type="date"
-              min={form.checkIn ? addDays(form.checkIn, isEvent ? 0 : 1) : today()}
+              min={form.checkIn ? addDays(form.checkIn, isEvent ? 0 : 1) : today || undefined}
               value={form.checkOut}
               onChange={(event) => update("checkOut", event.target.value)}
             />

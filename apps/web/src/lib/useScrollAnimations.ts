@@ -19,7 +19,7 @@ export function useScrollAnimations(scope: RefObject<HTMLElement | null>, deps: 
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         root.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
-          const split = SplitText.create(el, { type: "lines", mask: "lines", linesClass: "split-line" });
+          const split = SplitText.create(el, { type: "lines", mask: "lines", linesClass: "split-line", aria: "none" });
           gsap.set(el, { visibility: "visible" });
           gsap.from(split.lines, {
             yPercent: 110,

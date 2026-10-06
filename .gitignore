@@ -8,3 +8,4 @@ dist/
 .astro/
 .agents/
 skills-lock.json
+dist-ssr/

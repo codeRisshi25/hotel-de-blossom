@@ -9,7 +9,6 @@ import { useBooking } from "../booking/BookingContext";
 import { inr } from "../lib/api";
 import { gsap, prefersReducedMotion, useGSAP } from "../lib/motion";
 import { useScrollAnimations } from "../lib/useScrollAnimations";
-import { useTitle } from "../lib/useTitle";
 
 export default function RoomDetailPage() {
   const { slug } = useParams();
@@ -18,7 +17,6 @@ export default function RoomDetailPage() {
   const viewerRef = useRef<HTMLDivElement>(null);
   const [shown, setShown] = useState(0);
   const { openBooking, priceFor } = useBooking();
-  useTitle(room?.name ?? "Room");
   useScrollAnimations(ref, [slug]);
 
   useGSAP(() => {
@@ -30,11 +28,10 @@ export default function RoomDetailPage() {
   const others = rooms.filter((item) => item.slug !== room.slug);
   const image = room.gallery[shown] ?? room.gallery[0];
   const price = priceFor(room.rateKey, room.fromPrice);
-  const [first, ...rest] = room.name.split(" ");
 
   return (
     <div ref={ref} key={room.slug}>
-      <PageHero eyebrow={room.name} image={room.cover} alt={room.gallery[0].alt} title={<>{first} <em className="gold-text">{rest.join(" ")}</em></>} intro={room.short} />
+      <PageHero eyebrow={room.name} image={room.cover} alt={room.gallery[0].alt} title={room.name} intro={room.short} />
 
       <section className="px-5 py-20 md:px-10 md:py-28">
         <div className="mx-auto grid max-w-[1360px] gap-12 lg:grid-cols-[1.45fr_1fr] xl:gap-16">
@@ -62,16 +59,16 @@ export default function RoomDetailPage() {
 
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-[28px] border border-gold/30 bg-ivory p-7 shadow-[0_30px_80px_rgba(13,40,35,.08)]">
-              <p className="eyebrow text-[10px] text-charcoal/55">Nightly, from</p>
+              <p className="eyebrow text-[10px] text-charcoal/65">Nightly, from</p>
               <p className="display mt-2 text-5xl text-forest">{inr(price)}</p>
-              <p className="mt-1 text-xs text-charcoal/55">Plus taxes · final tariff confirmed by reception</p>
+              <p className="mt-1 text-xs text-charcoal/65">Plus taxes · final tariff confirmed by reception</p>
               <ul className="mt-6 grid gap-3 border-y border-forest/10 py-6 text-sm text-forest">
                 <li className="flex items-center gap-3"><Ruler size={16} className="text-gold" />{room.size}</li>
                 <li className="flex items-center gap-3"><Users size={16} className="text-gold" />{room.occupancy}</li>
                 <li className="flex items-center gap-3"><BedDouble size={16} className="text-gold" />{room.bed}</li>
               </ul>
               <button onClick={() => openBooking({ roomType: room.name, purpose: "stay" })} className="mt-6 min-h-13 w-full rounded-full bg-gold text-[15px] font-semibold text-night transition hover:bg-[#c99a40]">Request this room</button>
-              <p className="mt-4 text-center text-xs leading-5 text-charcoal/55">Your request goes to the front desk. Nothing is charged; reception will contact you to confirm.</p>
+              <p className="mt-4 text-center text-xs leading-5 text-charcoal/65">Your request goes to the front desk. Nothing is charged; reception will contact you to confirm.</p>
             </div>
           </aside>
         </div>

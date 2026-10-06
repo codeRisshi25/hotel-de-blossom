@@ -10,7 +10,7 @@ export function Manifesto() {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         // Each word brightens from a whisper as the paragraph passes through the viewport.
-        const split = SplitText.create("[data-manifesto]", { type: "words" });
+        const split = SplitText.create("[data-manifesto]", { type: "words", aria: "none" });
         gsap.fromTo(split.words, { opacity: 0.14 }, { opacity: 1, stagger: 0.05, ease: "none", scrollTrigger: { trigger: "[data-manifesto]", start: "top 80%", end: "bottom 45%", scrub: true } });
         gsap.fromTo("[data-emblem]", { rotate: -8, scale: 0.7, opacity: 0 }, { rotate: 0, scale: 1, opacity: 1, duration: 1.4, ease: "expo.out", scrollTrigger: { trigger: ref.current, start: "top 75%" } });
       });
@@ -20,15 +20,15 @@ export function Manifesto() {
   );
 
   return (
-    <section ref={ref} className="relative overflow-hidden px-5 py-20 md:px-10 md:py-28">
+    <section ref={ref} className="relative overflow-hidden px-5 py-14 md:px-10 md:py-20">
       <div className="mx-auto max-w-5xl text-center">
-        <img data-emblem src="/images/brand/emblem.webp" alt="" aria-hidden width={170} height={77} className="mx-auto h-12 w-auto md:h-14" />
+        <img data-emblem src="/images/brand/emblem-sm.webp" alt="" aria-hidden width={280} height={127} className="mx-auto h-12 w-auto md:h-14" />
         <p className="eyebrow ornament mx-auto mt-8 max-w-md text-gold">Welcome to the house</p>
         <p data-manifesto className="display mt-9 text-[1.8rem] leading-[1.18] text-forest sm:text-4xl md:text-[2.9rem] lg:text-[3.3rem]">
           Rooted in warmth and family, Hotel De Blossom was built to be a <em className="text-gold">quiet, comforting</em> house for every guest who walks
-          through our doors — refined in its details, natural in its welcome, and <em className="text-gold">unmistakably Guwahati.</em>
+          through our doors, refined in its details, natural in its welcome, and <em className="text-gold">unmistakably Guwahati.</em>
         </p>
-        <div className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-y-10 border-t border-forest/15 pt-10 md:grid-cols-4">
+        <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-y-8 border-t border-forest/15 pt-8 md:grid-cols-4">
           {[
             { count: 3, suffix: "", label: "Room categories" },
             { count: 50, suffix: "m²", label: "Executive Suite" },
@@ -40,7 +40,7 @@ export function Manifesto() {
                 <span data-count={stat.count}>{stat.count}</span>
                 <span className="text-2xl text-gold">{stat.suffix}</span>
               </p>
-              <p className="eyebrow mt-3 text-[10px] text-charcoal/55">{stat.label}</p>
+              <p className="eyebrow mt-3 text-[10px] text-charcoal/65">{stat.label}</p>
             </div>
           ))}
         </div>

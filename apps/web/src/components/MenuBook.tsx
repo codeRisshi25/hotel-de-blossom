@@ -7,7 +7,7 @@ import { gsap, prefersReducedMotion, useGSAP } from "../lib/motion";
 function DietMark({ diet }: { diet: Diet }) {
   if (diet === "none") return <span className="inline-block w-4" aria-hidden />;
   const mark = (color: string, label: string) => (
-    <span title={label} aria-label={label} className="grid h-4 w-4 shrink-0 place-items-center border-[1.5px]" style={{ borderColor: color }}>
+    <span role="img" title={label} aria-label={label} className="grid h-4 w-4 shrink-0 place-items-center border-[1.5px]" style={{ borderColor: color }}>
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
     </span>
   );
@@ -35,25 +35,28 @@ export function MenuBook() {
   return (
     <div ref={ref} className="relative overflow-clip rounded-[32px] border border-gold/30 bg-ivory shadow-[0_40px_120px_rgba(13,40,35,.12)]">
       <div className="royal-pattern px-5 py-10 text-center text-ivory md:px-12 md:py-14">
-        <img src="/images/brand/emblem.webp" alt="" aria-hidden className="mx-auto h-12 w-auto" />
+        <img src="/images/brand/emblem-sm.webp" alt="" aria-hidden width={280} height={127} className="mx-auto h-12 w-auto" />
         <p className="eyebrow mt-5 text-gold-soft">The Blossom Kitchen</p>
         <h2 className="display mt-3 text-4xl md:text-[3.6rem]">The Menu</h2>
         <p className="mx-auto mt-4 max-w-lg text-sm text-ivory/65">Indian, Assamese, Asian and continental — served {`07:30 – 23:30`}, with breakfast from 07:00 to 10:00.</p>
       </div>
 
       <div className="sticky top-0 z-10 border-b border-forest/10 bg-ivory/95 backdrop-blur">
-        <div data-lenis-prevent className="no-scrollbar flex gap-2 overflow-x-auto px-4 py-4 md:justify-center md:px-8" role="tablist" aria-label="Menu sections">
+        {/* `w-max mx-auto` centres the tabs when they fit and lets them scroll from the first tab when they don't. */}
+        <div data-lenis-prevent className="no-scrollbar overflow-x-auto px-4 py-4 md:px-8" role="tablist" aria-label="Menu sections">
+          <div className="mx-auto flex w-max gap-2">
           {menu.map((item) => (
             <button
               key={item.id}
               role="tab"
               aria-selected={active === item.id}
-              onClick={() => setActive(item.id)}
+              onClick={(event) => { setActive(item.id); event.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }); }}
               className={`shrink-0 rounded-full border px-4 py-2 text-[13px] font-semibold transition ${active === item.id ? "border-forest bg-forest text-ivory" : "border-forest/15 text-forest/75 hover:border-gold hover:text-forest"}`}
             >
               {item.title}
             </button>
           ))}
+          </div>
         </div>
       </div>
 
@@ -90,7 +93,7 @@ export function MenuBook() {
         </ul>
         {!dishes.length && <p className="text-center text-charcoal/60">No vegetarian dishes in this section.</p>}
 
-        <div className="mx-auto mt-14 flex max-w-5xl flex-col items-center justify-between gap-4 border-t border-forest/10 pt-8 text-center text-xs text-charcoal/55 md:flex-row md:text-left">
+        <div className="mx-auto mt-14 flex max-w-5xl flex-col items-center justify-between gap-4 border-t border-forest/10 pt-8 text-center text-xs text-charcoal/65 md:flex-row md:text-left">
           <p>Prices in ₹. We levy a 10% service charge · Government taxes as applicable.</p>
           <a href="/menu/hotel-de-blossom-menu.pdf" download className="inline-flex min-h-11 items-center gap-2 rounded-full border border-forest/20 px-5 text-sm font-semibold text-forest hover:border-gold">
             <Download size={15} /> Download menu (PDF)

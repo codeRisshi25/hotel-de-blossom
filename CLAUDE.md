@@ -15,6 +15,8 @@ Hotel De Blossom (Guwahati): public website, booking-request flow, front-desk da
 
 - `npm run dev` — API (`wrangler pages dev`, :8788) + web (:5173, proxies `/api`). Copies root `.env` to `apps/api/.dev.vars`.
 - `npm run typecheck`, `npm test` (API tests, `tsx --test`), `npm run build`, `npm run deploy` (build + `wrangler pages deploy`).
+- `npm run build` = client build, SSR build, then `apps/web/scripts/prerender.mjs`: one static HTML file per public route (real content, meta, canonical, JSON-LD), plus `sitemap.xml`, `robots.txt`, `404.html` and noindex staff shells. Page meta lives in `apps/web/src/seo.ts`; set `PUBLIC_SITE_URL` for the canonical origin.
+- `npm run images -w @hdb/web` after adding or replacing images: writes AVIF twins, `src/content/image-sizes.json` and the social card.
 - Run one test file: `npm test -w @hdb/api -- tests/backend.test.ts`.
 
 ## Data flow

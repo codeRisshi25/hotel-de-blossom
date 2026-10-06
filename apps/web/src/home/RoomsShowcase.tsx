@@ -11,15 +11,18 @@ export function RoomCard({ room, index }: { room: (typeof rooms)[number]; index:
   const { openBooking, priceFor } = useBooking();
   return (
     <article data-room-card className="group relative flex w-full shrink-0 flex-col overflow-hidden rounded-[28px] border border-gold/25 bg-ivory md:w-[40vw] lg:w-[31vw] xl:w-[26vw]">
+      <div className="relative">
       <Link to={`/rooms/${room.slug}`} className="relative block aspect-[4/3] overflow-hidden" aria-label={`View ${room.name}`}>
-        <Picture data-room-img path={room.cover} alt={room.gallery[0]?.alt ?? room.name} sizes="(min-width: 768px) 40vw, 100vw" className="h-full w-full scale-110 object-cover transition duration-[1.2s] ease-out group-hover:scale-[1.16]" />
-        <span className="absolute left-5 top-5 rounded-full bg-ink/55 px-3 py-1.5 font-mono text-[10px] tracking-[.2em] text-ivory backdrop-blur">0{index + 1}</span>
+        <Picture data-room-img path={room.cover} alt={room.gallery[0]?.alt ?? room.name} sizes="(min-width: 768px) 40vw, 100vw" className="h-full w-full scale-[1.25] object-cover transition-[scale] duration-[1.2s] ease-out group-hover:scale-[1.32]" />
       </Link>
+
+        <span aria-hidden className="pointer-events-none absolute left-5 top-5 rounded-full bg-ink/55 px-3 py-1.5 font-mono text-[10px] tracking-[.2em] text-ivory backdrop-blur">0{index + 1}</span>
+      </div>
       <div className="flex flex-1 flex-col p-6 md:p-7">
         <div className="flex items-start justify-between gap-4">
           <h3 className="display text-3xl text-forest md:text-[2.4rem]">{room.name}</h3>
           <p className="shrink-0 text-right">
-            <span className="eyebrow block text-[9px] text-charcoal/50">From</span>
+            <span className="eyebrow block text-[9px] text-charcoal/65">From</span>
             <span className="display text-xl text-gold">{inr(priceFor(room.rateKey, room.fromPrice))}</span>
           </p>
         </div>
@@ -69,7 +72,7 @@ export function RoomsShowcase() {
   );
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-champagne py-16 md:flex md:h-screen md:flex-col md:justify-center md:py-0">
+    <section ref={ref} className="relative overflow-hidden bg-champagne py-12 md:flex md:h-screen md:flex-col md:justify-center md:py-0">
       <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-6 px-5 md:flex-row md:items-end md:justify-between md:px-10">
         <div>
           <p className="eyebrow text-gold">The Blossom Collection</p>

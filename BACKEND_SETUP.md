@@ -87,6 +87,7 @@ Add the values in `.env.example` as server-side secrets in the Cloudflare Pages 
 - `RECEPTION_EMAIL`
 - `RESEND_FROM_EMAIL`
 - `PUBLIC_ASSET_BASE_URL` (optional public build variable; see asset storage above)
+- `PUBLIC_SITE_URL` (public build variable): the live origin, e.g. `https://hoteldeblossom.com`. It sets canonical URLs, Open Graph URLs, the sitemap and `robots.txt`. Set it before the first production build.
 
 `INTERNAL_API_SECRET` should be generated as a long random value. The Resend sender domain must be verified before production email is enabled.
 

@@ -3,11 +3,9 @@ import { PageHero, SectionHeading } from "../components/PageHero";
 import { RoomCard } from "../home/RoomsShowcase";
 import { rooms, faqs } from "../content/site";
 import { useScrollAnimations } from "../lib/useScrollAnimations";
-import { useTitle } from "../lib/useTitle";
 
 export default function RoomsPage() {
   const ref = useRef<HTMLDivElement>(null);
-  useTitle("Rooms & Suites");
   useScrollAnimations(ref);
   return (
     <div ref={ref}>
@@ -15,7 +13,7 @@ export default function RoomsPage() {
         eyebrow="Rooms"
         image="rooms/deluxe-double/double-entrance"
         alt="Deluxe Double room with lounge chairs"
-        title={<>The Blossom <em className="gold-text">Collection.</em></>}
+        title="The Blossom Collection."
         intro="Three ways to stay — each in sage, ivory and warm timber, each looked after by a front desk that never sleeps."
       />
       <section className="px-5 py-24 md:px-10 md:py-32">

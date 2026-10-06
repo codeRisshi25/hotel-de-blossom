@@ -6,7 +6,6 @@ import { MenuBook } from "../components/MenuBook";
 import { hotel } from "../content/site";
 import { useBooking } from "../booking/BookingContext";
 import { useScrollAnimations } from "../lib/useScrollAnimations";
-import { useTitle } from "../lib/useTitle";
 
 const plates = [
   { path: "food/veg-biryani", alt: "Veg biryani with raita and whole spices" },
@@ -20,11 +19,10 @@ const plates = [
 export default function DiningPage() {
   const ref = useRef<HTMLDivElement>(null);
   const { openBooking } = useBooking();
-  useTitle("Restaurant & Menu");
   useScrollAnimations(ref);
   return (
     <div ref={ref}>
-      <PageHero eyebrow="Dining" image="food/chicken-lababdar" alt="Chicken Lababdar with spices on a timber table" title={<>The <em className="gold-text">Table.</em></>} intro="Carefully curated flavours, artfully plated and served in a warm, elegant room — from Assamese Jolpan at sunrise to tandoor platters at night." />
+      <PageHero eyebrow="Dining" image="food/chicken-lababdar" alt="Chicken Lababdar with spices on a timber table" title="The Table." intro="Carefully curated flavours, artfully plated and served in a warm, elegant room — from Assamese Jolpan at sunrise to tandoor platters at night." />
 
       <section className="px-5 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1360px]">
@@ -36,7 +34,7 @@ export default function DiningPage() {
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="rounded-[24px] border border-forest/10 bg-ivory p-7">
                 <Icon size={22} strokeWidth={1.4} className="text-gold" />
-                <p className="eyebrow mt-5 text-[10px] text-charcoal/55">{label}</p>
+                <p className="eyebrow mt-5 text-[10px] text-charcoal/65">{label}</p>
                 <p className="display mt-2 text-xl text-forest">{value}</p>
               </div>
             ))}

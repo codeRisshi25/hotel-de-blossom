@@ -1,10 +1,10 @@
+import { WaveEdge } from "./WaveEdge";
 import { useRef } from "react";
 import { Link } from "react-router";
-import { ArrowUp, ArrowUpRight, Clock3, Mail, MapPin, Navigation, Phone } from "lucide-react";
+import { ArrowUp, Clock3, Mail, MapPin, Navigation, Phone } from "lucide-react";
 import { Facebook, Instagram, WhatsApp } from "./BrandIcons";
 import { Wordmark } from "./Wordmark";
 import { hotel, whatsappLink } from "../content/site";
-import { useBooking } from "../booking/BookingContext";
 import { getLenis, gsap, useGSAP } from "../lib/motion";
 
 const explore = [
@@ -12,14 +12,12 @@ const explore = [
   { to: "/dining", label: "Restaurant" },
   { to: "/dining#menu", label: "Menu" },
   { to: "/events", label: "Banquet & Events" },
-  { to: "/gallery", label: "Gallery" },
   { to: "/about", label: "Our Story" },
   { to: "/contact", label: "Contact" },
   { to: "/book", label: "Request a booking" },
 ];
 
 export function SiteFooter() {
-  const { openBooking } = useBooking();
   const ref = useRef<HTMLElement>(null);
   const markRef = useRef<HTMLDivElement>(null);
 
@@ -49,36 +47,13 @@ export function SiteFooter() {
 
   return (
     <footer ref={ref} className="royal-pattern relative overflow-hidden text-ivory">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
+      <WaveEdge position="top" />
 
-      <div className="mx-auto max-w-[1360px] px-5 pt-16 md:px-10 md:pt-20">
-        {/* Invitation card */}
-        <div className="relative overflow-hidden rounded-[28px] border border-gold/25 bg-ink/40 px-6 py-10 md:px-12 md:py-12">
-          <div className="grid items-center gap-8 md:grid-cols-[auto_1fr_auto] md:gap-10">
-            <img src="/images/brand/emblem.webp" alt="" aria-hidden width={120} height={54} className="h-12 w-auto md:h-14" />
-            <div>
-              <p className="eyebrow text-[10px] text-gold-soft">Reserve your stay</p>
-              <p className="display mt-3 text-[2rem] leading-[1.02] md:text-[2.75rem]">
-                Your room is <em className="gold-text">waiting in bloom.</em>
-              </p>
-              <p className="mt-3 max-w-md text-sm leading-6 text-ivory/60">Send a request — our front desk personally confirms your dates, room and tariff.</p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <button onClick={() => openBooking()} className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-gold pl-6 pr-1.5 text-sm font-semibold text-night transition hover:bg-[#c99a40]">
-                Request a booking
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-night text-ivory transition group-hover:rotate-45"><ArrowUpRight size={16} /></span>
-              </button>
-              <a href={whatsappLink("Hello Hotel De Blossom, I would like to enquire about a stay.")} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-full border border-ivory/20 px-5 text-sm font-semibold transition hover:border-gold hover:text-gold-soft">
-                <WhatsApp size={16} /> WhatsApp
-              </a>
-            </div>
-          </div>
-        </div>
-
+      <div className="mx-auto max-w-[1360px] px-5 pt-20 md:px-10 md:pt-28">
         {/* Directory */}
         <div data-footer-grid className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-8 lg:py-16">
           <div data-footer-col>
-            <img src="/images/brand/logo-horizontal-light.webp" alt="Hotel De Blossom" width={200} height={36} className="h-8 w-auto" />
+            <img src="/images/brand/logo-horizontal-light-sm.webp" alt="Hotel De Blossom" width={420} height={76} className="h-8 w-auto" />
             <p className="mt-5 max-w-xs text-sm leading-6 text-ivory/60">A quiet, royal stay at the heart of Chandmari — rooms, all-day dining and a banquet hall for up to {hotel.banquetCapacity} guests.</p>
             <div className="mt-6 flex gap-2">
               <a aria-label="Instagram" href={hotel.socials.instagram} target="_blank" rel="noreferrer" className="grid h-10 w-10 place-items-center rounded-full border border-ivory/15 transition hover:-translate-y-0.5 hover:border-gold hover:text-gold-soft"><Instagram size={16} /></a>

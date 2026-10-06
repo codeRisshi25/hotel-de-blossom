@@ -12,7 +12,7 @@ export function PageHero({ eyebrow, title, intro, image, alt, children }: { eyeb
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const title = ref.current!.querySelector("h1")!;
-        const split = SplitText.create(title, { type: "lines", mask: "lines" });
+        const split = SplitText.create(title, { type: "lines", mask: "lines", aria: "none" });
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
         tl.fromTo("[data-hero-frame]", { clipPath: "inset(10% 6% 10% 6% round 40px)" }, { clipPath: "inset(0% 0% 0% 0% round 28px)", duration: 1.6 })
           .fromTo("[data-hero-img]", { scale: 1.35 }, { scale: 1.08, duration: 2 }, 0)
@@ -33,7 +33,7 @@ export function PageHero({ eyebrow, title, intro, image, alt, children }: { eyeb
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/30" />
         </div>
         <div className="mx-auto w-full max-w-[1360px] px-5 pb-12 pt-36 md:px-10 md:pb-16">
-          <nav data-hero-fade aria-label="Breadcrumb" className="eyebrow mb-6 flex gap-2 text-[10px] text-sandstone/80">
+          <nav data-hero-fade aria-label="Breadcrumb" className="mb-6 flex gap-2 text-[14px] text-sandstone/80">
             <Link to="/" className="hover:text-ivory">Home</Link><span>/</span><span className="text-ivory">{eyebrow}</span>
           </nav>
           <h1 className="display max-w-4xl text-[11vw] leading-[.92] sm:text-6xl lg:text-[5.5rem]">{title}</h1>

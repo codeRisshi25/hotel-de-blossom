@@ -35,7 +35,8 @@ supabase/     database migrations
 | Command | Does |
 |---|---|
 | `npm run dev` | API + website together |
-| `npm run build` | Production build of the website into `apps/web/dist` |
+| `npm run build` | Production build into `apps/web/dist`: every public page is prerendered to static HTML, with sitemap, robots.txt and 404 |
+| `npm run images -w @hdb/web` | After adding images: AVIF versions, size manifest and social card |
 | `npm run preview` | Build, then serve the built site and the Functions together on :8788 |
 | `npm test` | API tests |
 | `npm run typecheck` | Type-check every workspace |
@@ -49,7 +50,7 @@ Room "from" prices come from `GET /api/rates` (the `room_rates` table staff edit
 
 ## Website routes
 
-`/` · `/rooms` · `/rooms/deluxe-double` · `/rooms/deluxe-twin` · `/rooms/executive-suite` · `/dining` (with the full menu) · `/events` · `/gallery` · `/about` · `/contact` · `/book` · `/staff`
+`/` · `/rooms` · `/rooms/deluxe-double` · `/rooms/deluxe-twin` · `/rooms/executive-suite` · `/dining` (with the full menu) · `/events` · `/about` · `/contact` · `/book` · `/staff`
 
 Old WordPress URLs (`/our-rooms/`, `/accommodation/*`, `/restaurant/`, `/meetings-and-events/`) redirect to the new routes.
 

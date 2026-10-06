@@ -1,0 +1,12 @@
+/* Self-hosted, latin subset only. Weights match what the site actually uses. */
+@import "@fontsource/cormorant-garamond/latin-400.css";
+@import "@fontsource/cormorant-garamond/latin-500.css";
+@import "@fontsource/cormorant-garamond/latin-600.css";
+@import "@fontsource/cormorant-garamond/latin-400-italic.css";
+@import "@fontsource/cormorant-garamond/latin-500-italic.css";
+@import "@fontsource/cinzel/latin-400.css";
+@import "@fontsource/cinzel/latin-500.css";
+@import "@fontsource/cinzel/latin-600.css";
+@import "@fontsource-variable/manrope/wght.css";
+@import "@fontsource/dm-mono/latin-400.css";
+@import "@fontsource/dm-mono/latin-500.css";

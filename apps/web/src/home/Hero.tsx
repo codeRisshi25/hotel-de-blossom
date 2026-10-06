@@ -3,10 +3,9 @@ import { BedDouble, CalendarDays, ChevronDown, Minus, Plus, Users } from "lucide
 import { useBooking } from "../booking/BookingContext";
 import { Wordmark } from "../components/Wordmark";
 import { rooms } from "../content/site";
-import { gsap, SplitText, useGSAP } from "../lib/motion";
-import { addDays, localIsoDate } from "../lib/dates";
+import { gsap, useGSAP } from "../lib/motion";
+import { addDays, useToday } from "../lib/dates";
 
-const isoToday = () => localIsoDate();
 const plusDays = addDays;
 
 /**
@@ -19,6 +18,7 @@ const plusDays = addDays;
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { openBooking } = useBooking();
+  const today = useToday();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(2);
@@ -34,30 +34,26 @@ export function Hero() {
           const { motion, desktop, fine } = context.conditions as { motion: boolean; desktop: boolean; fine: boolean };
           if (!motion) return;
 
-          const headline = SplitText.create("[data-hero-title]", { type: "lines", mask: "lines" });
-
           // Opening: sky settles, letters rise from behind the building, building lifts into place.
           const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
           intro
             .fromTo("[data-hero-card]", { clipPath: "inset(6% 4% 6% 4% round 48px)" }, { clipPath: "inset(0% 0% 0% 0% round 32px)", duration: 1.8 })
-            .fromTo("[data-layer='sky']", { scale: 1.35, opacity: 0 }, { scale: 1.08, opacity: 1, duration: 2.4 }, 0)
+            // No opacity fade: the sky is the largest contentful paint and must be visible from the first frame.
+            .fromTo("[data-layer='sky']", { scale: 1.35 }, { scale: 1.08, duration: 2.4 }, 0)
             .fromTo("[data-letter]", { yPercent: 120, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.6, stagger: { each: 0.06, from: "center" } }, 0.35)
             .fromTo("[data-layer='building']", { yPercent: 10, scale: 1.12 }, { yPercent: 0, scale: 1, duration: 2.2 }, 0.2)
-            .from(headline.lines, { yPercent: 110, duration: 1.2, stagger: 0.1 }, 0.9)
-            .from("[data-hero-fade]", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, 1.1)
-            .from("[data-hero-stat]", { x: 40, opacity: 0, duration: 1, stagger: 0.12 }, 1.2);
+            .from("[data-hero-fade]", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, 1.1);
 
           // Scroll: hero pins briefly while the layers separate in depth.
           const scroll = gsap.timeline({
             defaults: { ease: "none" },
-            scrollTrigger: { trigger: ref.current, start: "top top", end: desktop ? "+=85%" : "+=55%", scrub: 0.6, pin: true, anticipatePin: 1 },
+            scrollTrigger: { trigger: ref.current, start: "top top", end: desktop ? "+=45%" : "+=35%", scrub: 0.6, pin: true, anticipatePin: 1 },
           });
           scroll
             .to("[data-layer='sky']", { yPercent: 3, scale: 1.1 }, 0)
             .to("[data-layer='wordmark']", { yPercent: desktop ? 55 : 38, scale: 0.88, opacity: 0.3, filter: "blur(5px)" }, 0)
-            .to("[data-layer='building']", { scale: desktop ? 1.3 : 1.18, yPercent: -7, transformOrigin: "50% 88%" }, 0)
+            .to("[data-layer='building']", { scale: desktop ? 1.1 : 1.06, yPercent: -3, transformOrigin: "50% 88%" }, 0)
             .to("[data-hero-content]", { y: -80, opacity: 0 }, 0)
-            .to("[data-hero-stats]", { x: 60, opacity: 0 }, 0)
             .to("[data-hero-shade]", { opacity: 0.85 }, 0.3);
 
           // Pointer depth: each layer drifts by a different amount.
@@ -85,17 +81,24 @@ export function Hero() {
   return (
     <section ref={ref} aria-labelledby="hero-title" className="relative h-[100svh] min-h-[640px] bg-champagne p-2 md:p-4">
       <div data-hero-card className="relative h-full overflow-hidden rounded-[32px] bg-ink">
+        <h1 id="hero-title" className="sr-only">Hotel De Blossom, a royal stay in Guwahati</h1>
         {/* 1 — sky */}
         <div data-depth="sky" className="absolute -inset-10">
-          <img
-            data-layer="sky"
-            src="/images/hero/night-sky.webp"
-            srcSet="/images/hero/night-sky-sm.webp 1600w, /images/hero/night-sky.webp 3072w"
-            sizes="100vw"
-            alt=""
-            fetchPriority="high"
-            className="h-full w-full scale-[1.08] object-cover object-[50%_55%] [filter:saturate(.5)_brightness(.6)_contrast(1.05)]"
-          />
+          <picture className="contents">
+            <source type="image/avif" srcSet="/images/hero/night-sky-sm.avif 1600w, /images/hero/night-sky.avif 3072w" sizes="100vw" />
+            <img
+              data-layer="sky"
+              src="/images/hero/night-sky.webp"
+              srcSet="/images/hero/night-sky-sm.webp 1600w, /images/hero/night-sky.webp 3072w"
+              sizes="100vw"
+              width={3072}
+              height={2048}
+              alt=""
+              fetchPriority="high"
+              decoding="async"
+              className="h-full w-full scale-[1.08] object-cover object-[50%_55%] [filter:saturate(.5)_brightness(.6)_contrast(1.05)]"
+            />
+          </picture>
           <div className="absolute inset-0 bg-ink/30" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(217,180,106,.1),transparent_55%)]" />
         </div>
@@ -112,14 +115,21 @@ export function Hero() {
 
         {/* 3 — building cut-out, sits in front of the letters */}
         <div data-depth="building" className="pointer-events-none absolute -inset-14">
-          <img
-            data-layer="building"
-            src="/images/hero/building.webp"
-            srcSet="/images/hero/building-sm.webp 1600w, /images/hero/building.webp 3072w"
-            sizes="100vw"
-            alt="Hotel De Blossom lit up at night above the Guwahati skyline"
-            className="h-full w-full object-cover object-[50%_55%]"
-          />
+          <picture className="contents">
+            <source type="image/avif" srcSet="/images/hero/building-sm.avif 1600w, /images/hero/building.avif 3072w" sizes="100vw" />
+            <img
+              data-layer="building"
+              src="/images/hero/building.webp"
+              srcSet="/images/hero/building-sm.webp 1600w, /images/hero/building.webp 3072w"
+              sizes="100vw"
+              width={3072}
+              height={2048}
+              alt="Hotel De Blossom lit up at night above the Guwahati skyline"
+              fetchPriority="high"
+              decoding="async"
+              className="h-full w-full object-cover object-[50%_55%]"
+            />
+          </picture>
         </div>
 
         {/* 4 — shade + content */}
@@ -138,8 +148,8 @@ export function Hero() {
               onSubmit={(event) => { event.preventDefault(); openBooking({ checkIn, checkOut, guests, roomType: roomType || undefined, purpose: "stay" }); }}
               className="hidden items-end gap-3 rounded-[22px] bg-ivory p-4 text-forest shadow-[0_30px_70px_rgba(8,26,23,.4)] md:flex"
             >
-              <DateField label="Check in" value={checkIn} min={isoToday()} onChange={(value) => { setCheckIn(value); if (!checkOut || checkOut <= value) setCheckOut(plusDays(value, 1)); }} />
-              <DateField label="Check out" value={checkOut} min={checkIn ? plusDays(checkIn, 1) : plusDays(isoToday(), 1)} onChange={setCheckOut} />
+              <DateField label="Check in" value={checkIn} min={today || undefined} onChange={(value) => { setCheckIn(value); if (!checkOut || checkOut <= value) setCheckOut(plusDays(value, 1)); }} />
+              <DateField label="Check out" value={checkOut} min={checkIn ? plusDays(checkIn, 1) : today ? plusDays(today, 1) : undefined} onChange={setCheckOut} />
 
               <div className="grid min-w-0 flex-1 gap-2">
                 <span className="text-[13px] font-medium text-forest/80">Room</span>
@@ -179,7 +189,7 @@ const formatDate = (iso: string) =>
   new Date(`${iso}T00:00:00`).toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
 
 /** Field box that opens the native date picker; the real input stays invisible. */
-function DateField({ label, value, min, onChange }: { label: string; value: string; min: string; onChange: (value: string) => void }) {
+function DateField({ label, value, min, onChange }: { label: string; value: string; min?: string; onChange: (value: string) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const open = () => {
     const input = inputRef.current;

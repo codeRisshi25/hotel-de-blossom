@@ -145,6 +145,16 @@ export const gallery: Array<{ path: string; alt: string; category: "Rooms" | "Re
   { path: "food/yellow-dal-tadka", alt: "Yellow dal tadka", category: "Dining" },
 ];
 
+/**
+ * SAMPLE TEXT ONLY. Replace each entry with a real guest review (and the guest's permission to
+ * show their name) before launch. Entries with `sample: true` show a visible "Sample" tag.
+ */
+export const testimonials: Array<{ quote: string; name: string; stay: string; sample?: boolean }> = [
+  { quote: "A calm, spotless room and a front desk that sorted our airport pickup without us asking twice.", name: "Guest name", stay: "Stayed in a Deluxe Double", sample: true },
+  { quote: "We held our family's reception here. The hall looked beautiful and the food kept everyone happy till late.", name: "Guest name", stay: "Hosted a reception", sample: true },
+  { quote: "Central, quiet and easy to get around from. Breakfast with Assamese Jolpan was the best start to the day.", name: "Guest name", stay: "Stayed in the Executive Suite", sample: true },
+];
+
 export const faqs = [
   { q: "Is my booking confirmed when I submit the form?", a: "Not yet. Your request goes straight to our front desk with a reference number. Reception will call or WhatsApp you to confirm availability and the final tariff — your stay is confirmed only after that conversation." },
   { q: "What are the check-in and check-out times?", a: "The front desk shares check-in and check-out timings when confirming your stay. Early arrival or late departure can often be arranged on request, subject to availability." },

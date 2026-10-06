@@ -7,6 +7,7 @@ import { WhatsApp } from "./BrandIcons";
 import { BookingDrawer } from "../booking/BookingDrawer";
 import { useBooking } from "../booking/BookingContext";
 import { hotel, whatsappLink } from "../content/site";
+import { applyMeta } from "../lib/applyMeta";
 import { ScrollTrigger, scrollToTop, startSmoothScroll, stopSmoothScroll } from "../lib/motion";
 
 function MobileReserveBar() {
@@ -25,6 +26,8 @@ function MobileReserveBar() {
 
 export function SiteLayout() {
   const { pathname, hash } = useLocation();
+
+  useEffect(() => applyMeta(pathname), [pathname]);
 
   useEffect(() => {
     document.documentElement.classList.add("js-motion");
