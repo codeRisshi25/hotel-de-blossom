@@ -56,12 +56,12 @@ export function SiteHeader() {
     <>
       <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5">
         <div
-          className={`mx-auto flex max-w-[1500px] items-center justify-between gap-4 rounded-full px-3 py-2 transition-all duration-500 md:px-4 ${
+          className={`mx-auto flex max-w-[1360px] items-center justify-between gap-4 rounded-full px-3 py-2 transition-all duration-500 md:px-4 ${
             scrolled ? "border border-gold/25 bg-night/85 shadow-[0_20px_60px_rgba(8,26,23,.35)] backdrop-blur-xl" : "border border-transparent"
           }`}
         >
           <Link to="/" className="flex items-center gap-3 pl-2" aria-label="Hotel De Blossom home">
-            <img src="/images/brand/logo-horizontal-light.webp" alt="Hotel De Blossom" width={190} height={34} className="h-7 w-auto md:h-8" />
+            <img src="/images/brand/logo-horizontal-light.webp" alt="Hotel De Blossom" width={190} height={34} className="h-6 w-auto md:h-7" />
           </Link>
 
           <nav aria-label="Main" className="hidden items-center gap-1 rounded-full border border-ivory/15 bg-ink/25 p-1 backdrop-blur-md lg:flex">
@@ -108,7 +108,7 @@ export function SiteHeader() {
             <div key={link.to} className="overflow-hidden">
               <NavLink data-menu-item to={link.to} end={link.to === "/"} className={({ isActive }) => `flex items-baseline gap-4 py-1 ${isActive ? "text-gold-soft" : "text-ivory"}`}>
                 <span className="font-mono text-xs text-sandstone/60">0{index + 1}</span>
-                <span className="display text-5xl">{link.label}</span>
+                <span className="display text-4xl">{link.label}</span>
               </NavLink>
             </div>
           ))}

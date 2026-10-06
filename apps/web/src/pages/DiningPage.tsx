@@ -27,7 +27,7 @@ export default function DiningPage() {
       <PageHero eyebrow="Dining" image="food/chicken-lababdar" alt="Chicken Lababdar with spices on a timber table" title={<>The <em className="gold-text">Table.</em></>} intro="Carefully curated flavours, artfully plated and served in a warm, elegant room — from Assamese Jolpan at sunrise to tandoor platters at night." />
 
       <section className="px-5 py-24 md:px-10 md:py-32">
-        <div className="mx-auto max-w-[1500px]">
+        <div className="mx-auto max-w-[1360px]">
           <div data-reveal="stagger" className="grid gap-4 md:grid-cols-3">
             {[
               { icon: Clock3, label: "Open daily", value: hotel.restaurantHours },
@@ -37,12 +37,12 @@ export default function DiningPage() {
               <div key={label} className="rounded-[24px] border border-forest/10 bg-ivory p-7">
                 <Icon size={22} strokeWidth={1.4} className="text-gold" />
                 <p className="eyebrow mt-5 text-[10px] text-charcoal/55">{label}</p>
-                <p className="display mt-2 text-2xl text-forest">{value}</p>
+                <p className="display mt-2 text-xl text-forest">{value}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-24 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+          <div className="mx-auto mt-20 grid max-w-[1100px] grid-cols-2 gap-4 md:grid-cols-3 md:gap-5">
             {plates.map((plate, index) => (
               <div key={plate.path} className={index % 3 === 1 ? "md:translate-y-16" : ""}>
                 <div data-reveal-img className="overflow-hidden rounded-[24px]">
@@ -55,7 +55,7 @@ export default function DiningPage() {
       </section>
 
       <section id="menu" className="scroll-mt-24 px-3 pb-28 pt-10 md:px-10">
-        <div className="mx-auto max-w-[1300px]">
+        <div className="mx-auto max-w-[1180px]">
           <div className="mb-12"><SectionHeading align="center" eyebrow="À la carte" title={<>Our <em className="text-gold">menu.</em></>} /></div>
           <MenuBook />
           <div data-reveal className="mt-10 text-center">

@@ -64,20 +64,33 @@ html.lenis, html.lenis body { height: auto; }
 .ornament { display: flex; align-items: center; gap: 14px; color: var(--gold); }
 .ornament::before, .ornament::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .55; }
 
-/* Hero wordmark: faint ivory with a gold top light, sits between sky and building */
-.hero-wordmark {
+/* Interactive wordmark (hero + footer): base layer + gold layer revealed by a pointer spotlight */
+.wordmark { --mx: -400px; --my: 0px; --mr: 0px; }
+.wordmark-hero, .wordmark-footer {
   font-family: var(--font-royal);
   font-weight: 500;
   line-height: .82;
-  letter-spacing: .02em;
   white-space: nowrap;
+  text-align: center;
 }
-.hero-wordmark [data-letter] {
-  background: linear-gradient(180deg, rgba(255, 238, 200, .95) 0%, rgba(232, 200, 140, .62) 50%, rgba(255, 253, 248, .1) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
+.wordmark-hero { letter-spacing: .02em; }
+.wordmark-footer { letter-spacing: .04em; line-height: .78; }
+.wordmark-glow {
+  -webkit-mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
+  mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
+}
+.wordmark-hero.wordmark-base [data-letter] {
+  background: linear-gradient(180deg, rgba(255, 238, 200, .92) 0%, rgba(232, 200, 140, .58) 50%, rgba(255, 253, 248, .08) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.wordmark-hero.wordmark-glow [data-letter],
+.wordmark-footer.wordmark-glow [data-letter] {
+  background: linear-gradient(180deg, #fff3d6 0%, #e9c77f 38%, #b8872e 72%, rgba(184, 135, 46, .25) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.wordmark-footer.wordmark-base [data-letter] {
   color: transparent;
-  will-change: transform;
+  -webkit-text-stroke: 1px rgba(217, 180, 106, .32);
 }
 
 .paper-noise::before {

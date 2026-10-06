@@ -27,17 +27,17 @@ export function PageHero({ eyebrow, title, intro, image, alt, children }: { eyeb
 
   return (
     <section ref={ref} className="bg-champagne p-2 md:p-4">
-      <div data-hero-frame className="relative isolate flex min-h-[78svh] flex-col justify-end overflow-hidden rounded-[28px] bg-night text-ivory">
+      <div data-hero-frame className="relative isolate flex min-h-[68svh] flex-col justify-end overflow-hidden rounded-[28px] bg-night text-ivory">
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <Picture data-hero-img path={image} alt={alt} priority className="h-full w-full scale-[1.08] object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/30" />
         </div>
-        <div className="mx-auto w-full max-w-[1500px] px-5 pb-12 pt-36 md:px-10 md:pb-16">
+        <div className="mx-auto w-full max-w-[1360px] px-5 pb-12 pt-36 md:px-10 md:pb-16">
           <nav data-hero-fade aria-label="Breadcrumb" className="eyebrow mb-6 flex gap-2 text-[10px] text-sandstone/80">
             <Link to="/" className="hover:text-ivory">Home</Link><span>/</span><span className="text-ivory">{eyebrow}</span>
           </nav>
-          <h1 className="display max-w-5xl text-[13vw] leading-[.9] sm:text-7xl lg:text-[7.5rem]">{title}</h1>
-          {intro && <p data-hero-fade className="mt-6 max-w-xl text-[17px] leading-8 text-ivory/75">{intro}</p>}
+          <h1 className="display max-w-4xl text-[11vw] leading-[.92] sm:text-6xl lg:text-[5.5rem]">{title}</h1>
+          {intro && <p data-hero-fade className="mt-5 max-w-lg text-base leading-7 text-ivory/75">{intro}</p>}
           {children && <div data-hero-fade className="mt-8">{children}</div>}
         </div>
       </div>
@@ -50,8 +50,8 @@ export function SectionHeading({ eyebrow, title, intro, align = "left", tone = "
   return (
     <div className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       <p data-reveal className={`eyebrow ${align === "center" ? "ornament" : ""} ${dark ? "text-gold-soft" : "text-gold"}`}>{eyebrow}</p>
-      <h2 data-split className={`display mt-5 text-5xl md:text-7xl ${dark ? "text-ivory" : "text-forest"}`}>{title}</h2>
-      {intro && <p data-reveal className={`mt-6 text-[17px] leading-8 ${dark ? "text-ivory/70" : "text-charcoal/70"}`}>{intro}</p>}
+      <h2 data-split className={`display mt-4 text-4xl md:text-[3.6rem] ${dark ? "text-ivory" : "text-forest"}`}>{title}</h2>
+      {intro && <p data-reveal className={`mt-5 text-base leading-7 ${dark ? "text-ivory/70" : "text-charcoal/70"}`}>{intro}</p>}
     </div>
   );
 }

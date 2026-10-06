@@ -94,7 +94,7 @@ export function BookingForm({ prefill = {}, onDone, compact }: { prefill?: Booki
       <div ref={successRef} className="grid gap-6" role="status" aria-live="polite">
         <div data-step className="rounded-2xl border border-gold/40 bg-[#fffaf0] p-6">
           <p className="eyebrow text-gold">Request received</p>
-          <p className="display mt-3 text-4xl text-forest">Thank you, {done.name.split(" ")[0]}.</p>
+          <p className="display mt-3 text-3xl text-forest">Thank you, {done.name.split(" ")[0]}.</p>
           <p className="mt-4 text-[15px] leading-7 text-charcoal/75">
             Your request is now with our front desk. <strong className="font-semibold text-forest">This is not yet a confirmed booking</strong> — reception will
             contact you to confirm availability and the final tariff.

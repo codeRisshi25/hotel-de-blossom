@@ -20,15 +20,15 @@ export function Manifesto() {
   );
 
   return (
-    <section ref={ref} className="relative overflow-hidden px-5 py-28 md:px-10 md:py-40">
-      <div className="mx-auto max-w-6xl text-center">
-        <img data-emblem src="/images/brand/emblem.webp" alt="" aria-hidden width={170} height={77} className="mx-auto h-16 w-auto md:h-20" />
+    <section ref={ref} className="relative overflow-hidden px-5 py-20 md:px-10 md:py-28">
+      <div className="mx-auto max-w-5xl text-center">
+        <img data-emblem src="/images/brand/emblem.webp" alt="" aria-hidden width={170} height={77} className="mx-auto h-12 w-auto md:h-14" />
         <p className="eyebrow ornament mx-auto mt-8 max-w-md text-gold">Welcome to the house</p>
-        <p data-manifesto className="display mt-10 text-[2.15rem] leading-[1.12] text-forest sm:text-5xl md:text-6xl lg:text-[4.4rem]">
+        <p data-manifesto className="display mt-9 text-[1.8rem] leading-[1.18] text-forest sm:text-4xl md:text-[2.9rem] lg:text-[3.3rem]">
           Rooted in warmth and family, Hotel De Blossom was built to be a <em className="text-gold">quiet, comforting</em> house for every guest who walks
           through our doors — refined in its details, natural in its welcome, and <em className="text-gold">unmistakably Guwahati.</em>
         </p>
-        <div className="mx-auto mt-20 grid max-w-5xl grid-cols-2 gap-y-10 border-t border-forest/15 pt-12 md:grid-cols-4">
+        <div className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-y-10 border-t border-forest/15 pt-10 md:grid-cols-4">
           {[
             { count: 3, suffix: "", label: "Room categories" },
             { count: 50, suffix: "m²", label: "Executive Suite" },
@@ -36,9 +36,9 @@ export function Manifesto() {
             { count: 24, suffix: "/7", label: "Front desk" },
           ].map((stat) => (
             <div key={stat.label} data-reveal>
-              <p className="display text-6xl text-forest md:text-7xl">
+              <p className="display text-5xl text-forest md:text-[3.5rem]">
                 <span data-count={stat.count}>{stat.count}</span>
-                <span className="text-3xl text-gold">{stat.suffix}</span>
+                <span className="text-2xl text-gold">{stat.suffix}</span>
               </p>
               <p className="eyebrow mt-3 text-[10px] text-charcoal/55">{stat.label}</p>
             </div>

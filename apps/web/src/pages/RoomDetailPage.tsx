@@ -37,7 +37,7 @@ export default function RoomDetailPage() {
       <PageHero eyebrow={room.name} image={room.cover} alt={room.gallery[0].alt} title={<>{first} <em className="gold-text">{rest.join(" ")}</em></>} intro={room.short} />
 
       <section className="px-5 py-20 md:px-10 md:py-28">
-        <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[1.5fr_1fr]">
+        <div className="mx-auto grid max-w-[1360px] gap-12 lg:grid-cols-[1.45fr_1fr] xl:gap-16">
           <div>
             <div ref={viewerRef} className="relative aspect-[4/3] overflow-hidden rounded-[28px] bg-forest/10">
               <Picture key={image.path} data-viewer-img path={image.path} alt={image.alt} sizes="(min-width: 1024px) 60vw, 100vw" className="h-full w-full object-cover" />
@@ -53,7 +53,7 @@ export default function RoomDetailPage() {
                 </button>
               ))}
             </div>
-            <p data-reveal className="mt-12 max-w-2xl text-lg leading-9 text-charcoal/75">{room.description}</p>
+            <p data-reveal className="mt-10 max-w-2xl text-base leading-8 text-charcoal/75">{room.description}</p>
             <h2 data-reveal className="eyebrow mt-12 text-gold">In the room</h2>
             <ul data-reveal="stagger" className="mt-6 grid gap-3 sm:grid-cols-2">
               {room.features.map((feature) => <li key={feature} className="flex items-center gap-3 rounded-xl border border-forest/10 bg-ivory px-4 py-3 text-forest"><Check size={16} className="text-gold" />{feature}</li>)}
@@ -63,7 +63,7 @@ export default function RoomDetailPage() {
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-[28px] border border-gold/30 bg-ivory p-7 shadow-[0_30px_80px_rgba(13,40,35,.08)]">
               <p className="eyebrow text-[10px] text-charcoal/55">Nightly, from</p>
-              <p className="display mt-2 text-6xl text-forest">{inr(price)}</p>
+              <p className="display mt-2 text-5xl text-forest">{inr(price)}</p>
               <p className="mt-1 text-xs text-charcoal/55">Plus taxes · final tariff confirmed by reception</p>
               <ul className="mt-6 grid gap-3 border-y border-forest/10 py-6 text-sm text-forest">
                 <li className="flex items-center gap-3"><Ruler size={16} className="text-gold" />{room.size}</li>
@@ -78,9 +78,9 @@ export default function RoomDetailPage() {
       </section>
 
       <section className="bg-ivory px-5 py-24 md:px-10">
-        <div className="mx-auto max-w-[1500px]">
+        <div className="mx-auto max-w-[1360px]">
           <div className="flex items-end justify-between gap-6">
-            <h2 data-split className="display text-5xl text-forest md:text-6xl">You may also <em className="text-gold">love</em></h2>
+            <h2 data-split className="display text-4xl text-forest md:text-5xl">You may also <em className="text-gold">love</em></h2>
             <Link to="/rooms" className="eyebrow hidden text-[11px] text-forest hover:text-gold md:block">All rooms</Link>
           </div>
           <div data-reveal="stagger" className="mt-12 grid gap-8 md:grid-cols-2 [&>article]:md:w-full [&>article]:lg:w-full [&>article]:xl:w-full">

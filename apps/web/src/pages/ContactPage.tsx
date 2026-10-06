@@ -22,7 +22,7 @@ export default function ContactPage() {
       <PageHero eyebrow="Contact" image="hero/night-sky" alt="Hotel De Blossom at night" title={<>We're always <em className="gold-text">awake.</em></>} intro="Call, WhatsApp or send a request — a real person at our front desk will help, any hour of the day." />
 
       <section className="px-5 py-20 md:px-10 md:py-28">
-        <div className="mx-auto max-w-[1500px]">
+        <div className="mx-auto max-w-[1360px]">
           <div data-reveal="stagger" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {cards.map(({ icon: Icon, label, value, href }) => (
               <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="group rounded-[24px] border border-forest/10 bg-ivory p-7 transition hover:-translate-y-1 hover:border-gold">

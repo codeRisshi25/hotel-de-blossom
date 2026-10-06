@@ -41,7 +41,7 @@ export default function GalleryPage() {
     <div ref={ref}>
       <PageHero eyebrow="Gallery" image="reception/reception-1" alt="Hotel De Blossom reception" title={<>The hotel <em className="gold-text">in bloom.</em></>} intro="Rooms, reception, dining and the banquet hall — a look around the house." />
       <section className="px-5 py-20 md:px-10 md:py-28">
-        <div className="mx-auto max-w-[1500px]">
+        <div className="mx-auto max-w-[1360px]">
           <div className="no-scrollbar flex gap-2 overflow-x-auto pb-2" role="tablist" aria-label="Gallery categories">
             {categories.map((category) => (
               <button key={category} role="tab" aria-selected={filter === category} onClick={() => setFilter(category)} className={`shrink-0 rounded-full border px-5 py-2.5 text-sm font-semibold transition ${filter === category ? "border-forest bg-forest text-ivory" : "border-forest/15 text-forest hover:border-gold"}`}>
@@ -49,14 +49,14 @@ export default function GalleryPage() {
               </button>
             ))}
           </div>
-          <div ref={gridRef} className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
+          <div ref={gridRef} className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4 [&>*]:mb-4">
             {items.map((item, index) => (
               <button data-tile key={item.path} onClick={() => setOpen(index)} className="group relative block w-full overflow-hidden rounded-[22px] text-left">
                 <Picture path={item.path} alt={item.alt} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className={`w-full object-cover transition duration-700 group-hover:scale-105 ${index % 3 === 0 ? "aspect-[3/4]" : "aspect-[4/3]"}`} />
                 <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent opacity-0 transition group-hover:opacity-100" />
                 <span className="absolute bottom-4 left-4 right-4 translate-y-3 text-ivory opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">
                   <span className="eyebrow block text-[9px] text-gold-soft">{item.category}</span>
-                  <span className="display text-xl">{item.alt}</span>
+                  <span className="display text-lg">{item.alt}</span>
                 </span>
               </button>
             ))}

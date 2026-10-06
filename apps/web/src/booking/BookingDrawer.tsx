@@ -48,12 +48,12 @@ export function BookingDrawer() {
         aria-labelledby="booking-title"
         tabIndex={-1}
         data-lenis-prevent
-        className="absolute inset-x-0 bottom-0 max-h-[92dvh] overflow-y-auto rounded-t-[28px] bg-champagne outline-none md:inset-y-0 md:left-auto md:right-0 md:max-h-none md:w-[560px] md:rounded-l-[28px] md:rounded-tr-none"
+        className="absolute inset-x-0 bottom-0 max-h-[92dvh] overflow-y-auto rounded-t-[28px] bg-champagne outline-none md:inset-y-0 md:left-auto md:right-0 md:max-h-none md:w-[520px] md:rounded-l-[28px] md:rounded-tr-none"
       >
         <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-forest/10 bg-champagne/95 px-6 pb-5 pt-6 backdrop-blur md:px-9 md:pt-9">
           <div data-drawer-item>
             <p className="eyebrow text-gold">Reserve your stay</p>
-            <h2 id="booking-title" className="display mt-2 text-4xl text-forest md:text-5xl">Request a booking</h2>
+            <h2 id="booking-title" className="display mt-2 text-3xl text-forest md:text-4xl">Request a booking</h2>
             <p className="mt-2 text-sm text-charcoal/60">Sent to our front desk · confirmed personally by reception</p>
           </div>
           <button onClick={closeBooking} aria-label="Close booking request" className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-forest/15 text-forest transition hover:rotate-90 hover:bg-forest/5">

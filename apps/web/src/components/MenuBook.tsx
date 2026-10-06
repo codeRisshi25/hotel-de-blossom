@@ -37,7 +37,7 @@ export function MenuBook() {
       <div className="royal-pattern px-5 py-10 text-center text-ivory md:px-12 md:py-14">
         <img src="/images/brand/emblem.webp" alt="" aria-hidden className="mx-auto h-12 w-auto" />
         <p className="eyebrow mt-5 text-gold-soft">The Blossom Kitchen</p>
-        <h2 className="display mt-3 text-5xl md:text-7xl">The Menu</h2>
+        <h2 className="display mt-3 text-4xl md:text-[3.6rem]">The Menu</h2>
         <p className="mx-auto mt-4 max-w-lg text-sm text-ivory/65">Indian, Assamese, Asian and continental — served {`07:30 – 23:30`}, with breakfast from 07:00 to 10:00.</p>
       </div>
 
@@ -60,7 +60,7 @@ export function MenuBook() {
       <div className="px-5 py-12 md:px-14 md:py-16" role="tabpanel">
         <div className="mb-10 flex flex-col items-center gap-5 text-center">
           <div className="overflow-hidden">
-            <h3 data-menu-title className="royal text-3xl tracking-[.18em] text-[#8a3a24] md:text-4xl">{section.title.toUpperCase()}</h3>
+            <h3 data-menu-title className="royal text-2xl tracking-[.2em] text-[#8a3a24] md:text-3xl">{section.title.toUpperCase()}</h3>
           </div>
           {section.subtitle && <p className="eyebrow text-[10px] text-gold">{section.subtitle}</p>}
           <div className="ornament w-56"><span className="text-xs">✦</span></div>
@@ -70,14 +70,14 @@ export function MenuBook() {
           </label>
         </div>
 
-        <ul className="mx-auto grid max-w-5xl gap-x-16 gap-y-7 md:grid-cols-2">
+        <ul className="mx-auto grid max-w-[920px] gap-x-14 gap-y-6 md:grid-cols-2">
           {dishes.map((dish) => (
             <li data-dish key={dish.name} className="group">
               <div className="flex items-baseline gap-3">
                 <span className="relative top-0.5"><DietMark diet={dish.diet} /></span>
-                <span className="display text-[1.45rem] leading-tight text-forest">{dish.name}</span>
+                <span className="display text-[1.25rem] leading-tight text-forest">{dish.name}</span>
                 <span className="mb-1.5 min-w-6 flex-1 border-b border-dotted border-forest/30 transition group-hover:border-gold" />
-                <span className="display shrink-0 text-xl text-[#8a3a24]">{dish.price}</span>
+                <span className="display shrink-0 text-lg text-[#8a3a24]">{dish.price}</span>
               </div>
               {(dish.note || dish.signature) && (
                 <p className="ml-7 mt-1 text-sm leading-6 text-charcoal/60">

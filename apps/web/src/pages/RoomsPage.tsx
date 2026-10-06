@@ -19,7 +19,7 @@ export default function RoomsPage() {
         intro="Three ways to stay — each in sage, ivory and warm timber, each looked after by a front desk that never sleeps."
       />
       <section className="px-5 py-24 md:px-10 md:py-32">
-        <div className="mx-auto max-w-[1500px]">
+        <div className="mx-auto max-w-[1360px]">
           <SectionHeading eyebrow="Choose your room" title={<>Rest, <em className="text-gold">beautifully.</em></>} intro="Prices are starting nightly rates. Send a request and reception will confirm availability and your final tariff." />
           <div data-reveal="stagger" className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-3 [&>article]:md:w-full [&>article]:lg:w-full [&>article]:xl:w-full">
             {rooms.map((room, index) => <RoomCard key={room.slug} room={room} index={index} />)}
@@ -27,7 +27,7 @@ export default function RoomsPage() {
         </div>
       </section>
       <section className="bg-ivory px-5 py-24 md:px-10 md:py-32">
-        <div className="mx-auto grid max-w-[1500px] gap-14 lg:grid-cols-[1fr_1.4fr]">
+        <div className="mx-auto grid max-w-[1360px] gap-14 lg:grid-cols-[1fr_1.4fr]">
           <SectionHeading eyebrow="Good to know" title={<>Before you <em className="text-gold">arrive.</em></>} />
           <div data-reveal="stagger" className="divide-y divide-forest/10 border-y border-forest/10">
             {faqs.map((faq) => (
