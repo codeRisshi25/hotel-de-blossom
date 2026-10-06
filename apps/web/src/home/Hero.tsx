@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { ArrowDown, ArrowRight, CalendarDays, Minus, Plus, Users } from "lucide-react";
 import { useBooking } from "../booking/BookingContext";
 import { Wordmark } from "../components/Wordmark";
-import { hotel } from "../content/site";
 import { gsap, SplitText, useGSAP } from "../lib/motion";
 import { addDays, localIsoDate } from "../lib/dates";
 
@@ -126,67 +125,59 @@ export function Hero() {
             <p data-hero-fade className="eyebrow mb-5 flex items-center gap-3 text-[10px] text-gold-soft md:text-[11px]">
               <span className="h-px w-10 bg-gold" /> Chandmari · Guwahati · Assam
             </p>
-            <h1 id="hero-title" data-hero-title className="display text-[10.5vw] leading-[.95] sm:text-5xl lg:text-[4.25rem]">
-              A royal stay,
-              <br />
-              <em className="gold-text pr-2">in full bloom.</em>
-            </h1>
-            <p data-hero-fade className="mt-4 max-w-sm text-[15px] leading-7 text-ivory/70">
-              Quiet rooms, an all-day restaurant and a grand banquet hall at Tulip Tower, MRD Road — with a front desk that's awake whenever you are.
-            </p>
 
             <form
               data-hero-fade
               onSubmit={(event) => { event.preventDefault(); openBooking({ checkIn, checkOut, guests, purpose: "stay" }); }}
-              className="glass-dark mt-7 hidden max-w-[600px] items-center gap-1 rounded-full p-1.5 pl-2 md:flex"
+              className="mt-7 hidden max-w-md gap-4 md:grid md:grid-cols-4 md:gap-3"
             >
-              <label className="flex flex-1 items-center gap-2 rounded-full px-3 py-2 transition hover:bg-ivory/5">
-                <CalendarDays size={16} className="shrink-0 text-gold-soft" />
-                <span className="grid">
-                  <span className="eyebrow text-[9px] text-ivory/55">Check-in</span>
-                  <input type="date" min={isoToday()} value={checkIn} onChange={(e) => { setCheckIn(e.target.value); if (!checkOut || checkOut <= e.target.value) setCheckOut(plusDays(e.target.value, 1)); }} className="bg-transparent text-[13px] text-ivory outline-none [color-scheme:dark]" />
-                </span>
-              </label>
-              <span className="h-8 w-px bg-ivory/15" />
-              <label className="flex flex-1 items-center gap-2 rounded-full px-3 py-2 transition hover:bg-ivory/5">
-                <CalendarDays size={16} className="shrink-0 text-gold-soft" />
-                <span className="grid">
-                  <span className="eyebrow text-[9px] text-ivory/55">Check-out</span>
-                  <input type="date" min={checkIn ? plusDays(checkIn, 1) : isoToday()} value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="bg-transparent text-[13px] text-ivory outline-none [color-scheme:dark]" />
-                </span>
-              </label>
-              <span className="h-8 w-px bg-ivory/15" />
-              <div className="flex items-center gap-2 px-3 py-2">
-                <Users size={16} className="text-gold-soft" />
-                <span className="grid">
-                  <span className="eyebrow text-[9px] text-ivory/55">Guests</span>
-                  <span className="flex items-center gap-2 text-sm text-ivory">
-                    <button type="button" aria-label="Fewer guests" onClick={() => setGuests((g) => Math.max(1, g - 1))} className="grid h-5 w-5 place-items-center rounded-full border border-ivory/25"><Minus size={11} /></button>
-                    <span className="w-4 text-center tabular-nums">{guests}</span>
-                    <button type="button" aria-label="More guests" onClick={() => setGuests((g) => Math.min(30, g + 1))} className="grid h-5 w-5 place-items-center rounded-full border border-ivory/25"><Plus size={11} /></button>
-                  </span>
-                </span>
+              <div className="rounded-xl bg-ivory/10 backdrop-blur-sm border border-ivory/20 p-3">
+                <label className="grid">
+                  <span className="eyebrow text-[9px] text-ivory/60 mb-1">Check-in</span>
+                  <input
+                    type="date"
+                    min={isoToday()}
+                    value={checkIn}
+                    onChange={(e) => { setCheckIn(e.target.value); if (!checkOut || checkOut <= e.target.value) setCheckOut(plusDays(e.target.value, 1)); }}
+                    placeholder="dd-mm-yyyy"
+                    className="bg-transparent text-sm text-ivory outline-none [color-scheme:dark]"
+                  />
+                </label>
               </div>
-              <button type="submit" className="group ml-auto flex h-11 items-center gap-2 rounded-full bg-gold pl-5 pr-1.5 text-[13px] font-semibold text-night transition hover:bg-[#c99a40]">
+
+              <div className="rounded-xl bg-ivory/10 backdrop-blur-sm border border-ivory/20 p-3">
+                <label className="grid">
+                  <span className="eyebrow text-[9px] text-ivory/60 mb-1">Check-out</span>
+                  <input
+                    type="date"
+                    min={checkIn ? plusDays(checkIn, 1) : isoToday()}
+                    value={checkOut}
+                    onChange={(e) => setCheckOut(e.target.value)}
+                    placeholder="dd-mm-yyyy"
+                    className="bg-transparent text-sm text-ivory outline-none [color-scheme:dark]"
+                  />
+                </label>
+              </div>
+
+              <div className="rounded-xl bg-ivory/10 backdrop-blur-sm border border-ivory/20 p-3">
+                <span className="eyebrow text-[9px] text-ivory/60 mb-2 block">Guests</span>
+                <div className="flex items-center justify-between gap-1">
+                  <button type="button" aria-label="Fewer guests" onClick={() => setGuests((g) => Math.max(1, g - 1))} className="h-6 w-6 flex items-center justify-center rounded-full text-ivory/50 hover:text-ivory transition">
+                    <Minus size={14} />
+                  </button>
+                  <span className="text-sm font-semibold text-ivory w-6 text-center">{guests}</span>
+                  <button type="button" aria-label="More guests" onClick={() => setGuests((g) => Math.min(30, g + 1))} className="h-6 w-6 flex items-center justify-center rounded-full text-ivory/50 hover:text-ivory transition">
+                    <Plus size={14} />
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" className="group rounded-xl bg-gold hover:bg-[#c99a40] text-night font-semibold text-sm py-3 transition">
                 Request
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-night text-ivory transition group-hover:translate-x-0.5"><ArrowRight size={15} /></span>
               </button>
             </form>
           </div>
 
-          <div data-hero-stats className="hidden gap-3 lg:grid">
-            {[
-              { value: "3", label: "Room categories", note: "Deluxe & Executive Suite" },
-              { value: String(hotel.banquetCapacity), label: "Banquet guests", note: "Weddings to boardrooms" },
-              { value: "24×7", label: "Front desk", note: "Always a person to call" },
-            ].map((stat) => (
-              <div data-hero-stat key={stat.label} className="glass-dark w-48 rounded-2xl px-4 py-3 text-ivory">
-                <p className="display text-3xl text-gold-soft">{stat.value}</p>
-                <p className="mt-1 text-sm font-semibold">{stat.label}</p>
-                <p className="text-xs text-ivory/55">{stat.note}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div data-hero-fade className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-2 text-ivory/50 xl:flex">

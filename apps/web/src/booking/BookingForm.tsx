@@ -152,22 +152,44 @@ export function BookingForm({ prefill = {}, onDone, compact }: { prefill?: Booki
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid gap-4 rounded-2xl border border-forest/10 bg-gradient-to-br from-ivory to-ivory/50 p-5 sm:grid-cols-2">
         <Field label={isEvent ? "Event date" : "Check-in"}>
-          <input
-            className={inputClass}
-            type="date"
-            min={today()}
-            value={form.checkIn}
-            onChange={(event) => {
-              const checkIn = event.target.value;
-              setForm((current) => ({ ...current, checkIn, checkOut: !isEvent && checkIn && (!current.checkOut || current.checkOut <= checkIn) ? addDays(checkIn, 1) : current.checkOut }));
-              setError(null);
-            }}
-          />
+          <div className="relative">
+            <input
+              className="min-h-13 w-full rounded-xl border-2 border-forest/20 bg-white px-4 text-[15px] text-charcoal outline-none transition placeholder:text-charcoal/35 focus:border-gold focus:ring-4 focus:ring-gold/15 hover:border-forest/30"
+              type="date"
+              min={today()}
+              value={form.checkIn}
+              onChange={(event) => {
+                const checkIn = event.target.value;
+                setForm((current) => ({ ...current, checkIn, checkOut: !isEvent && checkIn && (!current.checkOut || current.checkOut <= checkIn) ? addDays(checkIn, 1) : current.checkOut }));
+                setError(null);
+              }}
+            />
+            {form.checkIn && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2 text-xs font-semibold text-gold pointer-events-none">
+                <span className="inline-block w-2 h-2 rounded-full bg-gold" />
+                Selected
+              </div>
+            )}
+          </div>
         </Field>
         <Field label={isEvent ? "Ends (optional)" : "Check-out"}>
-          <input className={inputClass} type="date" min={form.checkIn ? addDays(form.checkIn, isEvent ? 0 : 1) : today()} value={form.checkOut} onChange={(event) => update("checkOut", event.target.value)} />
+          <div className="relative">
+            <input
+              className="min-h-13 w-full rounded-xl border-2 border-forest/20 bg-white px-4 text-[15px] text-charcoal outline-none transition placeholder:text-charcoal/35 focus:border-gold focus:ring-4 focus:ring-gold/15 hover:border-forest/30"
+              type="date"
+              min={form.checkIn ? addDays(form.checkIn, isEvent ? 0 : 1) : today()}
+              value={form.checkOut}
+              onChange={(event) => update("checkOut", event.target.value)}
+            />
+            {form.checkOut && form.checkIn && nights > 0 && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs font-semibold text-gold pointer-events-none">
+                <span className="inline-block w-2 h-2 rounded-full bg-gold" />
+                <span>{nights}N</span>
+              </div>
+            )}
+          </div>
         </Field>
       </div>
 
