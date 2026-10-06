@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-royal: "Cinzel", "Cormorant Garamond", serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+  --color-forest: #163831;
+  --color-night: #0d2823;
+  --color-ink: #081a17;
+  --color-gold: #b8872e;
+  --color-gold-soft: #d9b46a;
+  --color-champagne: #f7f1e6;
+  --color-sandstone: #d8c5a2;
+  --color-plum: #3a1e2d;
+  --color-charcoal: #171815;
+  --color-ivory: #fffdf8;
+}
+
+:root {
+  --forest: #163831;
+  --night: #0d2823;
+  --gold: #b8872e;
+  --champagne: #f7f1e6;
+  --sandstone: #d8c5a2;
+  --plum: #3a1e2d;
+  --charcoal: #171815;
+  --ivory: #fffdf8;
+  font-family: var(--font-body);
+  color: var(--charcoal);
+  background: var(--champagne);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--champagne); }
+body { margin: 0; min-width: 320px; -webkit-font-smoothing: antialiased; }
+button, input, select, textarea { font: inherit; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(184, 135, 46, .35); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: clip; }
+
+/* ——— Typography helpers ——— */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+.display { font-family: var(--font-display); font-weight: 500; line-height: .95; letter-spacing: -.01em; }
+.royal { font-family: var(--font-royal); }
+.gold-text {
+  background: linear-gradient(100deg, #9c6f22 0%, #e3c27c 38%, #b8872e 62%, #f1d9a0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gold hairline with centred diamond */
+.ornament { display: flex; align-items: center; gap: 14px; color: var(--gold); }
+.ornament::before, .ornament::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .55; }
+
+/* Hero wordmark: faint ivory with a gold top light, sits between sky and building */
+.hero-wordmark {
+  font-family: var(--font-royal);
+  font-weight: 500;
+  line-height: .82;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+.hero-wordmark [data-letter] {
+  background: linear-gradient(180deg, rgba(255, 238, 200, .95) 0%, rgba(232, 200, 140, .62) 50%, rgba(255, 253, 248, .1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  will-change: transform;
+}
+
+.paper-noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .03;
+  z-index: 60;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+/* Damask-like botanical pattern for dark royal panels */
+.royal-pattern {
+  background-color: var(--night);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(184, 135, 46, .18), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M32 6c4 8 4 14 0 20-4-6-4-12 0-20zm0 52c-4-8-4-14 0-20 4 6 4 12 0 20zM6 32c8-4 14-4 20 0-6 4-12 4-20 0zm52 0c-8 4-14 4-20 0 6-4 12-4 20 0z' fill='none' stroke='%23b8872e' stroke-opacity='.13' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+.arch { border-radius: 999px 999px 18px 18px; }
+
+.glass-dark {
+  background: rgba(8, 26, 23, .42);
+  border: 1px solid rgba(255, 253, 248, .14);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+/* Staff dashboard (unchanged) */
+.staff-grid {
+  background-image: linear-gradient(rgba(22, 56, 49, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(22, 56, 49, .045) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { animation: reveal .45s cubic-bezier(.2,.65,.3,1) both; }
+  @keyframes reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+}
+
+/* Elements animated by GSAP start hidden only when JS + motion are available */
+html.js-motion [data-reveal] { opacity: 0; }
+html.js-motion [data-split] { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion [data-reveal] { opacity: 1 !important; transform: none !important; }
+  html.js-motion [data-split] { visibility: visible !important; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.55) sepia(1) saturate(3) hue-rotate(5deg); cursor: pointer; }

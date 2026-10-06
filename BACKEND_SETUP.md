@@ -12,15 +12,15 @@ The public site never receives the Supabase service-role key. All database acces
 
 ## Current implementation status — 2026-10-03
 
-The backend and database foundation is deployed and credentialed. The public website and staff dashboard are still frontend work items; the old plain HTML prototype remains archived and is not part of production.
+The backend and database foundation is deployed and credentialed. The React public website (`apps/web`) and the staff dashboard (`/staff`) are built and connected to these APIs; the repository is now an npm-workspaces monorepo (see README).
 
 Completed: Supabase migrations and security hardening, Storage bucket provisioning, Cloudflare Pages Functions, encrypted runtime secrets, OpenAPI documentation, tests, and typecheck.
 
-Remaining before product launch: build the Astro public website, build the authenticated staff dashboard, configure the notification drain scheduler, connect the forms, and complete acceptance testing. Email currently uses the Resend testing sender and `workrisshi@gmail.com`; switch to the hotel recipient and verified hotel sender after acceptance.
+Remaining before product launch: update the Cloudflare Pages build settings for the monorepo (below), configure the notification drain scheduler, seed `room_rates`, and complete acceptance testing. Email currently uses the Resend testing sender and `workrisshi@gmail.com`; switch to the hotel recipient and verified hotel sender after acceptance.
 
 ## Asset storage and CDN
 
-The current image files in `public/images` are already served through the Cloudflare Pages edge cache. For a shared hotel media library, create one public Supabase Storage bucket named `hotel-assets` and upload files using the same `images/...` paths as the local fallback.
+The image files in `apps/web/public/images` are already served through the Cloudflare Pages edge cache. For a shared hotel media library, create one public Supabase Storage bucket named `hotel-assets` and upload files using the same `images/...` paths as the local fallback.
 
 Supabase public Storage objects are CDN-cached. The free plan currently includes 1 GB of storage, which is sufficient for the current hotel image set. Set this public, non-secret build variable when the bucket is ready:
 
@@ -28,16 +28,18 @@ Supabase public Storage objects are CDN-cached. The free plan currently includes
 PUBLIC_ASSET_BASE_URL=https://<project-ref>.supabase.co/storage/v1/object/public/hotel-assets
 ```
 
-The asset resolver in `src/site/assets.ts` uses that base URL when configured and falls back to the local `/images/...` paths otherwise. Do not put private bucket URLs, service keys, or upload credentials in the frontend. Use stable filenames and replace assets with new filenames when the image changes so old CDN responses remain valid.
+The asset resolver in `packages/shared/src/assets.ts` uses that base URL when configured and falls back to the local `/images/...` paths otherwise. Do not put private bucket URLs, service keys, or upload credentials in the frontend. Use stable filenames and replace assets with new filenames when the image changes so old CDN responses remain valid.
 
 ## Local verification
 
 ```sh
 npm install
 npm run typecheck
+npm test
+npm run dev        # API on :8788 + website on :5173
 ```
 
-The current typecheck covers all API functions and server modules. The old plain HTML prototype is archived under `legacy/plain-html-prototype/`; the production frontend will follow `HOTEL_DE_BLOSSOM_MASTER_PLAN.md`.
+`npm run dev` copies the repo-root `.env` into `apps/api/.dev.vars` (git-ignored) for `wrangler pages dev`. The website reads only the `PUBLIC_*` values.
 
 ## Supabase setup
 
@@ -57,14 +59,23 @@ Use `manager` or `admin` only for staff who need those responsibilities. Keep th
 
 ## Hosting environment
 
-For the current Cloudflare Pages project, use these build settings:
+The Pages project now has two parts: Functions in `apps/api/functions` and the static React build in `apps/web/dist`. `apps/api/wrangler.toml` points `pages_build_output_dir` at `../web/dist`.
 
-- Production branch: `main`
-- Build command: `exit 0`
-- Build output directory: `public`
-- Do not use `npx wrangler deploy` as a Pages deploy command. With Git integration, leave the deploy command empty and let Pages deploy the repository. For a manual upload, use `npx wrangler pages deploy public`.
+**Direct upload** (needs `npx wrangler login` once):
 
-The repository includes `wrangler.toml` with the Pages output directory and compatibility date. The `functions/` directory must remain at the repository root for Pages Functions routing.
+```sh
+npm run deploy      # builds the site, then runs `wrangler pages deploy` from apps/api
+```
+
+**Git integration:** the previous settings (`exit 0` / output `public`) no longer apply — `public/` and the root `functions/` have moved. Update the project to:
+
+- Root directory: `apps/api`
+- Build command: `cd ../.. && npm ci && npm run build`
+- Build output directory: `../web/dist` (taken from `wrangler.toml`)
+
+Check the first Git-triggered deployment after changing these settings; if Pages refuses an output directory outside the root, switch to `npm run deploy` from CI instead.
+
+`apps/web/public/_redirects` sends old WordPress URLs to the new routes, and `_headers` marks `/staff` as `noindex` and caches images and hashed assets for a year.
 
 Add the values in `.env.example` as server-side secrets in the Cloudflare Pages project:
 

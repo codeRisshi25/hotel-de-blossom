@@ -1,0 +1,10 @@
+# Old WordPress URLs -> new routes (permanent)
+/our-rooms                              /rooms                    301
+/our-rooms/                             /rooms                    301
+/accommodation/deluxe-double/           /rooms/deluxe-double      301
+/accommodation/deluxe-twin/             /rooms/deluxe-twin        301
+/accommodation/executive-suite-room/    /rooms/executive-suite    301
+/restaurant/                            /dining                   301
+/meetings-and-events/                   /events                   301
+/about/                                 /about                    301
+/contact/                               /contact                  301

@@ -1,4 +1,0 @@
-"$schema" = "./node_modules/wrangler/config-schema.json"
-name = "hotel-de-blossom"
-compatibility_date = "2026-10-03"
-pages_build_output_dir = "./dist"

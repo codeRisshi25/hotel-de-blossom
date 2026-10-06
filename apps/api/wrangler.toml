@@ -1,0 +1,5 @@
+"$schema" = "../../node_modules/wrangler/config-schema.json"
+name = "hotel-de-blossom"
+compatibility_date = "2026-10-03"
+# Pages Functions live in ./functions; the static site is the React build from apps/web.
+pages_build_output_dir = "../web/dist"
