@@ -138,8 +138,8 @@ export function Hero() {
 
         <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-[1360px] px-5 pb-24 md:px-10 md:pb-10">
           <div data-hero-content className="text-ivory">
-            <p data-hero-fade className="eyebrow mb-5 flex items-center gap-3 text-[10px] text-gold-soft md:text-[11px]">
-              <span className="h-px w-10 bg-gold" /> Chandmari · Guwahati · Assam
+            <p data-hero-fade className="eyebrow mb-5 flex items-center gap-3 text-[10px] tracking-[.16em] text-gold-soft sm:tracking-[.24em] md:text-[11px]">
+              <span className="h-px w-6 shrink-0 bg-gold sm:w-10" /> Chandmari · Guwahati · Assam
             </p>
 
             <form

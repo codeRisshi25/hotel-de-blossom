@@ -113,7 +113,7 @@ export default function ContactPage() {
                 >
                   <span className="relative z-10 transition-transform duration-500 group-hover:translate-x-3 md:group-hover:translate-x-4">
                     <span className="block text-[14px] text-charcoal/60 transition-colors duration-500 group-hover:text-ivory/60">{channel.label}</span>
-                    <span className="display mt-1 block text-[1.6rem] leading-tight text-forest [overflow-wrap:anywhere] transition-colors duration-500 group-hover:text-ivory md:text-[2.5rem]">{channel.value}</span>
+                    <span className="display mt-1 block text-[clamp(1.2rem,6vw,1.6rem)] leading-tight text-forest [overflow-wrap:anywhere] transition-colors duration-500 group-hover:text-ivory md:text-[2.5rem]">{channel.value}</span>
                   </span>
                   <ArrowUpRight size={28} strokeWidth={1.25} className="relative z-10 shrink-0 text-gold transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:rotate-12" />
                 </a>

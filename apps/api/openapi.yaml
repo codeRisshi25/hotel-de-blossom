@@ -261,14 +261,19 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '403':
           $ref: '#/components/responses/StaffRequired'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '422':
           description: Only closed or cancelled enquiries can be archived.
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /api/staff/summary:
     get:
       tags: [Staff enquiries]
       operationId: getStaffSummary
       summary: Get front-desk escalation counts
+      description: '"Due today" and "overdue" are measured against the India Standard Time (UTC+05:30) day.'
       security:
         - supabaseBearer: []
       responses:
@@ -278,6 +283,8 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '403':
           $ref: '#/components/responses/StaffRequired'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /api/staff/staff:
     get:
@@ -293,6 +300,8 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '403':
           $ref: '#/components/responses/StaffRequired'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /api/staff/rates:
     get:
@@ -308,6 +317,8 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '403':
           $ref: '#/components/responses/StaffRequired'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /api/staff/rates/{id}:
     patch:
@@ -337,10 +348,20 @@ paths:
       responses:
         '200':
           description: Rate updated.
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
         '403':
           description: Manager or admin access is required.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          $ref: '#/components/responses/BodyTooLarge'
         '422':
-          description: Invalid price.
+          description: Invalid price (must be a whole, non-negative INR amount).
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /api/internal/notifications/drain:
     post:

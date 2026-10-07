@@ -1,4 +1,4 @@
-import { errorResponse, json, requestId } from "../../../src/server/http";
+import { errorResponse, isUuid, json, requestId } from "../../../src/server/http";
 import { requireStaff } from "../../../src/server/staff-auth";
 import { listInquiries } from "../../../src/server/supabase-rest";
 import type { Env, InquiryStatus } from "../../../src/server/types";
@@ -20,7 +20,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
   const archived = url.searchParams.get("archived") === "true";
   if (before) {
     const [createdAt, inquiryId] = before.split("|", 2);
-    if (!createdAt || !inquiryId || Number.isNaN(Date.parse(createdAt))) return errorResponse(400, "INVALID_CURSOR", "The pagination cursor is invalid.", id);
+    if (!createdAt || !isUuid(inquiryId) || !/^[0-9T:.+\-Z]+$/.test(createdAt) || Number.isNaN(Date.parse(createdAt))) return errorResponse(400, "INVALID_CURSOR", "The pagination cursor is invalid.", id);
   }
 
   try {

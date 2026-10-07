@@ -1,4 +1,4 @@
-import { BodyTooLargeError, errorResponse, json, readJson, requestId } from "../../../../../src/server/http";
+import { BodyTooLargeError, errorResponse, isUuid, json, readJsonObject, requestId, routeParam } from "../../../../../src/server/http";
 import { requireStaff } from "../../../../../src/server/staff-auth";
 import { addNote, getInquiry } from "../../../../../src/server/supabase-rest";
 import type { Env } from "../../../../../src/server/types";
@@ -7,13 +7,12 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
   const id = requestId(request);
   const auth = await requireStaff(request, env);
   if ("response" in auth) return auth.response;
-  const rawInquiryId = params.id;
-  const inquiryId = (Array.isArray(rawInquiryId) ? rawInquiryId[0] : rawInquiryId)?.trim();
-  if (!inquiryId) return errorResponse(400, "INVALID_ID", "An enquiry ID is required.", id);
+  const inquiryId = routeParam(params, "id");
+  if (!isUuid(inquiryId)) return errorResponse(404, "NOT_FOUND", "Enquiry not found.", id);
 
   let body: Record<string, unknown>;
   try {
-    body = await readJson(request, 8_192) as Record<string, unknown>;
+    body = await readJsonObject(request, 8_192);
   } catch (error) {
     if (error instanceof BodyTooLargeError) return errorResponse(413, "BODY_TOO_LARGE", "The note is too large.", id);
     return errorResponse(400, "INVALID_JSON", "Send a valid JSON request.", id);

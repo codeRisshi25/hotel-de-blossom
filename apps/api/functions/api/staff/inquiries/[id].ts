@@ -1,4 +1,4 @@
-import { BodyTooLargeError, errorResponse, json, readJson, requestId } from "../../../../src/server/http";
+import { BodyTooLargeError, errorResponse, isUuid, json, readJsonObject, requestId, routeParam } from "../../../../src/server/http";
 import { requireStaff } from "../../../../src/server/staff-auth";
 import { getInquiry, listInquiryEvents, listInquiryNotes, getStaffProfile, updateInquiry } from "../../../../src/server/supabase-rest";
 import type { Env, InquiryStatus } from "../../../../src/server/types";
@@ -7,17 +7,12 @@ const statuses = new Set<InquiryStatus>(["new", "contacted", "provisional", "con
 
 type RouteContext = { request: Request; env: Env; params: Record<string, string | string[]> };
 
-const getId = (params: RouteContext["params"]) => {
-  const value = params.id;
-  return (Array.isArray(value) ? value[0] : value)?.trim();
-};
-
 export const onRequestGet = async ({ request, env, params }: RouteContext) => {
   const id = requestId(request);
   const auth = await requireStaff(request, env);
   if ("response" in auth) return auth.response;
-  const inquiryId = getId(params);
-  if (!inquiryId) return errorResponse(400, "INVALID_ID", "An enquiry ID is required.", id);
+  const inquiryId = routeParam(params, "id");
+  if (!isUuid(inquiryId)) return errorResponse(404, "NOT_FOUND", "Enquiry not found.", id);
 
   try {
     const inquiry = await getInquiry(env, inquiryId);
@@ -34,12 +29,12 @@ export const onRequestPatch = async ({ request, env, params }: RouteContext) => 
   const id = requestId(request);
   const auth = await requireStaff(request, env);
   if ("response" in auth) return auth.response;
-  const inquiryId = getId(params);
-  if (!inquiryId) return errorResponse(400, "INVALID_ID", "An enquiry ID is required.", id);
+  const inquiryId = routeParam(params, "id");
+  if (!isUuid(inquiryId)) return errorResponse(404, "NOT_FOUND", "Enquiry not found.", id);
 
   let body: Record<string, unknown>;
   try {
-    body = await readJson(request, 8_192) as Record<string, unknown>;
+    body = await readJsonObject(request, 8_192);
   } catch (error) {
     if (error instanceof BodyTooLargeError) return errorResponse(413, "BODY_TOO_LARGE", "The update is too large.", id);
     return errorResponse(400, "INVALID_JSON", "Send a valid JSON request.", id);
@@ -55,7 +50,12 @@ export const onRequestPatch = async ({ request, env, params }: RouteContext) => 
   }
   if (body.assignedTo !== undefined) {
     if (body.assignedTo !== null && typeof body.assignedTo !== "string") return errorResponse(422, "INVALID_ASSIGNEE", "The assignee is invalid.", id);
-    if (typeof body.assignedTo === "string" && !(await getStaffProfile(env, body.assignedTo))) return errorResponse(422, "INVALID_ASSIGNEE", "The assignee is not active staff.", id);
+    if (typeof body.assignedTo === "string") {
+      if (!isUuid(body.assignedTo)) return errorResponse(422, "INVALID_ASSIGNEE", "The assignee is invalid.", id);
+      const assignee = await getStaffProfile(env, body.assignedTo).catch(() => undefined);
+      if (assignee === undefined) return errorResponse(503, "UPDATE_UNAVAILABLE", "The enquiry could not be updated.", id);
+      if (!assignee) return errorResponse(422, "INVALID_ASSIGNEE", "The assignee is not active staff.", id);
+    }
     patch.assigned_to = body.assignedTo as string | null;
     patch.has_assigned_to = true;
   }
@@ -64,7 +64,7 @@ export const onRequestPatch = async ({ request, env, params }: RouteContext) => 
     patch.follow_up_at = body.followUpAt as string | null;
     patch.has_follow_up_at = true;
   }
-  if (!Object.keys(patch).length) return errorResponse(422, "EMPTY_UPDATE", "Provide a status, assignee, or follow-up date.", id);
+  if (patch.status === undefined && !patch.has_assigned_to && !patch.has_follow_up_at) return errorResponse(422, "EMPTY_UPDATE", "Provide a status, assignee, or follow-up date.", id);
 
   try {
     const updated = await updateInquiry(env, inquiryId, auth.userId, patch);

@@ -32,3 +32,19 @@ export const bearerToken = (request: Request) => {
   const value = request.headers.get("authorization") ?? "";
   return value.startsWith("Bearer ") ? value.slice(7).trim() : null;
 };
+
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export const isUuid = (value: unknown): value is string => typeof value === "string" && uuidPattern.test(value);
+
+/** Route param as a single string, whether the router handed us a string or an array. */
+export const routeParam = (params: Record<string, string | string[]>, name: string) => {
+  const value = params[name];
+  return (Array.isArray(value) ? value[0] : value)?.trim() ?? "";
+};
+
+/** Parses a JSON body that must be an object; `null`, arrays and scalars are rejected as invalid JSON. */
+export const readJsonObject = async (request: Request, maxBytes = 16_384): Promise<Record<string, unknown>> => {
+  const body = await readJson(request, maxBytes);
+  if (!body || typeof body !== "object" || Array.isArray(body)) throw new SyntaxError("Expected a JSON object.");
+  return body as Record<string, unknown>;
+};

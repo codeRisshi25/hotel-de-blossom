@@ -54,6 +54,7 @@ export function BookingForm({ prefill = NO_PREFILL, onDone, compact }: { prefill
   const [done, setDone] = useState<Done | null>(null);
   const requestKey = useRef(newRequestKey());
   const successRef = useRef<HTMLDivElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => { setForm(emptyForm(prefill)); setDone(null); setError(null); requestKey.current = newRequestKey(); }, [prefill]);
 
@@ -67,6 +68,10 @@ export function BookingForm({ prefill = NO_PREFILL, onDone, compact }: { prefill
     if (!form.checkIn || !form.checkOut) return 0;
     return nightsBetween(form.checkIn, form.checkOut);
   }, [form.checkIn, form.checkOut]);
+
+  useEffect(() => {
+    if (error) errorRef.current?.scrollIntoView({ block: "center", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  }, [error]);
 
   useEffect(() => {
     if (!done || !successRef.current || prefersReducedMotion()) return;
@@ -169,12 +174,6 @@ export function BookingForm({ prefill = NO_PREFILL, onDone, compact }: { prefill
                 setError(null);
               }}
             />
-            {form.checkIn && (
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2 text-xs font-semibold text-gold pointer-events-none">
-                <span className="inline-block w-2 h-2 rounded-full bg-gold" />
-                Selected
-              </div>
-            )}
           </div>
         </Field>
         <Field label={isEvent ? "Ends (optional)" : "Check-out"}>
@@ -186,12 +185,6 @@ export function BookingForm({ prefill = NO_PREFILL, onDone, compact }: { prefill
               value={form.checkOut}
               onChange={(event) => update("checkOut", event.target.value)}
             />
-            {form.checkOut && form.checkIn && nights > 0 && (
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs font-semibold text-gold pointer-events-none">
-                <span className="inline-block w-2 h-2 rounded-full bg-gold" />
-                <span>{nights}N</span>
-              </div>
-            )}
           </div>
         </Field>
       </div>
@@ -246,14 +239,14 @@ export function BookingForm({ prefill = NO_PREFILL, onDone, compact }: { prefill
         This sends a <strong className="text-forest">booking request</strong> to our front desk — no payment is taken. Reception confirms availability and the final price with you.
       </p>
 
-      {error && <p role="alert" className="rounded-xl border-l-4 border-red-700 bg-red-50 px-4 py-3 text-sm text-red-900">{error}</p>}
+      {error && <p ref={errorRef} role="alert" className="rounded-xl border-l-4 border-red-700 bg-red-50 px-4 py-3 text-sm text-red-900">{error}</p>}
 
-      <div className="flex flex-wrap items-center gap-3">
-        <button type="submit" disabled={busy} className="group inline-flex min-h-13 flex-1 items-center justify-center gap-3 rounded-full bg-gold px-6 py-3.5 text-[15px] font-semibold text-night transition hover:bg-[#c99a40] disabled:opacity-60">
+      <div className="flex items-center gap-3">
+        <button type="submit" disabled={busy} className="group inline-flex min-h-13 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gold px-5 py-3.5 text-[15px] font-semibold text-night sm:gap-3 sm:px-6 transition hover:bg-[#c99a40] disabled:opacity-60">
           {busy ? "Sending to the front desk…" : <>Send booking request <ArrowRight size={18} className="transition group-hover:translate-x-1" /></>}
         </button>
-        <a href={hotel.phoneHref} className="inline-flex min-h-13 items-center gap-2 rounded-full border border-forest/20 px-5 py-3.5 text-sm font-semibold text-forest hover:bg-forest/5">
-          <Phone size={16} /> Call
+        <a href={hotel.phoneHref} aria-label="Call the front desk" className="inline-flex min-h-13 items-center gap-2 rounded-full border border-forest/20 px-4 py-3.5 text-sm font-semibold text-forest hover:bg-forest/5 sm:px-5">
+          <Phone size={16} /> <span className="hidden min-[400px]:inline">Call</span>
         </a>
       </div>
     </form>

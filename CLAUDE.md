@@ -7,7 +7,7 @@ Hotel De Blossom (Guwahati): public website, booking-request flow, front-desk da
 - `apps/web` — React 19 + Vite 8 + Tailwind v4 + GSAP/Lenis. Public site and `/staff` dashboard (`src/staff/`). Site copy in `src/content/site.ts`, menu in `src/content/menu.ts`.
 - `apps/api` — Cloudflare Pages Functions (`functions/`, file-based routes under `functions/api/`). Shared server helpers in `src/server/` (`supabase-rest.ts` talks to Supabase REST/RPC with the service-role key). `openapi.yaml` is the contract.
 - `packages/shared` — inquiry types, `validateInquiry` (used by API and booking form), asset URL resolver.
-- `supabase/migrations` — 4 migrations (enquiries + outbox, security hardening, storage bucket, staff dashboard: `room_rates`, archive).
+- `supabase/migrations` — 5 migrations (enquiries + outbox, security hardening, storage bucket, staff dashboard: `room_rates`, archive; seeded room rates).
 - `scripts/create-staff.ts` — creates a staff Auth user + profile.
 - `legacy/` — old plain-HTML prototype. Ignore.
 
