@@ -8,7 +8,7 @@ import { useScrollAnimations } from "../lib/useScrollAnimations";
 
 const channels = [
   { label: "Call the front desk", value: hotel.phone, href: hotel.phoneHref },
-  { label: "Message us on WhatsApp", value: "Say hello to reception", href: whatsappLink("Hello Hotel De Blossom, I have a question.") },
+  { label: "Message us on WhatsApp", value: hotel.whatsappDisplay, href: whatsappLink("Hello Hotel De Blossom, I have a question.") },
   { label: "Write to us", value: hotel.email, href: `mailto:${hotel.email}` },
   { label: "Visit us", value: `${hotel.address[0]}, ${hotel.address[1].split(",")[0]}`, href: hotel.mapsUrl },
 ];
@@ -102,6 +102,7 @@ export default function ContactPage() {
           <div data-reveal className="lg:sticky lg:top-32 lg:self-start">
             <DeskClock />
           </div>
+          <div className="min-w-0">
           <ul data-reveal="stagger" className="border-t border-forest/15">
             {channels.map((channel) => (
               <li key={channel.label}>
@@ -120,6 +121,20 @@ export default function ContactPage() {
               </li>
             ))}
           </ul>
+          <div data-reveal className="mt-10 md:px-6">
+            <p className="eyebrow text-gold">Direct lines</p>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+              {hotel.directLines.map((line) => (
+                <li key={line.role}>
+                  <a href={line.href} className="block rounded-2xl border border-forest/15 bg-ivory px-5 py-4 transition hover:border-gold">
+                    <span className="block text-[13px] text-charcoal/60">{line.role}</span>
+                    <span className="display mt-1 block text-2xl text-forest">{line.phone}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          </div>
         </div>
       </section>
 

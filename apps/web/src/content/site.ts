@@ -1,9 +1,16 @@
 export const hotel = {
   name: "Hotel De Blossom",
   tagline: "A stay in bloom",
-  phone: "+91 95553 66660",
-  phoneHref: "tel:+919555366660",
-  whatsapp: "919555366660",
+  /** Main number: reception, answered 24×7. */
+  phone: "+91 361 350 0047",
+  phoneHref: "tel:+913613500047",
+  whatsapp: "917664952255",
+  whatsappDisplay: "+91 76649 52255",
+  /** Direct lines shown on the contact page. */
+  directLines: [
+    { role: "General Manager", phone: "+91 91269 11616", href: "tel:+919126911616" },
+    { role: "Operations Manager", phone: "+91 95553 66660", href: "tel:+919555366660" },
+  ],
   email: "bookings@hoteldeblossom.com",
   address: ["Tulip Tower, MRD Road", "Chandmari, Guwahati", "Assam, India"],
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+De+Blossom+Tulip+Tower+MRD+Road+Chandmari+Guwahati",
