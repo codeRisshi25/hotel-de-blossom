@@ -1,9 +1,10 @@
 import { BodyTooLargeError, errorResponse, json, readJson, requestId } from "../../src/server/http";
+import { drainInBackground } from "../../src/server/notifications";
 import { createInquiry, findInquiryByIdempotencyKey } from "../../src/server/supabase-rest";
 import { validateInquiry } from "@hdb/shared";
 import type { Env } from "../../src/server/types";
 
-export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
+export const onRequestPost = async ({ request, env, waitUntil }: { request: Request; env: Env; waitUntil?: (promise: Promise<unknown>) => void }) => {
   const id = requestId(request);
 
   let body: unknown;
@@ -25,6 +26,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   try {
     const result = await createInquiry(env, parsed.value, idempotencyKey);
+    // Email reception right away; the outbox row keeps the message safe if this send fails.
+    drainInBackground(env, waitUntil);
     return json({ data: { inquiryId: result.inquiry_id, reference: result.reference, status: result.status } }, 201, { "x-request-id": id });
   } catch (error) {
     const existing = await findInquiryByIdempotencyKey(env, idempotencyKey).catch(() => null);

@@ -23,9 +23,10 @@ const requestFor = (body: unknown, headers: Record<string, string> = {}) => new 
   body: JSON.stringify(body),
 });
 
-const invoke = (body: unknown, headers: Record<string, string> = {}) => onRequestPost({
+const invoke = (body: unknown, headers: Record<string, string> = {}, waitUntil?: (promise: Promise<unknown>) => void) => onRequestPost({
   request: requestFor(body, headers),
   env,
+  waitUntil,
 });
 
 const validPayload = {
@@ -58,9 +59,48 @@ describe("public enquiry API", () => {
     assert.equal(response.status, 201);
     assert.equal(response.headers.get("x-request-id"), "test-ray");
     assert.deepEqual(data.data, { inquiryId: "inquiry-1", reference: "HDB-2026-000001", status: "new" });
-    assert.equal(calls.length, 1);
     assert.equal(calls[0]?.url, "https://example.supabase.co/rest/v1/rpc/create_public_inquiry");
     assert.equal(JSON.parse(String(calls[0]?.init?.body)).p_request_id, "guest-request-2026-0001");
+  });
+
+  test("emails reception right after saving, and marks the outbox row sent", async () => {
+    const urls: string[] = [];
+    globalThis.fetch = async (input) => {
+      const url = String(input);
+      urls.push(url);
+      if (url.endsWith("/rpc/create_public_inquiry")) return Response.json([{ inquiry_id: "inquiry-1", reference: "HDB-2026-000001", status: "new" }]);
+      if (url.endsWith("/rpc/claim_notification_batch")) return Response.json([{ id: "n1", kind: "reception_new_inquiry", attempts: 1, lease_token: "lease", payload: { reference: "HDB-2026-000001", name: "Guest Name" } }]);
+      if (url === "https://api.resend.com/emails") return Response.json({ id: "email-1" });
+      return Response.json(null);
+    };
+    const background: Array<Promise<unknown>> = [];
+    const mailEnv = { ...env, RESEND_API_KEY: "re_test", RECEPTION_EMAIL: "desk@example.com", RESEND_FROM_EMAIL: "Hotel <no-reply@example.com>" };
+    const response = await onRequestPost({ request: requestFor(validPayload, { "Idempotency-Key": "guest-request-mail-01" }), env: mailEnv, waitUntil: (p) => background.push(p) });
+    await Promise.all(background);
+
+    assert.equal(response.status, 201);
+    assert.ok(urls.includes("https://api.resend.com/emails"));
+    assert.ok(urls.some((url) => url.endsWith("/rpc/mark_notification_sent")));
+  });
+
+  test("still returns the reference when the email send fails, leaving the row queued for retry", async () => {
+    const urls: string[] = [];
+    globalThis.fetch = async (input) => {
+      const url = String(input);
+      urls.push(url);
+      if (url.endsWith("/rpc/create_public_inquiry")) return Response.json([{ inquiry_id: "inquiry-1", reference: "HDB-2026-000001", status: "new" }]);
+      if (url.endsWith("/rpc/claim_notification_batch")) return Response.json([{ id: "n1", kind: "reception_new_inquiry", attempts: 1, lease_token: "lease", payload: {} }]);
+      if (url === "https://api.resend.com/emails") return new Response("nope", { status: 500 });
+      return Response.json(null);
+    };
+    const background: Array<Promise<unknown>> = [];
+    const mailEnv = { ...env, RESEND_API_KEY: "re_test", RECEPTION_EMAIL: "desk@example.com", RESEND_FROM_EMAIL: "Hotel <no-reply@example.com>" };
+    const response = await onRequestPost({ request: requestFor(validPayload, { "Idempotency-Key": "guest-request-mail-02" }), env: mailEnv, waitUntil: (p) => background.push(p) });
+    await Promise.all(background);
+
+    assert.equal(response.status, 201);
+    assert.ok(urls.some((url) => url.endsWith("/rpc/mark_notification_failed")));
+    assert.ok(!urls.some((url) => url.endsWith("/rpc/mark_notification_sent")));
   });
 
   test("rejects invalid enquiries before contacting the database", async () => {
