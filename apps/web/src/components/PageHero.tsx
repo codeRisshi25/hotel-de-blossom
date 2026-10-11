@@ -36,7 +36,7 @@ export function PageHero({ eyebrow, title, intro, image, alt, children }: { eyeb
           <nav data-hero-fade aria-label="Breadcrumb" className="mb-6 flex gap-2 text-[14px] text-sandstone/80">
             <Link to="/" className="hover:text-ivory">Home</Link><span>/</span><span className="text-ivory">{eyebrow}</span>
           </nav>
-          <h1 className="display max-w-4xl text-[11vw] leading-[.92] sm:text-6xl lg:text-[5.5rem]">{title}</h1>
+          <h1 className="display max-w-4xl pb-[0.1em] text-[11vw] leading-[1.02] sm:text-6xl lg:text-[5.5rem]">{title}</h1>
           {intro && <p data-hero-fade className="mt-5 max-w-lg text-base leading-7 text-ivory/75">{intro}</p>}
           {children && <div data-hero-fade className="mt-8">{children}</div>}
         </div>

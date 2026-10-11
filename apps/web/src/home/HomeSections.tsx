@@ -28,12 +28,12 @@ export function DiningPreview() {
             <p><span className="eyebrow block text-[10px] text-charcoal/65">Restaurant</span><span className="mt-1 block font-semibold text-forest">{hotel.restaurantHours}</span></p>
             <p><span className="eyebrow block text-[10px] text-charcoal/65">Breakfast</span><span className="mt-1 block font-semibold text-forest">{hotel.breakfastHours}</span></p>
           </div>
-          <ul data-reveal="stagger" className="mt-8 grid gap-4">
-            {signatures.map((dish) => (
-              <li key={dish.name} className="flex items-baseline gap-3">
-                <span className="display text-xl text-forest">{dish.name}</span>
-                <span className="mb-1.5 flex-1 border-b border-dotted border-forest/30" />
-                <span className="font-mono text-sm text-gold">₹{dish.price}</span>
+          <ul data-reveal="stagger" className="mt-8 grid gap-x-8 sm:grid-cols-2">
+            {signatures.map((dish, index) => (
+              <li key={dish.name} className="group flex min-h-[76px] items-center gap-4 border-b border-forest/15 py-3">
+                <span className="font-mono text-[10px] tracking-[.12em] text-gold">0{index + 1}</span>
+                <span className="min-w-0"><span className="display block text-xl leading-tight text-forest">{dish.name}</span>{dish.note && <span className="mt-1 block text-xs leading-5 text-charcoal/55">{dish.note}</span>}</span>
+                <span className="ml-auto text-gold transition-transform group-hover:translate-x-1" aria-hidden>↗</span>
               </li>
             ))}
           </ul>
@@ -71,7 +71,7 @@ export function BanquetPanel() {
     <section ref={ref} className="royal-pattern relative overflow-hidden pb-10 pt-20 text-ivory md:pb-14 md:pt-28">
       <WaveEdge position="top" />
       <div className="mx-auto max-w-[1360px] px-5 md:px-10">
-        <SectionHeading tone="dark" align="center" eyebrow="The Occasion · Banquet & events" title={<>Every celebration deserves a <em className="gold-text">remarkable</em> setting.</>} intro="We create the atmosphere — you bring the moment. An elegant hall dressed in warm light, with catering from our own kitchen and a team that plans every detail with you." />
+        <SectionHeading tone="dark" align="center" eyebrow={`The Occasion · ${hotel.banquetHallName}`} title={<>Every celebration deserves a <em className="gold-text">remarkable</em> setting.</>} intro={`Welcome to ${hotel.banquetHallName} — an elegant hall dressed in warm light, with catering from our own kitchen and a team that plans every detail with you.`} />
         <div className="mx-auto mt-12 grid max-w-6xl items-center gap-5 md:grid-cols-[1fr_2fr_1fr]">
           <div data-parallax="0.35" className="hidden overflow-hidden rounded-[24px] md:block"><Picture path="banquet/meeting-2" alt="Banquet hall arranged for a conference" sizes="25vw" className="aspect-[3/4] w-full object-cover" /></div>
           <div data-banquet-main className="overflow-hidden rounded-[28px]"><Picture path="banquet/banquet-3" alt="Banquet hall set for a dinner celebration with white chair covers" sizes="(min-width: 768px) 50vw, 100vw" className="aspect-[4/3] w-full object-cover" /></div>
@@ -84,7 +84,7 @@ export function BanquetPanel() {
         </div>
         <div data-reveal className="mt-14 flex flex-wrap justify-center gap-3">
           <button onClick={() => openBooking({ purpose: "event", guests: 50 })} className="min-h-13 rounded-full bg-gold px-7 text-[15px] font-semibold text-night transition hover:bg-[#c99a40]">Plan an occasion</button>
-          <Link to="/events" className="inline-flex min-h-13 items-center gap-2 rounded-full border border-ivory/25 px-7 text-[15px] font-semibold text-ivory hover:border-gold">Explore the hall <ArrowUpRight size={16} /></Link>
+          <Link to="/events" className="inline-flex min-h-13 items-center gap-2 rounded-full border border-ivory/25 px-7 text-[15px] font-semibold text-ivory hover:border-gold">Explore {hotel.banquetHallName} <ArrowUpRight size={16} /></Link>
         </div>
       </div>
       <div className="mt-12 overflow-hidden border-t border-gold/20 py-6 md:mt-14" aria-hidden>

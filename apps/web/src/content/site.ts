@@ -21,6 +21,7 @@ export const hotel = {
   },
   restaurantHours: "07:30 – 23:30, Monday to Sunday",
   breakfastHours: "07:00 – 10:00",
+  banquetHallName: "Summit Hall",
   banquetCapacity: 190,
 } as const;
 
@@ -62,7 +63,7 @@ export const rooms: Room[] = [
     size: "23 m²",
     occupancy: "Up to 3 adults · 1 child",
     bed: "Double bed",
-    fromPrice: 7000,
+    fromPrice: 7500,
     cover: "rooms/deluxe-double/double-bed",
     gallery: [
       { path: "rooms/deluxe-double/double-bed", alt: "Deluxe Double room with upholstered headboard and sage cushions" },
@@ -121,7 +122,7 @@ export const stayDetails = [
   { title: "Airport transfers", body: "Lokpriya Gopinath Bordoloi International Airport pickups and drops on request. Share your flight with the front desk." },
   { title: "24×7 front desk", body: "A real person at reception, all day and night, for arrivals, local advice, and anything you need." },
   { title: "All-day dining", body: "Breakfast from 07:00, and Indian, Assamese, Asian and continental plates until 23:30." },
-  { title: "Banquet & meetings", body: `An elegant hall for up to ${hotel.banquetCapacity} guests, with catering from our own kitchen.` },
+  { title: hotel.banquetHallName, body: `An elegant hall for up to ${hotel.banquetCapacity} guests, with catering from our own kitchen.` },
   { title: "Heart of Chandmari", body: "A central Guwahati address at Tulip Tower, MRD Road — easy to reach from the railway station, the airport road and the city centre." },
   { title: "Arrival help", body: "Tell us your arrival time and the front desk will be ready with your keys, luggage help and directions." },
 ];
@@ -167,5 +168,5 @@ export const faqs = [
   { q: "What are the check-in and check-out times?", a: "The front desk shares check-in and check-out timings when confirming your stay. Early arrival or late departure can often be arranged on request, subject to availability." },
   { q: "Do you arrange airport transfers?", a: "Yes. Share your flight details in the booking request or with reception and we will arrange a pickup or drop." },
   { q: "Are taxes included in the room price?", a: "Prices shown are starting nightly rates. Government taxes apply as per prevailing rules; reception will share the full tariff when confirming." },
-  { q: "Can I host an event at the hotel?", a: `Yes — our banquet hall hosts weddings, receptions, birthdays and corporate meetings for up to ${hotel.banquetCapacity} guests. Choose "Event" in the booking request and our team will plan it with you.` },
+  { q: `Can I host an event at ${hotel.banquetHallName}?`, a: `Yes — ${hotel.banquetHallName} hosts weddings, receptions, birthdays and corporate meetings for up to ${hotel.banquetCapacity} guests. Choose "Event" in the booking request and our team will plan it with you.` },
 ];

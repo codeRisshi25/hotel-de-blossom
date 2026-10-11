@@ -54,7 +54,7 @@ export function SiteFooter() {
         <div data-footer-grid className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-8 lg:py-16">
           <div data-footer-col>
             <img src="/images/brand/logo-horizontal-light-sm.webp" alt="Hotel De Blossom" width={420} height={76} className="h-8 w-auto" />
-            <p className="mt-5 max-w-xs text-sm leading-6 text-ivory/60">A quiet, royal stay at the heart of Chandmari — rooms, all-day dining and a banquet hall for up to {hotel.banquetCapacity} guests.</p>
+            <p className="mt-5 max-w-xs text-sm leading-6 text-ivory/60">A quiet, royal stay at the heart of Chandmari — rooms, all-day dining and {hotel.banquetHallName}, for up to {hotel.banquetCapacity} guests.</p>
             <div className="mt-6 flex gap-2">
               <a aria-label="Instagram" href={hotel.socials.instagram} target="_blank" rel="noreferrer" className="grid h-10 w-10 place-items-center rounded-full border border-ivory/15 transition hover:-translate-y-0.5 hover:border-gold hover:text-gold-soft"><Instagram size={16} /></a>
               <a aria-label="Facebook" href={hotel.socials.facebook} target="_blank" rel="noreferrer" className="grid h-10 w-10 place-items-center rounded-full border border-ivory/15 transition hover:-translate-y-0.5 hover:border-gold hover:text-gold-soft"><Facebook size={16} /></a>
@@ -105,7 +105,7 @@ export function SiteFooter() {
       </div>
 
       {/* Interactive wordmark */}
-      <div ref={markRef} data-footer-mark className="overflow-hidden px-2 pt-8 md:pt-10">
+      <div ref={markRef} data-footer-mark className="overflow-hidden px-2 pb-[0.16em] pt-8 md:pt-10">
         <Wordmark variant="footer" trackRef={markRef} className="cursor-default text-[13.4vw]" />
       </div>
 

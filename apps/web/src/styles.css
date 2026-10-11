@@ -74,7 +74,7 @@ html.lenis, html.lenis body { height: auto; }
   text-align: center;
 }
 .wordmark-hero { letter-spacing: .02em; }
-.wordmark-footer { letter-spacing: .04em; line-height: .78; }
+.wordmark-footer { letter-spacing: .04em; line-height: .98; }
 .wordmark-glow {
   -webkit-mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
   mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);

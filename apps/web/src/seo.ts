@@ -39,7 +39,7 @@ const org = {
   address,
   hasMap: hotel.mapsUrl,
   sameAs: [hotel.socials.instagram, hotel.socials.facebook],
-  amenityFeature: ["Free Wi-Fi", "Air conditioning", "24-hour front desk", "Restaurant", "Banquet hall", "Airport transfers on request"].map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true })),
+  amenityFeature: ["Free Wi-Fi", "Air conditioning", "24-hour front desk", "Restaurant", hotel.banquetHallName, "Airport transfers on request"].map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true })),
 };
 
 const breadcrumb = (items: Array<[string, string]>) => ({
@@ -74,7 +74,7 @@ export const pages: PageMeta[] = [
   {
     path: "/",
     title: `${brand} | Hotel in Chandmari, Guwahati`,
-    description: `${brand} at Tulip Tower, MRD Road, Chandmari, Guwahati. Deluxe rooms, an executive suite, all-day dining and a banquet hall for up to ${hotel.banquetCapacity} guests.`,
+    description: `${brand} at Tulip Tower, MRD Road, Chandmari, Guwahati. Deluxe rooms, an executive suite, all-day dining and ${hotel.banquetHallName} for up to ${hotel.banquetCapacity} guests.`,
     image: "/images/brand/og.jpg",
     priority: 1,
     jsonLd: [
@@ -115,16 +115,16 @@ export const pages: PageMeta[] = [
   },
   {
     path: "/events",
-    title: `Banquet Hall & Events in Guwahati | ${brand}`,
-    description: `Host weddings, receptions, birthdays and business meetings for up to ${hotel.banquetCapacity} guests at ${brand}, Chandmari, with catering from our own kitchen.`,
+    title: `${hotel.banquetHallName} & Events in Guwahati | ${brand}`,
+    description: `Host weddings, receptions, birthdays and business meetings for up to ${hotel.banquetCapacity} guests at ${hotel.banquetHallName}, Chandmari, with catering from our own kitchen.`,
     image: "/images/banquet/banquet-3.webp",
     priority: 0.8,
     jsonLd: [
-      breadcrumb([["Banquet & events", "/events"]]),
+      breadcrumb([[hotel.banquetHallName, "/events"]]),
       {
         "@context": "https://schema.org",
         "@type": "EventVenue",
-        name: `${brand} Banquet Hall`,
+        name: hotel.banquetHallName,
         maximumAttendeeCapacity: hotel.banquetCapacity,
         telephone: hotel.phone,
         address,
@@ -136,7 +136,7 @@ export const pages: PageMeta[] = [
   {
     path: "/about",
     title: `About | ${brand}, Chandmari, Guwahati`,
-    description: `A quiet house in the middle of Guwahati. Meet ${brand}: rooms, a restaurant, a banquet hall and a front desk that never sleeps.`,
+    description: `A quiet house in the middle of Guwahati. Meet ${brand}: rooms, a restaurant, ${hotel.banquetHallName} and a front desk that never sleeps.`,
     image: "/images/reception/reception-4.webp",
     priority: 0.6,
     jsonLd: [breadcrumb([["About", "/about"]])],

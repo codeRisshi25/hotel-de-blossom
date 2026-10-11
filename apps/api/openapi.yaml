@@ -99,7 +99,7 @@ paths:
                       type: object
                       properties:
                         roomType: { type: string, example: Deluxe Double }
-                        baseNightlyInr: { type: integer, example: 7000 }
+                        baseNightlyInr: { type: integer, example: 7500 }
         "503":
           description: Rates are temporarily unavailable
   /api/staff/inquiries:

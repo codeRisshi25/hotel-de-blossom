@@ -36,7 +36,7 @@ export function Wordmark({ text = "DE BLOSSOM", variant, trackRef, className = "
     };
     const moveX = gsap.quickTo(spot, "x", { duration: 0.5, ease: "power3.out", onUpdate: paint });
     const moveY = gsap.quickTo(spot, "y", { duration: 0.5, ease: "power3.out", onUpdate: paint });
-    const radius = () => Math.max(140, root.offsetHeight * (variant === "hero" ? 1.1 : 1.3));
+    const radius = () => Math.max(140, root.offsetHeight * (variant === "hero" ? 1.1 : 1.55));
     paint();
 
     const lift = (clientX: number | null) => {

@@ -24,7 +24,7 @@ const offerings = [
   },
   {
     title: "Celebrate",
-    heading: `A hall for up to ${hotel.banquetCapacity} guests.`,
+    heading: `${hotel.banquetHallName}, for up to ${hotel.banquetCapacity} guests.`,
     body: "Weddings, receptions, birthdays and business meetings, with catering from our own kitchen and rooms upstairs for the guests who travel in.",
     image: { path: "banquet/banquet-3", alt: "Banquet hall set for a dinner celebration" },
     link: { to: "/events", label: "Plan an event" },

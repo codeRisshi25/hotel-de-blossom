@@ -21,7 +21,7 @@ export default function EventsPage() {
   return (
     <div ref={ref}>
       <PageHero
-        eyebrow="Banquet & events"
+        eyebrow={hotel.banquetHallName}
         image="banquet/banquet-3"
         alt="Banquet hall set for a dinner celebration with white chair covers"
         title="Celebrate under warm gold light."
@@ -32,7 +32,7 @@ export default function EventsPage() {
       <section className="px-5 py-14 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-[1360px] items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
           <div data-reveal className="max-w-md">
-            <h2 className="display text-[2.25rem] text-forest [text-wrap:balance] md:text-[3.25rem]">A hall made for milestones.</h2>
+            <h2 className="display text-[2.25rem] text-forest [text-wrap:balance] md:text-[3.25rem]">{hotel.banquetHallName}, made for milestones.</h2>
             <p className="mt-6 text-[17px] leading-8 text-charcoal/70">
               Warm timber, illuminated marble and soft cove lighting set the mood. Our kitchen and service team take care of everything else, so you can spend the evening with your guests.
             </p>
