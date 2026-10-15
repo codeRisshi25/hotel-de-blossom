@@ -15,7 +15,7 @@ export function RoomCard({ room, index }: { room: (typeof rooms)[number]; index:
     <article data-room-card className="group relative flex w-full shrink-0 flex-col overflow-hidden rounded-[28px] border border-gold/25 bg-ivory md:w-[40vw] lg:w-[31vw] xl:w-[26vw]">
       <div className="relative">
       <Link to={`/rooms/${room.slug}`} className="relative block aspect-[4/3] overflow-hidden" aria-label={`View ${room.name}`}>
-        <Picture data-room-img path={room.cover} alt={room.gallery[0]?.alt ?? room.name} sizes="(min-width: 768px) 40vw, 100vw" className="h-full w-full scale-[1.25] object-cover transition-[scale] duration-[1.2s] ease-out group-hover:scale-[1.32]" />
+        <Picture data-room-img path={room.cover} alt={room.gallery[0]?.alt ?? room.name} sizes="(min-width: 768px) 40vw, 100vw" className="h-full w-full object-cover object-center transition-transform duration-[1.2s] ease-out group-hover:scale-[1.025]" />
       </Link>
 
         <span aria-hidden className="pointer-events-none absolute left-5 top-5 rounded-full bg-ink/55 px-3 py-1.5 font-mono text-[10px] tracking-[.2em] text-ivory backdrop-blur">0{index + 1}</span>
@@ -62,8 +62,6 @@ export function RoomsShowcase() {
           scrollTrigger: { trigger: ref.current, start: "top top", end: () => `+=${distance()}`, scrub: 0.8, pin: true, invalidateOnRefresh: true, anticipatePin: 1 },
         });
         gsap.utils.toArray<HTMLElement>("[data-room-card]").forEach((card) => {
-          const image = card.querySelector("[data-room-img]");
-          if (image) gsap.fromTo(image, { xPercent: -8 }, { xPercent: 8, ease: "none", scrollTrigger: { trigger: card, containerAnimation: tween, start: "left right", end: "right left", scrub: true } });
           gsap.fromTo(card, { rotate: 2.5, y: 40 }, { rotate: 0, y: 0, ease: "none", scrollTrigger: { trigger: card, containerAnimation: tween, start: "left right", end: "center center", scrub: true } });
         });
         gsap.to("[data-rooms-progress]", { scaleX: 1, ease: "none", scrollTrigger: { trigger: ref.current, start: "top top", end: () => `+=${distance()}`, scrub: true } });
