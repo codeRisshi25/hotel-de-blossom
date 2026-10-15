@@ -27,5 +27,5 @@ Guest form -> `POST /api/inquiries` (validate, honeypot, 16 KB cap, idempotency 
 
 - All DB access goes through server functions. Never expose the service-role key to the browser; web reads only `PUBLIC_*` vars.
 - RLS on every table; mutations use `security definer` RPCs granted to `service_role` only.
-- Room types must match `Deluxe Double`, `Deluxe Twin`, `Executive Suite`.
+- Room types must match `Deluxe`, `Twin Deluxe`, `Blossom Suite Room`, `Premium`.
 - Docs: `README.md`, `BACKEND_SETUP.md` (deploy, secrets, API), `docs/ARCHITECTURE.md` (diagrams).

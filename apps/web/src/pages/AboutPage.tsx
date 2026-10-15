@@ -10,9 +10,9 @@ import { useScrollAnimations } from "../lib/useScrollAnimations";
 const offerings = [
   {
     title: "Stay",
-    heading: "Three ways to rest.",
-    body: "Deluxe Double and Deluxe Twin rooms of 23 m², and the 50 m² Executive Suite with a separate living area. Every room has air conditioning, Wi-Fi, a glass shower and a front desk that answers at any hour.",
-    image: { path: "rooms/deluxe-double/double-bed", alt: "Deluxe Double bedroom with sage cushions" },
+    heading: "Four ways to rest.",
+    body: "Choose Deluxe, Twin Deluxe, Blossom Suite Room or Premium. The suite offers a separate living and dining area; reception can confirm Premium’s room size, bed and occupancy. Every room has air conditioning, Wi-Fi, a glass shower and a front desk that answers at any hour.",
+    image: { path: "rooms/deluxe/deluxe-room", alt: "Deluxe bedroom with sage cushions" },
     link: { to: "/rooms", label: "See the rooms" },
   },
   {

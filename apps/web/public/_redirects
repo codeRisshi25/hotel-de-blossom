@@ -1,15 +1,18 @@
 # Old WordPress URLs -> new routes (permanent)
 /our-rooms                              /rooms                    301
 /our-rooms/                             /rooms                    301
-/accommodation/deluxe-double/           /rooms/deluxe-double      301
-/accommodation/deluxe-twin/             /rooms/deluxe-twin        301
-/accommodation/executive-suite-room/    /rooms/executive-suite    301
+/accommodation/deluxe-double/           /rooms/deluxe             301
+/accommodation/deluxe-twin/             /rooms/twin-deluxe        301
+/accommodation/executive-suite-room/    /rooms/blossom-suite-room 301
 /restaurant/                            /dining                   301
 /meetings-and-events/                   /events                   301
 /gallery                                /                         301
 /gallery/                               /                         301
-/accommodation/deluxe-double            /rooms/deluxe-double      301
-/accommodation/deluxe-twin              /rooms/deluxe-twin        301
-/accommodation/executive-suite-room     /rooms/executive-suite    301
+/accommodation/deluxe-double            /rooms/deluxe             301
+/accommodation/deluxe-twin              /rooms/twin-deluxe        301
+/accommodation/executive-suite-room     /rooms/blossom-suite-room 301
+/rooms/deluxe-double                     /rooms/deluxe             301
+/rooms/deluxe-twin                       /rooms/twin-deluxe        301
+/rooms/executive-suite                   /rooms/blossom-suite-room 301
 /restaurant                             /dining                   301
 /meetings-and-events                    /events                   301

@@ -44,7 +44,10 @@ export type Room = {
   size: string;
   occupancy: string;
   bed: string;
-  fromPrice: number;
+  /** Omit when the published tariff is request-only. */
+  fromPrice?: number;
+  /** Marks a seeded rate as provisional until staff replaces it with an approved tariff. */
+  rateIsTemporary?: boolean;
   cover: string;
   gallery: Array<{ path: string; alt: string }>;
   features: string[];
@@ -54,67 +57,84 @@ const commonFeatures = ["Air conditioning", "Flat-screen TV", "Wi-Fi", "En-suite
 
 export const rooms: Room[] = [
   {
-    slug: "deluxe-double",
-    name: "Deluxe Double",
-    rateKey: "Deluxe Double",
-    short: "Sage-and-ivory calm with a generous double bed and lounge seating.",
+    slug: "deluxe",
+    name: "Deluxe",
+    rateKey: "Deluxe",
+    short: "A restful double room with soft sage details and a bright sitting corner.",
     description:
-      "A soft, restful room in sage, ivory and warm timber. A plush upholstered headboard, a quiet lounge corner for morning tea, and a backlit vanity make it an easy base for both leisure and business stays in Guwahati.",
+      "A restful double room in soft ivory and sage, with a comfortable bed, a bright sitting corner and views across Guwahati. Thoughtful details and a calm palette make it an easy base for both leisure and business stays.",
     size: "23 m²",
     occupancy: "Up to 3 adults · 1 child",
     bed: "Double bed",
     fromPrice: 7500,
-    cover: "rooms/deluxe-double/double-bed",
+    cover: "rooms/deluxe/deluxe-room",
     gallery: [
-      { path: "rooms/deluxe-double/double-bed", alt: "Deluxe Double room with upholstered headboard and sage cushions" },
-      { path: "rooms/deluxe-double/double-entrance", alt: "Deluxe Double room seen from the entrance with lounge chairs" },
-      { path: "rooms/deluxe-double/double-entrance-2", alt: "Deluxe Double with television wall and backlit mirror" },
-      { path: "rooms/deluxe-double/double-bathroom", alt: "Deluxe Double bathroom with vessel basin and glass shower" },
+      { path: "rooms/deluxe/deluxe-room", alt: "Deluxe double room with an upholstered headboard and sage cushions" },
+      { path: "rooms/deluxe/deluxe-bed", alt: "Double bed with sage runner and a soft upholstered headboard" },
+      { path: "rooms/deluxe/deluxe-window", alt: "Deluxe room sitting corner beside a tall window" },
+      { path: "rooms/deluxe/deluxe-bathroom", alt: "Hotel bathroom vanity with a round illuminated mirror" },
     ],
     features: [...commonFeatures, "Lounge seating"],
   },
   {
-    slug: "deluxe-twin",
-    name: "Deluxe Twin",
-    rateKey: "Deluxe Twin",
-    short: "Two well-made beds for friends, colleagues, or family travelling together.",
+    slug: "twin-deluxe",
+    name: "Twin Deluxe",
+    rateKey: "Twin Deluxe",
+    short: "Two separate beds for friends, colleagues, or family travelling together.",
     description:
-      "Designed for travelling companions, the Deluxe Twin pairs two comfortable beds with the same quiet palette and thoughtful details as the rest of the house — a calm work corner, full-length drapes and a bright, modern bathroom.",
+      "Designed for travelling companions, Twin Deluxe pairs two comfortable beds with the same quiet palette and thoughtful details as the rest of the house — a calm work corner, full-length drapes and a bright, modern bathroom.",
     size: "23 m²",
     occupancy: "Up to 2 adults · 1 child",
     bed: "Two single beds",
     fromPrice: 6500,
-    cover: "rooms/twin/twin-bed",
+    cover: "rooms/twin-deluxe/twin-beds",
     gallery: [
-      { path: "rooms/twin/twin-bed", alt: "Deluxe Twin with two single beds and sage cushions" },
-      { path: "rooms/twin/twin-entrance", alt: "Deluxe Twin seen from the entrance with armchair" },
-      { path: "rooms/twin/twin-entrance-2", alt: "Deluxe Twin with television wall and work desk" },
-      { path: "rooms/twin/twin-bathroom", alt: "Deluxe Twin bathroom with vessel basin and illuminated mirror" },
+      { path: "rooms/twin-deluxe/twin-beds", alt: "Twin Deluxe room with two separate beds and sage runners" },
+      { path: "rooms/twin-deluxe/twin-room", alt: "Twin Deluxe room with two beds and a window-side lounge chair" },
+      { path: "rooms/twin-deluxe/twin-window", alt: "Twin Deluxe room seen from the window side" },
+      { path: "rooms/twin-deluxe/twin-bathroom", alt: "Hotel bathroom vanity with an illuminated mirror" },
     ],
     features: [...commonFeatures, "Work desk"],
   },
   {
-    slug: "executive-suite",
-    name: "Executive Suite",
-    rateKey: "Executive Suite",
+    slug: "blossom-suite-room",
+    name: "Blossom Suite Room",
+    rateKey: "Blossom Suite Room",
     short: "Our most generous space — 50 m² with a separate living area.",
     description:
-      "The Executive Suite is the house's grandest address: more than twice the space of a deluxe room, with a separate living and dining area for receiving guests, wide windows over the city and hills, and an elegant bathroom with an illuminated mirror. Ideal for longer stays, families and special occasions.",
+      "Blossom Suite Room is the house's most generous address: more than twice the space of a deluxe room, with a separate living and dining area, wide windows over the city and hills, and an elegant bathroom with an illuminated mirror. Ideal for longer stays, families and special occasions.",
     size: "50 m²",
     occupancy: "Up to 3 adults · 2 children",
     bed: "Bedroom + living area",
     fromPrice: 15000,
-    cover: "rooms/suite/suite-entrance",
+    cover: "rooms/blossom-suite-room/suite-lounge",
     gallery: [
-      { path: "rooms/suite/suite-entrance", alt: "Executive Suite living area with sofas, dining table and hill views" },
-      { path: "rooms/suite/suite-bed-2", alt: "Executive Suite bedroom with a window over Guwahati" },
-      { path: "rooms/suite/suite-entrance-2", alt: "Executive Suite lounge with dining table and television" },
-      { path: "rooms/suite/suite-bed-5", alt: "Executive Suite bed with bedside lamps" },
-      { path: "rooms/suite/suite-bed-3", alt: "Executive Suite work desk and wardrobe" },
-      { path: "rooms/suite/suite-bathroom", alt: "Executive Suite bathroom with glass shower" },
-      { path: "rooms/suite/suite-bathroom-2", alt: "Executive Suite vanity with illuminated round mirror" },
+      { path: "rooms/blossom-suite-room/suite-lounge", alt: "Blossom Suite Room sitting area beside tall windows" },
+      { path: "rooms/blossom-suite-room/suite-bedroom", alt: "Blossom Suite Room bedroom with a warm upholstered headboard" },
+      { path: "rooms/blossom-suite-room/suite-dining", alt: "Dining table in the Blossom Suite Room" },
+      { path: "rooms/blossom-suite-room/suite-view", alt: "Guwahati and the surrounding hills from the hotel" },
     ],
     features: [...commonFeatures, "Separate living & dining area", "City and hill views", "Work desk"],
+  },
+  {
+    slug: "premium",
+    name: "Premium",
+    rateKey: "Premium",
+    short: "A bright sitting area beside a wide window, finished in warm timber and sage.",
+    description:
+      "Premium pairs a bright sitting area beside a wide window with warm timber details and sage upholstery. Please contact reception to confirm room size, occupancy and bed configuration.",
+    size: "Please confirm with reception",
+    occupancy: "Please confirm with reception",
+    bed: "Please confirm with reception",
+    fromPrice: 9999,
+    rateIsTemporary: true,
+    cover: "rooms/premium/premium-lounge",
+    gallery: [
+      { path: "rooms/premium/premium-lounge", alt: "Premium sitting area beside a large Guwahati-facing window" },
+      { path: "rooms/premium/premium-seating", alt: "Premium room lounge with sofa seating and coffee tables" },
+      { path: "rooms/premium/premium-detail", alt: "Timber wall and upholstered chairs in the Premium room" },
+    ],
+    features: [...commonFeatures, "Sitting area", "Large window"],
   },
 ];
 
@@ -132,14 +152,15 @@ export const gallery: Array<{ path: string; alt: string; category: "Rooms" | "Re
   { path: "reception/reception-1", alt: "Reception desk with backlit marble counter", category: "Reception" },
   { path: "reception/reception-2", alt: "Lobby lounge with sage sofas", category: "Reception" },
   { path: "reception/reception-4", alt: "Lobby seating with tufted green wing chairs", category: "Reception" },
-  { path: "rooms/deluxe-double/double-bed", alt: "Deluxe Double bedroom", category: "Rooms" },
-  { path: "rooms/deluxe-double/double-entrance", alt: "Deluxe Double lounge corner", category: "Rooms" },
-  { path: "rooms/suite/suite-entrance", alt: "Executive Suite living and dining area", category: "Rooms" },
-  { path: "rooms/suite/suite-bed-2", alt: "Executive Suite bedroom with city view", category: "Rooms" },
-  { path: "rooms/twin/twin-bed", alt: "Deluxe Twin bedroom", category: "Rooms" },
-  { path: "rooms/alt-double/alt-deluxe-double-bed", alt: "Guest room with sitting area", category: "Rooms" },
-  { path: "rooms/premium-double/premium-double-bed", alt: "Guest room with timber panelling", category: "Rooms" },
-  { path: "rooms/deluxe-double/double-bathroom", alt: "Guest bathroom", category: "Rooms" },
+  { path: "rooms/deluxe/deluxe-room", alt: "Deluxe room with a double bed and sage accents", category: "Rooms" },
+  { path: "rooms/deluxe/deluxe-window", alt: "Deluxe room sitting corner beside a tall window", category: "Rooms" },
+  { path: "rooms/twin-deluxe/twin-beds", alt: "Twin Deluxe with two separate beds", category: "Rooms" },
+  { path: "rooms/blossom-suite-room/suite-lounge", alt: "Blossom Suite Room sitting area", category: "Rooms" },
+  { path: "rooms/blossom-suite-room/suite-bedroom", alt: "Blossom Suite Room bedroom", category: "Rooms" },
+  { path: "rooms/premium/premium-lounge", alt: "Premium room lounge with timber detailing", category: "Rooms" },
+  { path: "rooms/deluxe/deluxe-bathroom", alt: "Hotel bathroom vanity with an illuminated mirror", category: "Rooms" },
+  { path: "views/city-hill", alt: "Guwahati and the surrounding hills in daylight", category: "Property" },
+  { path: "views/guwahati-at-night", alt: "Guwahati lights after dark", category: "Property" },
   { path: "banquet/banquet-3", alt: "Banquet hall set for a dinner celebration", category: "Banquet" },
   { path: "banquet/banquet-1", alt: "Banquet hall with buffet line", category: "Banquet" },
   { path: "banquet/meeting-2", alt: "Banquet hall in meeting layout", category: "Banquet" },
@@ -158,9 +179,9 @@ export const gallery: Array<{ path: string; alt: string; category: "Rooms" | "Re
  * show their name) before launch. Entries with `sample: true` show a visible "Sample" tag.
  */
 export const testimonials: Array<{ quote: string; name: string; stay: string; sample?: boolean }> = [
-  { quote: "A calm, spotless room and a front desk that sorted our airport pickup without us asking twice.", name: "Guest name", stay: "Stayed in a Deluxe Double", sample: true },
+  { quote: "A calm, spotless room and a front desk that sorted our airport pickup without us asking twice.", name: "Guest name", stay: "Stayed in a Deluxe", sample: true },
   { quote: "We held our family's reception here. The hall looked beautiful and the food kept everyone happy till late.", name: "Guest name", stay: "Hosted a reception", sample: true },
-  { quote: "Central, quiet and easy to get around from. Breakfast with Assamese Jolpan was the best start to the day.", name: "Guest name", stay: "Stayed in the Executive Suite", sample: true },
+  { quote: "Central, quiet and easy to get around from. Breakfast with Assamese Jolpan was the best start to the day.", name: "Guest name", stay: "Stayed in the Blossom Suite Room", sample: true },
 ];
 
 export const faqs = [

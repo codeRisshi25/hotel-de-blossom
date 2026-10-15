@@ -9,6 +9,8 @@ import { gsap, useGSAP } from "../lib/motion";
 
 export function RoomCard({ room, index }: { room: (typeof rooms)[number]; index: number }) {
   const { openBooking, priceFor } = useBooking();
+  const price = priceFor(room.rateKey, room.fromPrice);
+  const temporaryRate = room.rateIsTemporary && price === room.fromPrice;
   return (
     <article data-room-card className="group relative flex w-full shrink-0 flex-col overflow-hidden rounded-[28px] border border-gold/25 bg-ivory md:w-[40vw] lg:w-[31vw] xl:w-[26vw]">
       <div className="relative">
@@ -22,8 +24,8 @@ export function RoomCard({ room, index }: { room: (typeof rooms)[number]; index:
         <div className="flex items-start justify-between gap-4">
           <h3 className="display text-3xl text-forest md:text-[2.4rem]">{room.name}</h3>
           <p className="shrink-0 text-right">
-            <span className="eyebrow block text-[9px] text-charcoal/65">From</span>
-            <span className="display text-xl text-gold">{inr(priceFor(room.rateKey, room.fromPrice))}</span>
+            <span className="eyebrow block text-[9px] text-charcoal/65">{temporaryRate ? "Temporary rate" : price === null ? "Tariff" : "From"}</span>
+            <span className="display text-xl text-gold">{inr(price)}</span>
           </p>
         </div>
         <p className="mt-3 text-[15px] leading-6 text-charcoal/65">{room.short}</p>

@@ -10,7 +10,7 @@ type BookingContextValue = {
   prefill: BookingPrefill;
   openBooking: (prefill?: BookingPrefill) => void;
   closeBooking: () => void;
-  priceFor: (rateKey: string, fallback: number) => number;
+  priceFor: (rateKey: string, fallback?: number) => number | null;
 };
 
 const BookingContext = createContext<BookingContextValue | null>(null);
@@ -24,10 +24,10 @@ export function BookingProvider({ children }: { children: ReactNode }) {
 
   const openBooking = useCallback((next: BookingPrefill = {}) => { setPrefill(next); setOpen(true); }, []);
   const closeBooking = useCallback(() => setOpen(false), []);
-  const priceFor = useCallback((rateKey: string, fallback: number) => {
-    const key = rateKey.toLowerCase();
-    const match = rates.find((rate) => rate.roomType.toLowerCase().includes(key) || key.includes(rate.roomType.toLowerCase()));
-    return match?.baseNightlyInr || fallback;
+  const priceFor = useCallback((rateKey: string, fallback?: number) => {
+    const match = rates.find((rate) => rate.roomType === rateKey);
+    if (match) return match.baseNightlyInr > 0 ? match.baseNightlyInr : null;
+    return fallback ?? null;
   }, [rates]);
 
   const value = useMemo(() => ({ isOpen, prefill, openBooking, closeBooking, priceFor }), [isOpen, prefill, openBooking, closeBooking, priceFor]);

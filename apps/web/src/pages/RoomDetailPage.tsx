@@ -28,6 +28,7 @@ export default function RoomDetailPage() {
   const others = rooms.filter((item) => item.slug !== room.slug);
   const image = room.gallery[shown] ?? room.gallery[0];
   const price = priceFor(room.rateKey, room.fromPrice);
+  const temporaryRate = room.rateIsTemporary && price === room.fromPrice;
 
   return (
     <div ref={ref} key={room.slug}>
@@ -59,7 +60,7 @@ export default function RoomDetailPage() {
 
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-[28px] border border-gold/30 bg-ivory p-7 shadow-[0_30px_80px_rgba(13,40,35,.08)]">
-              <p className="eyebrow text-[10px] text-charcoal/65">Nightly, from</p>
+              <p className="eyebrow text-[10px] text-charcoal/65">{temporaryRate ? "Temporary nightly rate" : price === null ? "Tariff" : "Nightly, from"}</p>
               <p className="display mt-2 text-5xl text-forest">{inr(price)}</p>
               <p className="mt-1 text-xs text-charcoal/65">Plus taxes · final tariff confirmed by reception</p>
               <ul className="mt-6 grid gap-3 border-y border-forest/10 py-6 text-sm text-forest">

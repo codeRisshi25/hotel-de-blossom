@@ -30,8 +30,8 @@ export function Manifesto() {
         </p>
         <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-y-8 border-t border-forest/15 pt-8 md:grid-cols-4">
           {[
-            { count: 3, suffix: "", label: "Room categories" },
-            { count: 50, suffix: "m²", label: "Executive Suite" },
+            { count: 4, suffix: "", label: "Room categories" },
+            { count: 50, suffix: "m²", label: "Blossom Suite Room" },
             { count: hotel.banquetCapacity, suffix: "", label: "Banquet guests" },
             { count: 24, suffix: "/7", label: "Front desk" },
           ].map((stat) => (

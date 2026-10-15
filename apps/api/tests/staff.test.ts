@@ -117,7 +117,7 @@ describe("staff rate routes", () => {
   });
 
   test("returns the updated rate", async () => {
-    fakeSupabase("admin", () => reply([{ id: ID, room_type: "Deluxe Double", base_nightly_inr: 7200 }]));
+    fakeSupabase("admin", () => reply([{ id: ID, room_type: "Deluxe", base_nightly_inr: 7200 }]));
     const response = await patch({ baseNightlyInr: 7200 });
     assert.equal(response.status, 200);
     assert.deepEqual(((await response.json()) as { data: { base_nightly_inr: number } }).data.base_nightly_inr, 7200);

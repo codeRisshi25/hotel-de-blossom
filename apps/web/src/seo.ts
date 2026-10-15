@@ -48,33 +48,37 @@ const breadcrumb = (items: Array<[string, string]>) => ({
   itemListElement: [["Home", "/"], ...items].map(([name, path], index) => ({ "@type": "ListItem", position: index + 1, name, item: abs(path) })),
 });
 
-const roomMeta = (room: (typeof rooms)[number]): PageMeta => ({
-  path: `/rooms/${room.slug}`,
-  title: `${room.name} in Chandmari, Guwahati | ${brand}`,
-  description: `${room.short} ${room.size}, ${room.bed.toLowerCase()}, air conditioning and Wi-Fi in Chandmari, Guwahati.`,
-  image: `/images/${room.cover}.webp`,
-  priority: 0.8,
-  jsonLd: [
-    breadcrumb([["Rooms", "/rooms"], [room.name, `/rooms/${room.slug}`]]),
-    {
-      "@context": "https://schema.org",
-      "@type": "HotelRoom",
-      name: room.name,
-      description: room.description,
-      image: room.gallery.map((item) => abs(`/images/${item.path}.webp`)),
-      floorSize: { "@type": "QuantitativeValue", value: Number.parseInt(room.size, 10), unitCode: "MTK" },
-      bed: { "@type": "BedDetails", typeOfBed: room.bed },
-      amenityFeature: room.features.map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true })),
-      containedInPlace: { "@id": `${SITE_URL}/#hotel` },
-    },
-  ],
-});
+const roomMeta = (room: (typeof rooms)[number]): PageMeta => {
+  const knownSize = Number.isFinite(Number.parseInt(room.size, 10)) ? room.size : null;
+  const knownBed = room.bed === "Please confirm with reception" ? null : room.bed.toLowerCase();
+  return {
+    path: `/rooms/${room.slug}`,
+    title: `${room.name} in Chandmari, Guwahati | ${brand}`,
+    description: `${room.short.replace(/\.$/, "")}${knownSize ? ` ${knownSize}` : ""}${knownBed ? `, ${knownBed}` : ""}, air conditioning and Wi-Fi in Chandmari, Guwahati.`,
+    image: `/images/${room.cover}.webp`,
+    priority: 0.8,
+    jsonLd: [
+      breadcrumb([["Rooms", "/rooms"], [room.name, `/rooms/${room.slug}`]]),
+      {
+        "@context": "https://schema.org",
+        "@type": "HotelRoom",
+        name: room.name,
+        description: room.description,
+        image: room.gallery.map((item) => abs(`/images/${item.path}.webp`)),
+        ...(knownSize && { floorSize: { "@type": "QuantitativeValue", value: Number.parseInt(room.size, 10), unitCode: "MTK" } }),
+        ...(knownBed && { bed: { "@type": "BedDetails", typeOfBed: room.bed } }),
+        amenityFeature: room.features.map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true })),
+        containedInPlace: { "@id": `${SITE_URL}/#hotel` },
+      },
+    ],
+  };
+};
 
 export const pages: PageMeta[] = [
   {
     path: "/",
     title: `${brand} | Hotel in Chandmari, Guwahati`,
-    description: `${brand} at Tulip Tower, MRD Road, Chandmari, Guwahati. Deluxe rooms, an executive suite, all-day dining and ${hotel.banquetHallName} for up to ${hotel.banquetCapacity} guests.`,
+    description: `${brand} at Tulip Tower, MRD Road, Chandmari, Guwahati. Four room categories, all-day dining and ${hotel.banquetHallName} for up to ${hotel.banquetCapacity} guests.`,
     image: "/images/brand/og.jpg",
     priority: 1,
     jsonLd: [
@@ -85,8 +89,8 @@ export const pages: PageMeta[] = [
   {
     path: "/rooms",
     title: `Rooms & Suites in Guwahati | ${brand}`,
-    description: `Deluxe Double, Deluxe Twin and Executive Suite rooms in Chandmari, Guwahati. Air conditioning, Wi-Fi and a 24-hour front desk. Send a booking request.`,
-    image: "/images/rooms/deluxe-double/double-bed.webp",
+    description: `Deluxe, Twin Deluxe, Blossom Suite Room and Premium rooms in Chandmari, Guwahati. Air conditioning, Wi-Fi and a 24-hour front desk. Send a booking request.`,
+    image: "/images/rooms/deluxe/deluxe-room.webp",
     priority: 0.9,
     jsonLd: [breadcrumb([["Rooms", "/rooms"]])],
   },

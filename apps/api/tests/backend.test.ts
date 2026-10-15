@@ -34,7 +34,7 @@ const validPayload = {
   checkIn: "2026-11-14",
   checkOut: "2026-11-16",
   guests: 2,
-  roomType: "Deluxe Double",
+  roomType: "Deluxe",
   name: "Guest Name",
   phone: "+91 90000 00000",
   email: "guest@example.com",
@@ -174,14 +174,14 @@ describe("public enquiry API", () => {
 describe("public room rates API", () => {
   test("exposes only room type and nightly price, cacheable", async () => {
     globalThis.fetch = async () => new Response(JSON.stringify([
-      { id: "rate-1", room_type: "Deluxe Double", base_nightly_inr: 7200, is_active: true, updated_at: "2026-10-01T00:00:00Z" },
+      { id: "rate-1", room_type: "Deluxe", base_nightly_inr: 7200, is_active: true, updated_at: "2026-10-01T00:00:00Z" },
     ]), { status: 200, headers: { "content-type": "application/json" } });
 
     const response = await getPublicRates({ request: new Request("https://hoteldeblossom.com/api/rates"), env });
 
     assert.equal(response.status, 200);
     assert.equal(response.headers.get("cache-control"), "no-store");
-    assert.deepEqual(await response.json(), { data: [{ roomType: "Deluxe Double", baseNightlyInr: 7200 }] });
+    assert.deepEqual(await response.json(), { data: [{ roomType: "Deluxe", baseNightlyInr: 7200 }] });
   });
 
   test("answers 503 when the database is unreachable", async () => {

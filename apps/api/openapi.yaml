@@ -39,7 +39,7 @@ paths:
                   checkIn: '2026-11-14'
                   checkOut: '2026-11-16'
                   guests: 2
-                  roomType: Deluxe Double
+                  roomType: Deluxe
                   name: Guest Name
                   phone: '+91 90000 00000'
                   email: guest@example.com
@@ -84,7 +84,7 @@ paths:
   /api/rates:
     get:
       summary: Public "from" nightly prices for the website
-      description: Read-only view of active room rates managed by staff in the dashboard. Cached for five minutes.
+      description: Read-only view of active room rates managed by staff in the dashboard. Responses are not cached so staff updates are visible after refresh.
       responses:
         "200":
           description: Active room rates
@@ -98,7 +98,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        roomType: { type: string, example: Deluxe Double }
+                        roomType: { type: string, example: Deluxe }
                         baseNightlyInr: { type: integer, example: 7500 }
         "503":
           description: Rates are temporarily unavailable

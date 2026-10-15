@@ -11,15 +11,15 @@ export default function RoomsPage() {
     <div ref={ref}>
       <PageHero
         eyebrow="Rooms"
-        image="rooms/deluxe-double/double-entrance"
-        alt="Deluxe Double room with lounge chairs"
+        image="rooms/deluxe/deluxe-room"
+        alt="Deluxe room with a double bed and sage details"
         title="The Blossom Collection."
-        intro="Three ways to stay — each in sage, ivory and warm timber, each looked after by a front desk that never sleeps."
+        intro="Four ways to stay — each in sage, ivory and warm timber, each looked after by a front desk that never sleeps."
       />
       <section className="px-5 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1360px]">
           <SectionHeading eyebrow="Choose your room" title={<>Rest, <em className="text-gold">beautifully.</em></>} intro="Prices are starting nightly rates. Send a request and reception will confirm availability and your final tariff." />
-          <div data-reveal="stagger" className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-3 [&>article]:md:w-full [&>article]:lg:w-full [&>article]:xl:w-full">
+          <div data-reveal="stagger" className="mt-16 grid gap-8 md:grid-cols-2 2xl:grid-cols-4 [&>article]:md:w-full [&>article]:lg:w-full [&>article]:xl:w-full">
             {rooms.map((room, index) => <RoomCard key={room.slug} room={room} index={index} />)}
           </div>
         </div>

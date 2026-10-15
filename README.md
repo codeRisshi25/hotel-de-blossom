@@ -46,11 +46,11 @@ supabase/     database migrations
 
 Every "Reserve" / "Request this room" / "Plan an occasion" action opens the same booking form. It posts to `POST /api/inquiries`, which stores the request with status **`new`** and queues the reception email. The guest sees a reference number (`HDB-YYYY-NNNNNN`) and is told clearly that **the front desk will contact them to confirm** — nothing is booked or charged. Reception moves it through `new → contacted → provisional → confirmed` in the dashboard.
 
-Room "from" prices come from `GET /api/rates` (the `room_rates` table staff edit in the dashboard) and fall back to the live-site prices when no rate is set. Rate `room_type` values should be `Deluxe Double`, `Deluxe Twin` and `Executive Suite`.
+Room "from" prices come from `GET /api/rates` (the `room_rates` table staff edit in the dashboard) and fall back to the live-site prices when no active row exists. A zero rate displays “Rate on request.” Canonical `room_type` values are `Deluxe`, `Twin Deluxe`, `Blossom Suite Room` and `Premium`. Premium starts at a temporary ₹9,999 until staff replaces it with an approved tariff.
 
 ## Website routes
 
-`/` · `/rooms` · `/rooms/deluxe-double` · `/rooms/deluxe-twin` · `/rooms/executive-suite` · `/dining` (with the full menu) · `/events` · `/about` · `/contact` · `/book` · `/staff`
+`/` · `/rooms` · `/rooms/deluxe` · `/rooms/twin-deluxe` · `/rooms/blossom-suite-room` · `/rooms/premium` · `/dining` (with the full menu) · `/events` · `/about` · `/contact` · `/book` · `/staff`
 
 Old WordPress URLs (`/our-rooms/`, `/accommodation/*`, `/restaurant/`, `/meetings-and-events/`) redirect to the new routes.
 

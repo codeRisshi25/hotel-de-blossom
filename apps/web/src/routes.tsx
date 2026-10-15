@@ -29,6 +29,9 @@ export const publicRoutes: RouteObject[] = [
         children: [
           { index: true, element: <HomePage /> },
           { path: "rooms", element: <RoomsPage /> },
+          { path: "rooms/deluxe-double", element: <Navigate to="/rooms/deluxe" replace /> },
+          { path: "rooms/deluxe-twin", element: <Navigate to="/rooms/twin-deluxe" replace /> },
+          { path: "rooms/executive-suite", element: <Navigate to="/rooms/blossom-suite-room" replace /> },
           { path: "rooms/:slug", element: <RoomDetailPage /> },
           { path: "dining", element: <DiningPage /> },
           { path: "events", element: <EventsPage /> },
@@ -38,9 +41,9 @@ export const publicRoutes: RouteObject[] = [
           { path: "book", element: <BookPage /> },
           // Paths from the previous WordPress site
           { path: "our-rooms", element: <Navigate to="/rooms" replace /> },
-          { path: "accommodation/deluxe-double", element: <Navigate to="/rooms/deluxe-double" replace /> },
-          { path: "accommodation/deluxe-twin", element: <Navigate to="/rooms/deluxe-twin" replace /> },
-          { path: "accommodation/executive-suite-room", element: <Navigate to="/rooms/executive-suite" replace /> },
+          { path: "accommodation/deluxe-double", element: <Navigate to="/rooms/deluxe" replace /> },
+          { path: "accommodation/deluxe-twin", element: <Navigate to="/rooms/twin-deluxe" replace /> },
+          { path: "accommodation/executive-suite-room", element: <Navigate to="/rooms/blossom-suite-room" replace /> },
           { path: "restaurant", element: <Navigate to="/dining" replace /> },
           { path: "meetings-and-events", element: <Navigate to="/events" replace /> },
           { path: "*", element: <NotFoundPage /> },

@@ -10,4 +10,12 @@ Tracked in the order requested on 11 October 2026.
 - [x] **WhatsApp guest templates:** add scenario-based editable messages with copy and open-in-WhatsApp actions to the De Blossom enquiry desk.
 - [x] **Room rate refresh:** bypass browser and endpoint caching for public rates so staff price edits appear after a refresh.
 
-The web production build completed successfully. A Cloudflare Pages deploy does not apply Supabase migrations; the Deluxe Double database value remains pending until its SQL migration is applied to production.
+The web production build completed successfully. A Cloudflare Pages deploy does not apply Supabase migrations; apply the canonical room migration below to production before deploying this catalogue.
+
+## Room photos and catalogue (16 October 2026)
+
+- [x] Replace room photographs with the new local set and add Premium imagery.
+- [x] Publish four canonical room names: Deluxe, Twin Deluxe, Blossom Suite Room, Premium.
+- [x] Seed Premium with a temporary ₹9,999 starting price that staff can adjust in the dashboard.
+- [x] Use exact room-name matching so Deluxe cannot read the Twin Deluxe rate.
+- [ ] Apply `20261016000000_add_canonical_room_types_and_premium.sql` to production Supabase before deploying the new room catalogue.
