@@ -1,9 +1,9 @@
 import { useRef, type ReactNode } from "react";
 import { Link } from "react-router";
 import { Picture } from "./Picture";
-import { gsap, SplitText, useGSAP } from "../lib/motion";
+import { gsap, useGSAP } from "../lib/motion";
 
-/** Dark, framed opening for inner pages: image drifts on scroll, title rises line by line. */
+/** Dark, framed opening for inner pages: image drifts on scroll, title rises without clipping its glyphs. */
 export function PageHero({ eyebrow, title, intro, image, alt, children }: { eyebrow: string; title: ReactNode; intro?: string; image: string; alt: string; children?: ReactNode }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -11,12 +11,10 @@ export function PageHero({ eyebrow, title, intro, image, alt, children }: { eyeb
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const title = ref.current!.querySelector("h1")!;
-        const split = SplitText.create(title, { type: "lines", mask: "lines", aria: "none" });
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
         tl.fromTo("[data-hero-frame]", { clipPath: "inset(10% 6% 10% 6% round 40px)" }, { clipPath: "inset(0% 0% 0% 0% round 28px)", duration: 1.6 })
           .fromTo("[data-hero-img]", { scale: 1.35 }, { scale: 1.08, duration: 2 }, 0)
-          .from(split.lines, { yPercent: 110, duration: 1.2, stagger: 0.1 }, 0.35)
+          .fromTo("[data-hero-title]", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, 0.35)
           .from("[data-hero-fade]", { y: 20, opacity: 0, duration: 1, stagger: 0.08 }, 0.6);
         gsap.to("[data-hero-img]", { yPercent: 12, ease: "none", scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: true } });
       });
@@ -36,7 +34,7 @@ export function PageHero({ eyebrow, title, intro, image, alt, children }: { eyeb
           <nav data-hero-fade aria-label="Breadcrumb" className="mb-6 flex gap-2 text-[14px] text-sandstone/80">
             <Link to="/" className="hover:text-ivory">Home</Link><span>/</span><span className="text-ivory">{eyebrow}</span>
           </nav>
-          <h1 className="display max-w-4xl pb-[0.1em] text-[11vw] leading-[1.02] sm:text-6xl lg:text-[5.5rem]">{title}</h1>
+          <h1 data-hero-title className="page-hero-title display max-w-4xl text-[11vw] sm:text-6xl lg:text-[5.5rem]">{title}</h1>
           {intro && <p data-hero-fade className="mt-5 max-w-lg text-base leading-7 text-ivory/75">{intro}</p>}
           {children && <div data-hero-fade className="mt-8">{children}</div>}
         </div>

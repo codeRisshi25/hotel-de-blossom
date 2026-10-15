@@ -105,8 +105,8 @@ export function SiteFooter() {
       </div>
 
       {/* Interactive wordmark */}
-      <div ref={markRef} data-footer-mark className="overflow-hidden px-2 pb-[0.16em] pt-8 md:pt-10">
-        <Wordmark variant="footer" trackRef={markRef} className="cursor-default text-[13.4vw]" />
+      <div ref={markRef} data-footer-mark className="overflow-hidden px-2 pt-8 md:pt-10">
+        <Wordmark variant="footer" trackRef={markRef} className="cursor-default py-[0.14em] text-[13.4vw]" />
       </div>
 
       <div className="mx-auto flex max-w-[1360px] flex-col items-center justify-between gap-4 px-5 pb-28 pt-6 text-xs text-ivory/45 sm:flex-row md:px-10 md:pb-8">

@@ -52,6 +52,7 @@ html.lenis, html.lenis body { height: auto; }
   text-transform: uppercase;
 }
 .display { font-family: var(--font-display); font-weight: 500; line-height: .95; letter-spacing: -.01em; }
+h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
 .royal { font-family: var(--font-royal); }
 .gold-text {
   background: linear-gradient(100deg, #9c6f22 0%, #e3c27c 38%, #b8872e 62%, #f1d9a0 100%);
@@ -74,7 +75,7 @@ html.lenis, html.lenis body { height: auto; }
   text-align: center;
 }
 .wordmark-hero { letter-spacing: .02em; }
-.wordmark-footer { letter-spacing: .04em; line-height: .98; }
+.wordmark-footer { letter-spacing: .04em; line-height: 1.1; }
 .wordmark-glow {
   -webkit-mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
   mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);

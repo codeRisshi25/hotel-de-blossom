@@ -8,7 +8,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
   try {
     const rates = (await listRoomRates(env)) as RoomRate[];
     const data = rates.map(({ room_type, base_nightly_inr }) => ({ roomType: room_type, baseNightlyInr: base_nightly_inr }));
-    return json({ data }, 200, { "x-request-id": id, "cache-control": "public, max-age=300" });
+    return json({ data }, 200, { "x-request-id": id, "cache-control": "no-store" });
   } catch {
     return errorResponse(503, "RATES_UNAVAILABLE", "Room rates are temporarily unavailable.", id);
   }

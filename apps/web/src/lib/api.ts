@@ -62,7 +62,7 @@ export const sendBookingRequest = async (raw: BookingForm, idempotencyKey: strin
 export type PublicRate = { roomType: string; baseNightlyInr: number };
 
 export const fetchRates = async (): Promise<PublicRate[]> => {
-  const response = await fetch("/api/rates");
+  const response = await fetch("/api/rates", { cache: "no-store" });
   if (!response.ok) return [];
   const payload = (await response.json().catch(() => null)) as { data?: PublicRate[] } | null;
   return payload?.data ?? [];

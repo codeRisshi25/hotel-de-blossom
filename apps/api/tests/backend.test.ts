@@ -180,7 +180,7 @@ describe("public room rates API", () => {
     const response = await getPublicRates({ request: new Request("https://hoteldeblossom.com/api/rates"), env });
 
     assert.equal(response.status, 200);
-    assert.equal(response.headers.get("cache-control"), "public, max-age=300");
+    assert.equal(response.headers.get("cache-control"), "no-store");
     assert.deepEqual(await response.json(), { data: [{ roomType: "Deluxe Double", baseNightlyInr: 7200 }] });
   });
 
