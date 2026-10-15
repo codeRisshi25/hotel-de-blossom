@@ -62,7 +62,8 @@ export const sendBookingRequest = async (raw: BookingForm, idempotencyKey: strin
 export type PublicRate = { roomType: string; baseNightlyInr: number };
 
 export const fetchRates = async (): Promise<PublicRate[]> => {
-  const response = await fetch("/api/rates", { cache: "no-store" });
+  // A cache-buster also bypasses any older Cloudflare edge object created before no-store shipped.
+  const response = await fetch(`/api/rates?refresh=${Date.now()}`, { cache: "no-store" });
   if (!response.ok) return [];
   const payload = (await response.json().catch(() => null)) as { data?: PublicRate[] } | null;
   return payload?.data ?? [];
