@@ -1,5 +1,6 @@
 -- Standardise room names used by the site, enquiries, rates, and staff dashboard.
--- Existing staff-edited rates win when a canonical row already exists.
+-- Existing staff-edited rates win when a canonical row already exists; legacy
+-- duplicates are kept for history but deactivated.
 do $$
 declare
   mapping record;
@@ -13,7 +14,9 @@ begin
   loop
     if exists (select 1 from public.room_rates where room_type = mapping.old_name) then
       if exists (select 1 from public.room_rates where room_type = mapping.new_name) then
-        delete from public.room_rates where room_type = mapping.old_name;
+        update public.room_rates
+        set is_active = false
+        where room_type = mapping.old_name;
       else
         update public.room_rates
         set room_type = mapping.new_name
