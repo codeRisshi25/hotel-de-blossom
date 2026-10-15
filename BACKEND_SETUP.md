@@ -103,7 +103,7 @@ Add the values in `.env.example` as server-side secrets in the Cloudflare Pages 
   "checkIn": "2026-11-14",
   "checkOut": "2026-11-16",
   "guests": 2,
-  "roomType": "Deluxe Double",
+  "roomType": "Deluxe",
   "name": "Guest Name",
   "phone": "+91 90000 00000",
   "email": "guest@example.com",

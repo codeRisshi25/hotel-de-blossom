@@ -113,23 +113,37 @@ export function Hero() {
         {/* fog between the lettering and the building sells the distance */}
         <div className="pointer-events-none absolute inset-x-0 top-[34%] h-[30%] bg-gradient-to-b from-transparent via-ink/35 to-transparent" />
 
-        {/* 3 — building cut-out, sits in front of the letters */}
+        {/* 3 — soften the building, with a warm focus on its rooftop sign */}
         <div data-depth="building" className="pointer-events-none absolute -inset-14">
-          <picture className="contents">
-            <source type="image/avif" srcSet="/images/hero/building-sm.avif 1600w, /images/hero/building.avif 3072w" sizes="100vw" />
-            <img
-              data-layer="building"
-              src="/images/hero/building.webp"
-              srcSet="/images/hero/building-sm.webp 1600w, /images/hero/building.webp 3072w"
-              sizes="100vw"
-              width={3072}
-              height={2048}
-              alt="Hotel De Blossom lit up at night above the Guwahati skyline"
-              fetchPriority="high"
-              decoding="async"
-              className="h-full w-full object-cover object-[50%_55%]"
-            />
-          </picture>
+          <div data-layer="building" className="absolute inset-0">
+            <picture className="absolute inset-0">
+              <source type="image/avif" srcSet="/images/hero/building-sm.avif 1600w, /images/hero/building.avif 3072w" sizes="100vw" />
+              <img
+                src="/images/hero/building.webp"
+                srcSet="/images/hero/building-sm.webp 1600w, /images/hero/building.webp 3072w"
+                sizes="100vw"
+                width={3072}
+                height={2048}
+                alt="Hotel De Blossom lit up at night above the Guwahati skyline"
+                fetchPriority="high"
+                decoding="async"
+                className="hero-building-base h-full w-full object-cover object-[50%_55%]"
+              />
+            </picture>
+            <picture aria-hidden="true" className="absolute inset-0">
+              <source type="image/avif" srcSet="/images/hero/building-sm.avif 1600w, /images/hero/building.avif 3072w" sizes="100vw" />
+              <img
+                src="/images/hero/building.webp"
+                srcSet="/images/hero/building-sm.webp 1600w, /images/hero/building.webp 3072w"
+                sizes="100vw"
+                width={3072}
+                height={2048}
+                alt=""
+                decoding="async"
+                className="hero-building-focus h-full w-full object-cover object-[50%_55%]"
+              />
+            </picture>
+          </div>
         </div>
 
         {/* 4 — shade + content */}

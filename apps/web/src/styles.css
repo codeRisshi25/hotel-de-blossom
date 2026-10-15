@@ -94,6 +94,16 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
   -webkit-text-stroke: 1px rgba(217, 180, 106, .32);
 }
 
+/* Homepage hero experiment: quiet the facade and keep the rooftop sign luminous. */
+.hero-building-base {
+  filter: blur(1.75px) brightness(.58) saturate(.62) contrast(.92);
+}
+.hero-building-focus {
+  filter: brightness(1.12) saturate(1.04) contrast(1.02);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .4) 22%, #000 29%, #000 40%, transparent 53%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .4) 22%, #000 29%, #000 40%, transparent 53%);
+}
+
 .paper-noise::before {
   content: "";
   position: fixed;
