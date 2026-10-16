@@ -94,14 +94,49 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
   -webkit-text-stroke: 1px rgba(217, 180, 106, .32);
 }
 
-/* Homepage hero experiment: quiet the facade and keep the rooftop sign luminous. */
-.hero-building-base {
-  filter: blur(1.75px) brightness(.58) saturate(.62) contrast(.92);
+/* Homepage hero: soften the room while restoring the outdoor view above the shade. */
+.hero-window-photo {
+  object-fit: cover;
+  object-position: 50% 60%;
+  transform: none;
+  filter: brightness(.84) saturate(.84) contrast(1.02);
 }
-.hero-building-focus {
-  filter: brightness(1.12) saturate(1.04) contrast(1.02);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .4) 22%, #000 29%, #000 40%, transparent 53%);
-  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .4) 22%, #000 29%, #000 40%, transparent 53%);
+
+.hero-room-haze {
+  background: rgba(249, 247, 241, .18);
+}
+
+.hero-window-highlight {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+  filter: brightness(1.1) saturate(1.05) contrast(1.03);
+  opacity: .92;
+  -webkit-mask-image: radial-gradient(ellipse 36% 60% at 51% 56%, #000 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse 36% 60% at 51% 56%, #000 70%, transparent 100%);
+}
+
+.hero-photo-shade {
+  background:
+    linear-gradient(180deg, rgba(26, 29, 26, .13) 0%, transparent 25%),
+    linear-gradient(90deg, rgba(26, 29, 26, .24) 0%, rgba(26, 29, 26, .12) 31%, rgba(26, 29, 26, .01) 65%, rgba(26, 29, 26, .01) 100%),
+    linear-gradient(0deg, rgba(26, 29, 26, .3) 0%, rgba(26, 29, 26, .08) 20%, transparent 45%);
+}
+
+@media (max-width: 767px) {
+  .hero-window-highlight {
+    -webkit-mask-image: radial-gradient(ellipse 44% 42% at 50% 56%, #000 68%, transparent 100%);
+    mask-image: radial-gradient(ellipse 44% 42% at 50% 56%, #000 68%, transparent 100%);
+  }
+
+  .hero-photo-shade {
+    background:
+      linear-gradient(180deg, rgba(26, 29, 26, .14) 0%, transparent 25%),
+      linear-gradient(90deg, rgba(26, 29, 26, .27) 0%, rgba(26, 29, 26, .14) 58%, rgba(26, 29, 26, .01) 100%),
+      linear-gradient(0deg, rgba(26, 29, 26, .38) 0%, rgba(26, 29, 26, .11) 24%, transparent 52%);
+  }
 }
 
 .paper-noise::before {

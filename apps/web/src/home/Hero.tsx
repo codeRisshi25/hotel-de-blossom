@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { BedDouble, CalendarDays, ChevronDown, Minus, Plus, Users } from "lucide-react";
 import { useBooking } from "../booking/BookingContext";
-import { Wordmark } from "../components/Wordmark";
 import { rooms } from "../content/site";
 import { gsap, useGSAP } from "../lib/motion";
 import { addDays, useToday } from "../lib/dates";
@@ -9,11 +8,8 @@ import { addDays, useToday } from "../lib/dates";
 const plusDays = addDays;
 
 /**
- * Depth stack, back to front:
- *   1. night sky photograph            (slowest)
- *   2. "DE BLOSSOM" wordmark           (aria-hidden, sinks behind the building on scroll)
- *   3. transparent building cut-out    (rises toward the viewer)
- *   4. legibility gradient + content   (accessible H1, stats, booking bar)
+ * The hero uses a calm window view, a quiet positioning line, and the existing
+ * booking ribbon. The typography supplies the subtle movement on scroll.
  */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -29,48 +25,23 @@ export function Hero() {
       const mm = gsap.matchMedia();
 
       mm.add(
-        { motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 768px)", fine: "(pointer: fine)" },
+        { motion: "(prefers-reduced-motion: no-preference)" },
         (context) => {
-          const { motion, desktop, fine } = context.conditions as { motion: boolean; desktop: boolean; fine: boolean };
+          const { motion } = context.conditions as { motion: boolean };
           if (!motion) return;
 
-          // Opening: sky settles, letters rise from behind the building, building lifts into place.
+          // A short, restrained entrance; keep the full photo frame steady.
           const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
           intro
-            .fromTo("[data-hero-card]", { clipPath: "inset(6% 4% 6% 4% round 48px)" }, { clipPath: "inset(0% 0% 0% 0% round 32px)", duration: 1.8 })
-            // No opacity fade: the sky is the largest contentful paint and must be visible from the first frame.
-            .fromTo("[data-layer='sky']", { scale: 1.35 }, { scale: 1.08, duration: 2.4 }, 0)
-            .fromTo("[data-letter]", { yPercent: 120, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.6, stagger: { each: 0.06, from: "center" } }, 0.35)
-            .fromTo("[data-layer='building']", { yPercent: 10, scale: 1.12 }, { yPercent: 0, scale: 1, duration: 2.2 }, 0.2)
-            .from("[data-hero-fade]", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, 1.1);
+            .from("[data-hero-fade]", { y: 16, opacity: 0, duration: 0.85, stagger: 0.1 }, 0.35);
 
-          // Scroll: hero pins briefly while the layers separate in depth.
+          // Let the positioning line and headline drift gently as the hero scrolls away.
           const scroll = gsap.timeline({
             defaults: { ease: "none" },
-            scrollTrigger: { trigger: ref.current, start: "top top", end: desktop ? "+=45%" : "+=35%", scrub: 0.6, pin: true, anticipatePin: 1 },
+            scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: 0.7 },
           });
-          scroll
-            .to("[data-layer='sky']", { yPercent: 3, scale: 1.1 }, 0)
-            .to("[data-layer='wordmark']", { yPercent: desktop ? 55 : 38, scale: 0.88, opacity: 0.3, filter: "blur(5px)" }, 0)
-            .to("[data-layer='building']", { scale: desktop ? 1.1 : 1.06, yPercent: -3, transformOrigin: "50% 88%" }, 0)
-            .to("[data-hero-content]", { y: -80, opacity: 0 }, 0)
-            .to("[data-hero-shade]", { opacity: 0.85 }, 0.3);
+          scroll.to("[data-hero-copy]", { y: -34 }, 0);
 
-          // Pointer depth: each layer drifts by a different amount.
-          if (desktop && fine) {
-            const layers = [
-              { el: "[data-depth='sky']", amount: 16 },
-              { el: "[data-depth='wordmark']", amount: 46 },
-              { el: "[data-depth='building']", amount: 96 },
-            ].map(({ el, amount }) => ({ amount, x: gsap.quickTo(el, "x", { duration: 1.2, ease: "power3.out" }), y: gsap.quickTo(el, "y", { duration: 1.2, ease: "power3.out" }) }));
-            const onMove = (event: PointerEvent) => {
-              const nx = event.clientX / window.innerWidth - 0.5;
-              const ny = event.clientY / window.innerHeight - 0.5;
-              layers.forEach((layer) => { layer.x(-nx * layer.amount); layer.y(-ny * layer.amount * 0.4); });
-            };
-            window.addEventListener("pointermove", onMove);
-            return () => window.removeEventListener("pointermove", onMove);
-          }
         },
       );
       return () => mm.revert();
@@ -79,79 +50,55 @@ export function Hero() {
   );
 
   return (
-    <section ref={ref} aria-labelledby="hero-title" className="relative h-[100svh] min-h-[640px] bg-champagne p-2 md:p-4">
+    <section ref={ref} aria-labelledby="hero-title" className="relative mx-auto h-[100svh] min-h-[640px] max-w-[min(1440px,132svh)] bg-champagne p-2 md:p-4">
       <div data-hero-card className="relative h-full overflow-hidden rounded-[32px] bg-ink">
-        <h1 id="hero-title" className="sr-only">Hotel De Blossom, a royal stay in Guwahati</h1>
-        {/* 1 — sky */}
-        <div data-depth="sky" className="absolute -inset-10">
-          <picture className="contents">
-            <source type="image/avif" srcSet="/images/hero/night-sky-sm.avif 1600w, /images/hero/night-sky.avif 3072w" sizes="100vw" />
+        <h1 id="hero-title" className="sr-only">Hotel De Blossom — a quieter stay in the heart of Guwahati</h1>
+        {/* Keep the original portrait photograph; crop it gently for the wider hero. */}
+        <div className="absolute inset-0">
+          <picture className="absolute inset-0">
+            <source type="image/avif" srcSet="/images/hero/window-room-sm.avif 900w, /images/hero/window-room.avif 1800w, /images/hero/window-room-2x.avif 2600w, /images/hero/window-room-full.avif 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
+            <source type="image/webp" srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
             <img
-              data-layer="sky"
-              src="/images/hero/night-sky.webp"
-              srcSet="/images/hero/night-sky-sm.webp 1600w, /images/hero/night-sky.webp 3072w"
-              sizes="100vw"
-              width={3072}
-              height={2048}
+              src="/images/hero/window-room.webp"
+              srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w"
+              sizes="(min-width: 1440px) 1440px, 100vw"
+              width={3700}
+              height={5338}
               alt=""
               fetchPriority="high"
               decoding="async"
-              className="h-full w-full scale-[1.08] object-cover object-[50%_55%] [filter:saturate(.5)_brightness(.6)_contrast(1.05)]"
+              className="hero-window-photo h-full w-full object-cover object-[50%_57%]"
             />
           </picture>
-          <div className="absolute inset-0 bg-ink/30" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(217,180,106,.1),transparent_55%)]" />
+          <div aria-hidden="true" className="hero-room-haze pointer-events-none absolute inset-0" />
+          <div aria-hidden="true" className="hero-photo-shade pointer-events-none absolute inset-0" />
+          <picture aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <source type="image/avif" srcSet="/images/hero/window-room-sm.avif 900w, /images/hero/window-room.avif 1800w, /images/hero/window-room-2x.avif 2600w, /images/hero/window-room-full.avif 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
+            <source type="image/webp" srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
+            <img
+              src="/images/hero/window-room.webp"
+              srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w"
+              sizes="(min-width: 1440px) 1440px, 100vw"
+              width={3700}
+              height={5338}
+              alt=""
+              decoding="async"
+              className="hero-window-highlight"
+            />
+          </picture>
         </div>
 
-        {/* 2 — wordmark (decorative) */}
-        <div data-depth="wordmark" className="pointer-events-none absolute inset-x-0 top-[16%] flex justify-center md:top-[19%]" aria-hidden>
-          <div data-layer="wordmark">
-            <Wordmark variant="hero" trackRef={ref} className="text-[16.5vw] md:text-[13.2vw]" />
-          </div>
+        <div data-hero-copy className="pointer-events-none absolute left-[6%] top-[37%] z-10 w-[min(88%,560px)] text-left text-white md:top-[42%] md:w-[min(48%,650px)]">
+          <p data-hero-fade className="eyebrow text-[9px] tracking-[.2em] text-white/85 sm:text-[10px]">
+            GUWAHATI · ASSAM
+          </p>
+          <h2 data-hero-fade className="mt-3 max-w-[13ch] font-display text-[clamp(2.7rem,5vw,4.6rem)] font-normal leading-[.93] tracking-[-.025em] text-white [text-shadow:0_2px_24px_rgba(8,26,23,.56)]">
+            Tranquility <span className="block">in the heart of</span> Guwahati.
+          </h2>
         </div>
-
-        {/* fog between the lettering and the building sells the distance */}
-        <div className="pointer-events-none absolute inset-x-0 top-[34%] h-[30%] bg-gradient-to-b from-transparent via-ink/35 to-transparent" />
-
-        {/* 3 — soften the building, with a warm focus on its rooftop sign */}
-        <div data-depth="building" className="pointer-events-none absolute -inset-14">
-          <div data-layer="building" className="absolute inset-0">
-            <picture className="absolute inset-0">
-              <source type="image/avif" srcSet="/images/hero/building-sm.avif 1600w, /images/hero/building.avif 3072w" sizes="100vw" />
-              <img
-                src="/images/hero/building.webp"
-                srcSet="/images/hero/building-sm.webp 1600w, /images/hero/building.webp 3072w"
-                sizes="100vw"
-                width={3072}
-                height={2048}
-                alt="Hotel De Blossom lit up at night above the Guwahati skyline"
-                fetchPriority="high"
-                decoding="async"
-                className="hero-building-base h-full w-full object-cover object-[50%_55%]"
-              />
-            </picture>
-            <picture aria-hidden="true" className="absolute inset-0">
-              <source type="image/avif" srcSet="/images/hero/building-sm.avif 1600w, /images/hero/building.avif 3072w" sizes="100vw" />
-              <img
-                src="/images/hero/building.webp"
-                srcSet="/images/hero/building-sm.webp 1600w, /images/hero/building.webp 3072w"
-                sizes="100vw"
-                width={3072}
-                height={2048}
-                alt=""
-                decoding="async"
-                className="hero-building-focus h-full w-full object-cover object-[50%_55%]"
-              />
-            </picture>
-          </div>
-        </div>
-
-        {/* 4 — shade + content */}
-        <div data-hero-shade className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-transparent opacity-90" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink/70 to-transparent" />
 
         <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-[1360px] px-5 pb-24 md:px-10 md:pb-10">
-          <div data-hero-content className="text-ivory">
+          <div className="text-ivory">
             <p data-hero-fade className="eyebrow mb-5 flex items-center gap-3 text-[10px] tracking-[.16em] text-gold-soft sm:tracking-[.24em] md:text-[11px]">
               <span className="h-px w-6 shrink-0 bg-gold sm:w-10" /> Chandmari · Guwahati · Assam
             </p>
