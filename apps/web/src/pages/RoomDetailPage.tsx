@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router";
-import { ArrowLeft, ArrowRight, BedDouble, Check, Ruler, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, BedDouble, Check, Ruler, Sofa, Users } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { Picture } from "../components/Picture";
 import { RoomCard } from "../home/RoomsShowcase";
@@ -64,9 +64,13 @@ export default function RoomDetailPage() {
               <p className="display mt-2 text-5xl text-forest">{inr(price)}</p>
               <p className="mt-1 text-xs text-charcoal/65">Plus taxes · final tariff confirmed by reception</p>
               <ul className="mt-6 grid gap-3 border-y border-forest/10 py-6 text-sm text-forest">
-                <li className="flex items-center gap-3"><Ruler size={16} className="text-gold" />{room.size}</li>
-                <li className="flex items-center gap-3"><Users size={16} className="text-gold" />{room.occupancy}</li>
-                <li className="flex items-center gap-3"><BedDouble size={16} className="text-gold" />{room.bed}</li>
+                {room.highlights ? room.highlights.map((highlight) => (
+                  <li key={highlight} className="flex items-center gap-3"><Sofa size={16} className="text-gold" />{highlight}</li>
+                )) : <>
+                  <li className="flex items-center gap-3"><Ruler size={16} className="text-gold" />{room.size}</li>
+                  <li className="flex items-center gap-3"><Users size={16} className="text-gold" />{room.occupancy}</li>
+                  <li className="flex items-center gap-3"><BedDouble size={16} className="text-gold" />{room.bed}</li>
+                </>}
               </ul>
               <button onClick={() => openBooking({ roomType: room.name, purpose: "stay" })} className="mt-6 min-h-13 w-full rounded-full bg-gold text-[15px] font-semibold text-night transition hover:bg-[#c99a40]">Request this room</button>
               <p className="mt-4 text-center text-xs leading-5 text-charcoal/65">Your request goes to the front desk. Nothing is charged; reception will contact you to confirm.</p>

@@ -46,6 +46,8 @@ export type Room = {
   bed: string;
   /** Omit when the published tariff is request-only. */
   fromPrice?: number;
+  /** Optional feature pills to show in place of unconfirmed room specs. */
+  highlights?: string[];
   /** Marks a seeded rate as provisional until staff replaces it with an approved tariff. */
   rateIsTemporary?: boolean;
   cover: string;
@@ -126,11 +128,12 @@ export const rooms: Room[] = [
     rateKey: "Premium",
     short: "A bright sitting area beside a wide window, finished in warm timber and sage.",
     description:
-      "Premium pairs a bright sitting area beside a wide window with warm timber details and sage upholstery. Please contact reception to confirm room size, occupancy and bed configuration.",
+      "Premium pairs a spacious couch area beside a wide window with warm timber details and sage upholstery, creating a relaxed place to unwind.",
     size: "Please confirm with reception",
     occupancy: "Please confirm with reception",
     bed: "Please confirm with reception",
     fromPrice: 4700,
+    highlights: ["Spacious couch area"],
     cover: "rooms/premium/premium-seating",
     cardCover: "rooms/premium/premium-card",
     gallery: [

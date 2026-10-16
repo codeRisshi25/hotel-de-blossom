@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router";
-import { ArrowUpRight, BedDouble, Ruler, Users } from "lucide-react";
+import { ArrowUpRight, BedDouble, Ruler, Sofa, Users } from "lucide-react";
 import { rooms } from "../content/site";
 import { useBooking } from "../booking/BookingContext";
 import { inr } from "../lib/api";
@@ -30,9 +30,13 @@ export function RoomCard({ room, index }: { room: (typeof rooms)[number]; index:
         </div>
         <p className="mt-3 text-[15px] leading-6 text-charcoal/65">{room.short}</p>
         <ul className="mt-6 flex flex-wrap gap-2 text-xs text-forest">
-          <li className="flex items-center gap-1.5 rounded-full border border-forest/15 px-3 py-1.5"><Ruler size={13} className="text-gold" />{room.size}</li>
-          <li className="flex items-center gap-1.5 rounded-full border border-forest/15 px-3 py-1.5"><Users size={13} className="text-gold" />{room.occupancy}</li>
-          <li className="flex items-center gap-1.5 rounded-full border border-forest/15 px-3 py-1.5"><BedDouble size={13} className="text-gold" />{room.bed}</li>
+          {room.highlights ? room.highlights.map((highlight) => (
+            <li key={highlight} className="flex items-center gap-1.5 rounded-full border border-forest/15 px-3 py-1.5"><Sofa size={13} className="text-gold" />{highlight}</li>
+          )) : <>
+            <li className="flex items-center gap-1.5 rounded-full border border-forest/15 px-3 py-1.5"><Ruler size={13} className="text-gold" />{room.size}</li>
+            <li className="flex items-center gap-1.5 rounded-full border border-forest/15 px-3 py-1.5"><Users size={13} className="text-gold" />{room.occupancy}</li>
+            <li className="flex items-center gap-1.5 rounded-full border border-forest/15 px-3 py-1.5"><BedDouble size={13} className="text-gold" />{room.bed}</li>
+          </>}
         </ul>
         <div className="mt-auto flex gap-3 pt-8">
           <button onClick={() => openBooking({ roomType: room.name, purpose: "stay" })} className="min-h-12 flex-1 rounded-full bg-forest px-5 text-sm font-semibold text-ivory transition hover:bg-night">Request this room</button>
