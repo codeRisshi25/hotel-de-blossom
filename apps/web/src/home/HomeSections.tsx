@@ -15,7 +15,7 @@ export function DiningPreview() {
     <section className="relative overflow-hidden px-5 py-14 md:px-10 md:py-20">
       <div className="mx-auto grid max-w-[1360px] items-center gap-16 lg:grid-cols-[1fr_1.05fr]">
         <div className="relative mx-auto w-full max-w-[430px]">
-          <div data-reveal-img className="arch relative aspect-[3/4] overflow-hidden">
+          <div data-reveal-img data-parallax="0.2" className="arch relative aspect-[3/4] overflow-hidden">
             <Picture path="food/chicken-lababdar" alt="Chicken Lababdar served with whole spices on a timber table" sizes="(min-width: 1024px) 40vw, 90vw" className="h-full w-full object-cover" />
           </div>
           <div data-parallax="0.6" className="absolute -bottom-10 -right-4 w-32 overflow-hidden rounded-2xl border-4 border-champagne shadow-2xl md:-right-12 md:w-44">
