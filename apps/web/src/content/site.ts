@@ -49,6 +49,8 @@ export type Room = {
   /** Marks a seeded rate as provisional until staff replaces it with an approved tariff. */
   rateIsTemporary?: boolean;
   cover: string;
+  /** Optional image cropped for the 4:3 room catalogue cards. */
+  cardCover?: string;
   gallery: Array<{ path: string; alt: string }>;
   features: string[];
 };
@@ -68,6 +70,7 @@ export const rooms: Room[] = [
     bed: "Double bed",
     fromPrice: 7500,
     cover: "rooms/deluxe/deluxe-room",
+    cardCover: "rooms/deluxe/deluxe-card",
     gallery: [
       { path: "rooms/deluxe/deluxe-room", alt: "Deluxe double room with an upholstered headboard and sage cushions" },
       { path: "rooms/deluxe/deluxe-bed", alt: "Double bed with sage runner and a soft upholstered headboard" },
@@ -108,6 +111,7 @@ export const rooms: Room[] = [
     bed: "Bedroom + living area",
     fromPrice: 15000,
     cover: "rooms/blossom-suite-room/suite-bedroom",
+    cardCover: "rooms/blossom-suite-room/suite-bedroom-card",
     gallery: [
       { path: "rooms/blossom-suite-room/suite-bedroom", alt: "Blossom Suite Room bedroom with a warm upholstered headboard" },
       { path: "rooms/blossom-suite-room/suite-lounge", alt: "Blossom Suite Room sitting area beside tall windows" },
@@ -126,11 +130,11 @@ export const rooms: Room[] = [
     size: "Please confirm with reception",
     occupancy: "Please confirm with reception",
     bed: "Please confirm with reception",
-    fromPrice: 9999,
-    rateIsTemporary: true,
+    fromPrice: 4700,
     cover: "rooms/premium/premium-seating",
+    cardCover: "rooms/premium/premium-card",
     gallery: [
-      { path: "rooms/premium/premium-seating", alt: "Premium room lounge with sofa seating and coffee tables" },
+      { path: "rooms/premium/premium-seating", alt: "Premium sitting area beside a wide window with city views" },
       { path: "rooms/premium/premium-lounge", alt: "Premium sitting area beside a large Guwahati-facing window" },
       { path: "rooms/premium/premium-detail", alt: "Timber wall and upholstered chairs in the Premium room" },
     ],
