@@ -73,9 +73,7 @@ export function Hero() {
               className="hero-window-photo h-full w-full object-cover object-[50%_57%]"
             />
           </picture>
-          <div aria-hidden="true" className="hero-room-haze pointer-events-none absolute inset-0" />
           <div aria-hidden="true" className="hero-photo-shade pointer-events-none absolute inset-0" />
-          <div aria-hidden="true" className="hero-window-highlight pointer-events-none absolute inset-0" />
         </div>
 
         <div data-hero-copy className="pointer-events-none absolute left-[6%] top-[37%] z-10 w-[min(88%,560px)] text-left text-white md:top-[42%] md:w-[min(48%,650px)]">
@@ -83,8 +81,11 @@ export function Hero() {
             GUWAHATI · ASSAM
           </p>
           <h2 data-hero-fade className="mt-3 max-w-[13ch] font-display text-[clamp(2.7rem,5vw,4.6rem)] font-normal leading-[.93] tracking-[-.025em] text-white [text-shadow:0_2px_24px_rgba(8,26,23,.56)]">
-            Tranquility <span className="block">in the heart of</span> Guwahati.
+            A quieter <span className="block">window on</span> Guwahati.
           </h2>
+          <p data-hero-fade className="mt-5 max-w-[34ch] text-sm leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(8,26,23,.6)] sm:text-base">
+            A calm corner of Chandmari, with the green hills and city just beyond.
+          </p>
         </div>
 
         <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-[1360px] px-5 pb-24 md:px-10 md:pb-10">

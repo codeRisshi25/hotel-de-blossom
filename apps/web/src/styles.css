@@ -94,49 +94,27 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
   -webkit-text-stroke: 1px rgba(217, 180, 106, .32);
 }
 
-/* Homepage hero: soften the room while restoring the outdoor view above the shade. */
+/* Homepage hero: keep the original room warm and let the real Guwahati view read clearly. */
 .hero-window-photo {
   object-fit: cover;
   object-position: 50% 60%;
   transform: none;
-  filter: brightness(.9) saturate(.86) contrast(1.02);
-}
-
-.hero-room-haze {
-  background: rgba(249, 247, 241, .18);
-}
-
-.hero-window-highlight {
-  background: radial-gradient(
-    ellipse 36% 60% at 51% 56%,
-    rgba(255, 253, 248, .36) 0%,
-    rgba(255, 253, 248, .18) 64%,
-    transparent 100%
-  );
+  filter: brightness(.96) saturate(1.04) contrast(1.09);
 }
 
 .hero-photo-shade {
   background:
-    linear-gradient(180deg, rgba(26, 29, 26, .13) 0%, transparent 25%),
-    linear-gradient(90deg, rgba(26, 29, 26, .24) 0%, rgba(26, 29, 26, .12) 31%, rgba(26, 29, 26, .01) 65%, rgba(26, 29, 26, .01) 100%),
-    linear-gradient(0deg, rgba(26, 29, 26, .3) 0%, rgba(26, 29, 26, .08) 20%, transparent 45%);
+    linear-gradient(180deg, rgba(22, 28, 24, .11) 0%, transparent 22%),
+    linear-gradient(90deg, rgba(22, 28, 24, .22) 0%, rgba(22, 28, 24, .12) 27%, rgba(22, 28, 24, .02) 54%, transparent 70%),
+    linear-gradient(0deg, rgba(22, 28, 24, .27) 0%, rgba(22, 28, 24, .08) 17%, transparent 38%);
 }
 
 @media (max-width: 767px) {
-  .hero-window-highlight {
-    background: radial-gradient(
-      ellipse 44% 42% at 50% 56%,
-      rgba(255, 253, 248, .32) 0%,
-      rgba(255, 253, 248, .16) 68%,
-      transparent 100%
-    );
-  }
-
   .hero-photo-shade {
     background:
-      linear-gradient(180deg, rgba(26, 29, 26, .14) 0%, transparent 25%),
-      linear-gradient(90deg, rgba(26, 29, 26, .27) 0%, rgba(26, 29, 26, .14) 58%, rgba(26, 29, 26, .01) 100%),
-      linear-gradient(0deg, rgba(26, 29, 26, .38) 0%, rgba(26, 29, 26, .11) 24%, transparent 52%);
+      linear-gradient(180deg, rgba(22, 28, 24, .12) 0%, transparent 24%),
+      linear-gradient(90deg, rgba(22, 28, 24, .28) 0%, rgba(22, 28, 24, .16) 52%, rgba(22, 28, 24, .02) 100%),
+      linear-gradient(0deg, rgba(22, 28, 24, .32) 0%, rgba(22, 28, 24, .1) 23%, transparent 48%);
   }
 }
 
