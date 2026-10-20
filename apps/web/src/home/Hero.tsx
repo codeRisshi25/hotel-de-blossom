@@ -76,7 +76,7 @@ export function Hero() {
           <div aria-hidden="true" className="hero-photo-shade pointer-events-none absolute inset-0" />
         </div>
 
-        <div data-hero-copy className="pointer-events-none absolute left-[6%] top-[37%] z-10 w-[min(88%,560px)] text-left text-white md:top-[42%] md:w-[min(48%,650px)]">
+        <div data-hero-copy className="pointer-events-none absolute left-[6%] top-[37%] z-10 w-[min(88%,560px)] text-left text-white md:top-[32%] md:w-[min(48%,650px)]">
           <p data-hero-fade className="eyebrow text-[9px] tracking-[.2em] text-white/85 sm:text-[10px]">
             GUWAHATI · ASSAM
           </p>
