@@ -16,7 +16,7 @@ let lenis: Lenis | null = null;
 /** One Lenis instance for the public site, driven by GSAP's ticker so ScrollTrigger stays in sync. */
 export const startSmoothScroll = () => {
   if (lenis || prefersReducedMotion()) return lenis;
-  lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.9 });
+  lenis = new Lenis({ lerp: 0.14, wheelMultiplier: 1 });
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => lenis?.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);

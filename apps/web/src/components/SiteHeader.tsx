@@ -52,11 +52,11 @@ export function SiteHeader() {
     <>
       <header
         ref={headerRef}
-        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ${
-          scrolled ? "border-b border-ivory/10 bg-night/50 backdrop-blur-xl backdrop-saturate-150" : "border-b border-transparent"
+        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500 ${
+          scrolled ? "border-b border-ivory/10 bg-night/90" : "border-b border-transparent"
         }`}
       >
-        <nav className={`mx-auto grid max-w-[min(1440px,132svh)] grid-cols-[1fr_auto_1fr] items-center px-2 transition-[padding] duration-500 md:px-4 ${scrolled ? "py-2.5" : "py-5 md:py-6"}`}>
+        <nav className={`mx-auto grid max-w-[min(1440px,132svh)] grid-cols-[1fr_auto_1fr] items-center px-6 transition-[padding] duration-500 md:px-10 ${scrolled ? "py-2.5" : "py-5 md:py-6"}`}>
           {/* Left navigation */}
           <div className="hidden items-center gap-9 lg:flex">
             {leftNavLinks.map((link) => (

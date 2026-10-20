@@ -6,6 +6,9 @@ import { gsap, useGSAP } from "../lib/motion";
 import { addDays, useToday } from "../lib/dates";
 
 const plusDays = addDays;
+const heroImageSrcSet = "/images/hero/window-room-sm.avif 900w, /images/hero/window-room-md.avif 1200w, /images/hero/window-room.avif 1800w, /images/hero/window-room-2x.avif 2600w";
+const heroImageWebpSrcSet = "/images/hero/window-room-sm.webp 900w, /images/hero/window-room-md.webp 1200w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w";
+const heroImageSizes = "(min-width: 768px) calc(min(100vw, 1440px, 132svh) - 32px), calc(min(100vw, 1440px, 132svh) - 16px)";
 
 /**
  * The hero uses a calm window view, a quiet positioning line, and the existing
@@ -56,14 +59,14 @@ export function Hero() {
         {/* Keep the original portrait photograph; crop it gently for the wider hero. */}
         <div className="absolute inset-0">
           <picture className="absolute inset-0">
-            <source type="image/avif" srcSet="/images/hero/window-room-sm.avif 900w, /images/hero/window-room.avif 1800w, /images/hero/window-room-2x.avif 2600w, /images/hero/window-room-full.avif 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
-            <source type="image/webp" srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
+            <source type="image/avif" srcSet={heroImageSrcSet} sizes={heroImageSizes} />
+            <source type="image/webp" srcSet={heroImageWebpSrcSet} sizes={heroImageSizes} />
             <img
               src="/images/hero/window-room.webp"
-              srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w"
-              sizes="(min-width: 1440px) 1440px, 100vw"
-              width={3700}
-              height={5338}
+              srcSet={heroImageWebpSrcSet}
+              sizes={heroImageSizes}
+              width={2600}
+              height={3751}
               alt=""
               fetchPriority="high"
               decoding="async"
@@ -72,20 +75,7 @@ export function Hero() {
           </picture>
           <div aria-hidden="true" className="hero-room-haze pointer-events-none absolute inset-0" />
           <div aria-hidden="true" className="hero-photo-shade pointer-events-none absolute inset-0" />
-          <picture aria-hidden="true" className="pointer-events-none absolute inset-0">
-            <source type="image/avif" srcSet="/images/hero/window-room-sm.avif 900w, /images/hero/window-room.avif 1800w, /images/hero/window-room-2x.avif 2600w, /images/hero/window-room-full.avif 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
-            <source type="image/webp" srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w" sizes="(min-width: 1440px) 1440px, 100vw" />
-            <img
-              src="/images/hero/window-room.webp"
-              srcSet="/images/hero/window-room-sm.webp 900w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w, /images/hero/window-room-full.webp 3700w"
-              sizes="(min-width: 1440px) 1440px, 100vw"
-              width={3700}
-              height={5338}
-              alt=""
-              decoding="async"
-              className="hero-window-highlight"
-            />
-          </picture>
+          <div aria-hidden="true" className="hero-window-highlight pointer-events-none absolute inset-0" />
         </div>
 
         <div data-hero-copy className="pointer-events-none absolute left-[6%] top-[37%] z-10 w-[min(88%,560px)] text-left text-white md:top-[42%] md:w-[min(48%,650px)]">
