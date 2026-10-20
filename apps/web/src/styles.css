@@ -94,12 +94,12 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
   -webkit-text-stroke: 1px rgba(217, 180, 106, .32);
 }
 
-/* Homepage hero: keep the original room warm and let the real Guwahati view read clearly. */
+/* Homepage hero: preserve the room's golden light and let the hill view lead. */
 .hero-window-photo {
   object-fit: cover;
   object-position: 50% 60%;
   transform: none;
-  filter: brightness(.96) saturate(1.04) contrast(1.09);
+  filter: brightness(.99) saturate(1.02) contrast(1.04);
 }
 
 .hero-photo-shade {

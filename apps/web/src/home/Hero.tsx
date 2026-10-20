@@ -6,8 +6,8 @@ import { gsap, useGSAP } from "../lib/motion";
 import { addDays, useToday } from "../lib/dates";
 
 const plusDays = addDays;
-const heroImageSrcSet = "/images/hero/window-room-sm.avif 900w, /images/hero/window-room-md.avif 1200w, /images/hero/window-room.avif 1800w, /images/hero/window-room-2x.avif 2600w";
-const heroImageWebpSrcSet = "/images/hero/window-room-sm.webp 900w, /images/hero/window-room-md.webp 1200w, /images/hero/window-room.webp 1800w, /images/hero/window-room-2x.webp 2600w";
+const heroImageSrcSet = "/images/hero/window-hill-sm.avif 640w, /images/hero/window-hill-md.avif 900w, /images/hero/window-hill.avif 1044w";
+const heroImageWebpSrcSet = "/images/hero/window-hill-sm.webp 640w, /images/hero/window-hill-md.webp 900w, /images/hero/window-hill.webp 1044w";
 const heroImageSizes = "(min-width: 768px) calc(min(100vw, 1440px, 132svh) - 32px), calc(min(100vw, 1440px, 132svh) - 16px)";
 
 /**
@@ -56,21 +56,21 @@ export function Hero() {
     <section ref={ref} aria-labelledby="hero-title" className="relative mx-auto h-[100svh] min-h-[640px] max-w-[min(1440px,132svh)] bg-champagne p-2 md:p-4">
       <div data-hero-card className="relative h-full overflow-hidden rounded-[32px] bg-ink">
         <h1 id="hero-title" className="sr-only">Hotel De Blossom — a quieter stay in the heart of Guwahati</h1>
-        {/* Keep the original portrait photograph; crop it gently for the wider hero. */}
+        {/* Keep the real hill view and its room frame; crop it gently for the wider hero. */}
         <div className="absolute inset-0">
           <picture className="absolute inset-0">
             <source type="image/avif" srcSet={heroImageSrcSet} sizes={heroImageSizes} />
             <source type="image/webp" srcSet={heroImageWebpSrcSet} sizes={heroImageSizes} />
             <img
-              src="/images/hero/window-room.webp"
+              src="/images/hero/window-hill.webp"
               srcSet={heroImageWebpSrcSet}
               sizes={heroImageSizes}
-              width={2600}
-              height={3751}
+              width={1044}
+              height={1507}
               alt=""
               fetchPriority="high"
               decoding="async"
-              className="hero-window-photo h-full w-full object-cover object-[50%_57%]"
+              className="hero-window-photo h-full w-full object-cover object-[50%_60%]"
             />
           </picture>
           <div aria-hidden="true" className="hero-photo-shade pointer-events-none absolute inset-0" />
@@ -84,7 +84,7 @@ export function Hero() {
             A quieter <span className="block">window on</span> Guwahati.
           </h2>
           <p data-hero-fade className="mt-5 max-w-[34ch] text-sm leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(8,26,23,.6)] sm:text-base">
-            A calm corner of Chandmari, with the green hills and city just beyond.
+            A calm stay in Chandmari, with Guwahati’s green hills in view.
           </p>
         </div>
 
