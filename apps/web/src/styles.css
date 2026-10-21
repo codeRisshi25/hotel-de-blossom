@@ -102,6 +102,12 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
   filter: brightness(.99) saturate(1.02) contrast(1.04);
 }
 
+@media (min-width: 1024px) {
+  /* Keep the supplied desktop cover crisp and true to its original color. */
+  .hero-window-photo { filter: none; }
+  .hero-photo-shade { display: none; }
+}
+
 .hero-photo-shade {
   background:
     linear-gradient(180deg, rgba(22, 28, 24, .11) 0%, transparent 22%),

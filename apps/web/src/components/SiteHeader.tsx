@@ -65,7 +65,7 @@ export function SiteHeader() {
                 to={link.to}
                 end={link.to === "/"}
                 className={({ isActive }) =>
-                  `text-[15px] transition-colors ${isActive ? "text-gold-soft" : "text-ivory/70 hover:text-ivory"}`
+                  `text-[15px] [text-shadow:0_1px_8px_rgba(8,26,23,.7)] transition-colors ${isActive ? "text-gold-soft" : "text-ivory/85 hover:text-ivory"}`
                 }
               >
                 {link.label}
@@ -87,7 +87,7 @@ export function SiteHeader() {
                   to={link.to}
                   end={link.to === "/"}
                   className={({ isActive }) =>
-                    `text-[15px] transition-colors ${isActive ? "text-gold-soft" : "text-ivory/70 hover:text-ivory"}`
+                    `text-[15px] [text-shadow:0_1px_8px_rgba(8,26,23,.7)] transition-colors ${isActive ? "text-gold-soft" : "text-ivory/85 hover:text-ivory"}`
                   }
                 >
                   {link.label}

@@ -70,8 +70,7 @@ export function Hero() {
         {/* Keep the real hill view and its room frame; crop it gently for the wider hero. */}
         <div className="absolute inset-0">
           <picture className="absolute inset-0">
-            <source media="(min-width: 1024px)" type="image/avif" srcSet="/images/hero/window-hill-wide.avif" />
-            <source media="(min-width: 1024px)" type="image/webp" srcSet="/images/hero/window-hill-wide.webp" />
+            <source media="(min-width: 1024px)" type="image/png" srcSet="/images/hero/window-hill-desktop.png" />
             <source type="image/avif" srcSet={heroImageSrcSet} sizes={heroImageSizes} />
             <source type="image/webp" srcSet={heroImageWebpSrcSet} sizes={heroImageSizes} />
             <img
@@ -89,7 +88,7 @@ export function Hero() {
           <div aria-hidden="true" className="hero-photo-shade pointer-events-none absolute inset-0" />
         </div>
 
-        <div data-hero-copy className="pointer-events-none absolute left-[6%] top-[37%] z-10 w-[min(88%,560px)] text-left text-white md:top-[32%] md:w-[min(48%,650px)]">
+        <div data-hero-copy className="pointer-events-none absolute left-[6%] top-[37%] z-10 w-[min(88%,560px)] text-left text-white md:top-[32%] md:w-[min(48%,650px)] lg:left-[27%] lg:top-[47%] lg:w-[min(52%,650px)]">
           <p data-hero-fade className="eyebrow text-[9px] tracking-[.2em] text-white/85 sm:text-[10px]">
             GUWAHATI · ASSAM
           </p>
@@ -103,7 +102,7 @@ export function Hero() {
 
         <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-[1360px] px-5 pb-24 md:px-10 md:pb-10">
           <div className="text-ivory">
-            <p data-hero-fade className="eyebrow mb-5 flex items-center gap-3 text-[10px] tracking-[.16em] text-gold-soft sm:tracking-[.24em] md:text-[11px]">
+            <p data-hero-fade className="eyebrow mb-5 flex items-center gap-3 text-[10px] tracking-[.16em] text-gold-soft [text-shadow:0_1px_8px_rgba(8,26,23,.6)] sm:tracking-[.24em] md:text-[11px] lg:ml-[22%]">
               <span className="h-px w-6 shrink-0 bg-gold sm:w-10" /> Chandmari · Guwahati · Assam
             </p>
 
