@@ -31,17 +31,24 @@ export function Hero() {
         { motion: "(prefers-reduced-motion: no-preference)" },
         (context) => {
           const { motion } = context.conditions as { motion: boolean };
-          if (!motion) return;
+          const root = document.documentElement;
+          if (!motion) {
+            delete root.dataset.heroExpansion;
+            return;
+          }
 
           // Keep the full hero height fixed while the frame and header open sideways.
           const isDesktopHeroExpansion = window.matchMedia("(min-width: 1024px)").matches;
           if (isDesktopHeroExpansion && window.scrollY < 40 && ref.current) {
+            const startsNarrow = root.dataset.heroExpansion === "pending";
+            const initialWidth = ref.current.getBoundingClientRect().width;
+            if (startsNarrow) delete root.dataset.heroExpansion;
             const settledWidth = ref.current.getBoundingClientRect().width;
             const settledHeight = ref.current.getBoundingClientRect().height;
-            const portraitWidth = Math.min(
-              settledWidth,
-              (ref.current.clientHeight - 32) * (1044 / 1507) + 32,
-            );
+            const portraitWidth = startsNarrow
+              ? initialWidth
+              : Math.min(settledWidth, (ref.current.clientHeight - 32) * (1044 / 1507) + 32);
+            if (startsNarrow) root.dataset.heroExpansion = "pending";
             const headerNav = document.querySelector<HTMLElement>("[data-hero-frame-nav]");
             const wideNavGroups = headerNav
               ? Array.from(headerNav.querySelectorAll<HTMLElement>("[data-hero-wide-nav]"))
@@ -64,6 +71,7 @@ export function Hero() {
                 gsap.set(wideNavGroups, { clearProps: "display,opacity,visibility" });
                 if (headerNav) gsap.set(headerNav, { clearProps: "overflow,width" });
                 if (mobileToggle) gsap.set(mobileToggle, { clearProps: "display,opacity,visibility" });
+                delete root.dataset.heroExpansion;
               },
             });
             reveal.fromTo(frameTargets, { width: portraitWidth }, { width: settledWidth, duration: 1.8, clearProps: "width" }, 0);
@@ -73,7 +81,7 @@ export function Hero() {
             }
             if (mobileToggle) reveal.to(mobileToggle, { autoAlpha: 0, duration: 0.2 }, 1.18);
             if (bookingRibbon) reveal.to(bookingRibbon, { autoAlpha: 1, duration: 0.32, clearProps: "opacity,visibility" }, 1.25);
-          }
+          } else delete root.dataset.heroExpansion;
 
           // A short, restrained entrance; keep the full photo frame steady.
           const intro = gsap.timeline({ defaults: { ease: "expo.out" } });

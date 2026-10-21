@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0d2823" />
+    <script>
+      if (window.location.pathname === "/" && window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)").matches && window.scrollY < 40) {
+        document.documentElement.dataset.heroExpansion = "pending";
+      }
+    </script>
     <title>Hotel De Blossom</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/brand/favicon-32.png" />
     <link rel="apple-touch-icon" href="/images/brand/favicon-192.png" />

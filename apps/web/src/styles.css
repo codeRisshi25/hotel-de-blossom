@@ -123,6 +123,10 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
     max-height: 100svh;
     aspect-ratio: 16 / 10;
   }
+
+  html[data-hero-expansion="pending"] .hero-home-frame {
+    width: min(1700px, calc(100vw - 32px), calc(69.3svh + 10px));
+  }
 }
 
 .hero-photo-shade {
