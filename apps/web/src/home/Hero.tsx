@@ -145,7 +145,7 @@ export function Hero() {
               data-hero-booking
               aria-label="Request a stay"
               onSubmit={(event) => { event.preventDefault(); openBooking({ checkIn, checkOut, guests, roomType: roomType || undefined, purpose: "stay" }); }}
-              className="hidden items-end gap-3 rounded-[22px] bg-ivory p-4 text-forest shadow-[0_30px_70px_rgba(8,26,23,.4)] md:flex"
+              className="hidden items-end gap-3 rounded-[22px] bg-ivory p-4 text-forest shadow-[0_30px_70px_rgba(8,26,23,.4)] lg:flex"
             >
               <DateField label="Check in" value={checkIn} min={today || undefined} onChange={(value) => { setCheckIn(value); if (!checkOut || checkOut <= value) setCheckOut(plusDays(value, 1)); }} />
               <DateField label="Check out" value={checkOut} min={checkIn ? plusDays(checkIn, 1) : today ? plusDays(today, 1) : undefined} onChange={setCheckOut} />

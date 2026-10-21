@@ -1,8 +1,10 @@
 # Hotel De Blossom — quick handoff
 
-**Guest website:** [hoteldeblossom.com](https://hoteldeblossom.com)
+**Guest website (Cloudflare Pages):** [hotel-de-blossom.pages.dev](https://hotel-de-blossom.pages.dev)
 
-**Staff desk:** [hoteldeblossom.com/staff/login](https://hoteldeblossom.com/staff/login)
+**Staff desk:** [hotel-de-blossom.pages.dev/staff/login](https://hotel-de-blossom.pages.dev/staff/login/)
+
+**Custom domain:** `hoteldeblossom.com` still points to the separate legacy WordPress site; use the Pages links above for this application.
 
 ## Staff login and passwords
 
