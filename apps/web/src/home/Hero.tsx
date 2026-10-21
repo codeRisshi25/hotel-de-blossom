@@ -33,6 +33,17 @@ export function Hero() {
           const { motion } = context.conditions as { motion: boolean };
           if (!motion) return;
 
+          // On desktop, let the generated side wings appear once before the
+          // frame settles back to its established width. The mobile layout is untouched.
+          if (window.matchMedia("(min-width: 1024px)").matches && window.scrollY < 40 && ref.current) {
+            const settledWidth = ref.current.getBoundingClientRect().width;
+            gsap.fromTo(
+              ref.current,
+              { width: window.innerWidth },
+              { width: settledWidth, duration: 1.6, delay: 0.08, ease: "power2.inOut", clearProps: "width" },
+            );
+          }
+
           // A short, restrained entrance; keep the full photo frame steady.
           const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
           intro
@@ -53,12 +64,14 @@ export function Hero() {
   );
 
   return (
-    <section ref={ref} aria-labelledby="hero-title" className="relative mx-auto h-[100svh] min-h-[640px] max-w-[min(1440px,132svh)] bg-champagne p-2 md:p-4">
+    <section ref={ref} aria-labelledby="hero-title" className="relative mx-auto h-[100svh] min-h-[640px] w-[min(1440px,132svh)] max-w-full bg-champagne p-2 md:p-4">
       <div data-hero-card className="relative h-full overflow-hidden rounded-[32px] bg-ink">
         <h1 id="hero-title" className="sr-only">Hotel De Blossom — a quieter stay in the heart of Guwahati</h1>
         {/* Keep the real hill view and its room frame; crop it gently for the wider hero. */}
         <div className="absolute inset-0">
           <picture className="absolute inset-0">
+            <source media="(min-width: 1024px)" type="image/avif" srcSet="/images/hero/window-hill-wide.avif" />
+            <source media="(min-width: 1024px)" type="image/webp" srcSet="/images/hero/window-hill-wide.webp" />
             <source type="image/avif" srcSet={heroImageSrcSet} sizes={heroImageSizes} />
             <source type="image/webp" srcSet={heroImageWebpSrcSet} sizes={heroImageSizes} />
             <img
