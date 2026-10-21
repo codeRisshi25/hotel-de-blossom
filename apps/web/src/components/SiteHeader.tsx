@@ -56,9 +56,9 @@ export function SiteHeader() {
           scrolled ? "border-b border-ivory/10 bg-night/90" : "border-b border-transparent"
         }`}
       >
-        <nav className={`mx-auto grid max-w-[min(1440px,132svh)] grid-cols-[1fr_auto_1fr] items-center px-6 transition-[padding] duration-500 md:px-10 ${scrolled ? "py-2.5" : "py-5 md:py-6"}`}>
+        <nav data-hero-frame-nav className={`mx-auto grid max-w-[min(1440px,132svh)] grid-cols-[1fr_auto_1fr] items-center px-6 transition-[padding] duration-500 md:px-10 ${scrolled ? "py-2.5" : "py-5 md:py-6"}`}>
           {/* Left navigation */}
-          <div className="hidden items-center gap-9 lg:flex">
+          <div data-hero-wide-nav className="hidden items-center gap-9 lg:flex">
             {leftNavLinks.map((link) => (
               <NavLink
                 key={link.to}
@@ -80,7 +80,7 @@ export function SiteHeader() {
 
           {/* Right navigation */}
           <div className="col-start-3 flex items-center justify-end gap-9">
-            <div className="hidden items-center gap-9 lg:flex">
+            <div data-hero-wide-nav className="hidden items-center gap-9 lg:flex">
               {rightNavLinks.map((link) => (
                 <NavLink
                   key={link.to}
@@ -94,7 +94,7 @@ export function SiteHeader() {
                 </NavLink>
               ))}
             </div>
-            <button onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen} className="text-ivory lg:hidden">
+            <button data-hero-mobile-toggle onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen} className="text-ivory lg:hidden">
               <Menu size={24} strokeWidth={1.25} />
             </button>
           </div>

@@ -9,3 +9,5 @@ dist/
 .agents/
 skills-lock.json
 dist-ssr/
+supabase/.branches/
+supabase/.temp/

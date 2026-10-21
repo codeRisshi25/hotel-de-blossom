@@ -33,21 +33,51 @@ export function Hero() {
           const { motion } = context.conditions as { motion: boolean };
           if (!motion) return;
 
-          // On desktop, let the generated side wings appear once before the
-          // frame settles back to its established width. The mobile layout is untouched.
-          if (window.matchMedia("(min-width: 1024px)").matches && window.scrollY < 40 && ref.current) {
+          // Keep the full hero height fixed while the frame and header open sideways.
+          const isDesktopHeroExpansion = window.matchMedia("(min-width: 1024px)").matches;
+          if (isDesktopHeroExpansion && window.scrollY < 40 && ref.current) {
             const settledWidth = ref.current.getBoundingClientRect().width;
-            gsap.fromTo(
-              ref.current,
-              { width: window.innerWidth },
-              { width: settledWidth, duration: 1.6, delay: 0.08, ease: "power2.inOut", clearProps: "width" },
+            const settledHeight = ref.current.getBoundingClientRect().height;
+            const portraitWidth = Math.min(
+              settledWidth,
+              (ref.current.clientHeight - 32) * (1044 / 1507) + 32,
             );
+            const headerNav = document.querySelector<HTMLElement>("[data-hero-frame-nav]");
+            const wideNavGroups = headerNav
+              ? Array.from(headerNav.querySelectorAll<HTMLElement>("[data-hero-wide-nav]"))
+              : [];
+            const mobileToggle = headerNav?.querySelector<HTMLElement>("[data-hero-mobile-toggle]") ?? null;
+            const bookingRibbon = ref.current.querySelector<HTMLElement>("[data-hero-booking]");
+            const frameTargets = [ref.current, headerNav].filter((target): target is HTMLElement => Boolean(target));
+
+            gsap.set(ref.current, { height: settledHeight });
+            gsap.set(wideNavGroups, { autoAlpha: 0, display: "none" });
+            if (headerNav) gsap.set(headerNav, { overflow: "hidden", width: portraitWidth });
+            if (mobileToggle) gsap.set(mobileToggle, { autoAlpha: 1, display: "inline-flex" });
+            if (bookingRibbon) gsap.set(bookingRibbon, { autoAlpha: 0 });
+
+            const reveal = gsap.timeline({
+              delay: 0.08,
+              defaults: { ease: "power2.inOut" },
+              onComplete: () => {
+                gsap.set(ref.current, { clearProps: "height" });
+                gsap.set(wideNavGroups, { clearProps: "display,opacity,visibility" });
+                if (headerNav) gsap.set(headerNav, { clearProps: "overflow,width" });
+                if (mobileToggle) gsap.set(mobileToggle, { clearProps: "display,opacity,visibility" });
+              },
+            });
+            reveal.fromTo(frameTargets, { width: portraitWidth }, { width: settledWidth, duration: 1.8, clearProps: "width" }, 0);
+            if (wideNavGroups.length) {
+              reveal.set(wideNavGroups, { display: "flex" }, 1.18);
+              reveal.fromTo(wideNavGroups, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.26, clearProps: "opacity,visibility" }, 1.18);
+            }
+            if (mobileToggle) reveal.to(mobileToggle, { autoAlpha: 0, duration: 0.2 }, 1.18);
+            if (bookingRibbon) reveal.to(bookingRibbon, { autoAlpha: 1, duration: 0.32, clearProps: "opacity,visibility" }, 1.25);
           }
 
           // A short, restrained entrance; keep the full photo frame steady.
           const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
-          intro
-            .from("[data-hero-fade]", { y: 16, opacity: 0, duration: 0.85, stagger: 0.1 }, 0.35);
+          intro.from("[data-hero-fade]:not([data-hero-booking])", { y: 16, opacity: 0, duration: 0.85, stagger: 0.1 }, 0.35);
 
           // Let the positioning line and headline drift gently as the hero scrolls away.
           const scroll = gsap.timeline({
@@ -64,13 +94,17 @@ export function Hero() {
   );
 
   return (
-    <section ref={ref} aria-labelledby="hero-title" className="relative mx-auto h-[100svh] min-h-[640px] w-[min(1440px,132svh)] max-w-full bg-champagne p-2 md:p-4">
+    <section ref={ref} aria-labelledby="hero-title" className="hero-home-frame relative mx-auto h-[100svh] min-h-[640px] w-[min(1440px,132svh)] max-w-full bg-champagne p-2 md:p-4">
       <div data-hero-card className="relative h-full overflow-hidden rounded-[32px] bg-ink">
         <h1 id="hero-title" className="sr-only">Hotel De Blossom — a quieter stay in the heart of Guwahati</h1>
         {/* Keep the real hill view and its room frame; crop it gently for the wider hero. */}
         <div className="absolute inset-0">
           <picture className="absolute inset-0">
-            <source media="(min-width: 1024px)" type="image/png" srcSet="/images/hero/window-hill-desktop.png" />
+            <source
+              media="(min-width: 1024px)"
+              type="image/png"
+              srcSet="/images/hero/window-hill-landscape.png"
+            />
             <source type="image/avif" srcSet={heroImageSrcSet} sizes={heroImageSizes} />
             <source type="image/webp" srcSet={heroImageWebpSrcSet} sizes={heroImageSizes} />
             <img
@@ -108,6 +142,7 @@ export function Hero() {
 
             <form
               data-hero-fade
+              data-hero-booking
               aria-label="Request a stay"
               onSubmit={(event) => { event.preventDefault(); openBooking({ checkIn, checkOut, guests, roomType: roomType || undefined, purpose: "stay" }); }}
               className="hidden items-end gap-3 rounded-[22px] bg-ivory p-4 text-forest shadow-[0_30px_70px_rgba(8,26,23,.4)] md:flex"

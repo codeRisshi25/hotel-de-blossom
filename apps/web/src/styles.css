@@ -95,6 +95,13 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
 }
 
 /* Homepage hero: preserve the room's golden light and let the hill view lead. */
+.hero-home-frame {
+  height: 100svh;
+  min-height: 640px;
+  width: min(1440px, 132svh);
+  max-width: 100%;
+}
+
 .hero-window-photo {
   object-fit: cover;
   object-position: 50% 60%;
@@ -106,6 +113,16 @@ h1.page-hero-title { line-height: 1.16; padding-block: .1em; }
   /* Keep the supplied desktop cover crisp and true to its original color. */
   .hero-window-photo { filter: none; }
   .hero-photo-shade { display: none; }
+
+  /* Approved desktop hero: wide rectangle after a centered portrait opening. */
+  .hero-home-frame {
+    width: min(1700px, calc(100vw - 32px));
+    height: auto;
+    min-height: 0;
+    max-width: 100%;
+    max-height: 100svh;
+    aspect-ratio: 16 / 10;
+  }
 }
 
 .hero-photo-shade {
